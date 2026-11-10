@@ -368,7 +368,7 @@ kbd{border:2px solid var(--ink-soft);border-bottom-width:4px;border-radius:7px;p
 .tc-b span{font-size:.62rem;font-weight:700}
 .tc-b[aria-pressed="true"]{background:var(--moutarde);color:#1A2050}.tc-b.arme{background:#D63A27;color:#FFF8EA}.tc-b[disabled]{opacity:.35}
 /* Télécommande */
-.relais{font-size:.85em;font-weight:600;padding:.15em .6em;border-radius:999px;border:2px solid var(--line)}
+.relais{display:inline-block;white-space:nowrap;font-size:.85em;font-weight:600;padding:.2em .7em;border-radius:999px;border:2px solid var(--line);line-height:1.3}
 .relais.ok{background:#CDEFB0;color:#1A2050}.relais.ko{background:#F6C2B8;color:#1A2050}.relais.off{background:var(--panel2,#EEF1FB);color:var(--ink)}
 .tc-relais{margin:-.4rem 0 .8rem}
 body.distant #app .btn:not(.choix-btn):not(.sp-btn), body.distant #app .changer, body.distant #app .commandes .btn{display:none!important}
@@ -561,6 +561,9 @@ body.lumiere-basse #ciel{opacity:.25}
 /* icône Quitter (dessinée : le caractère ⏻ manque dans beaucoup de polices) */
 button .ico-quitter{display:inline-block!important;width:1.05em!important;height:1.05em!important;min-width:1.05em;flex:none;vertical-align:-.15em;margin:0 .35em 0 0}
 .tm-carte.principal small{color:#3A3F6B}
+
+.interrupteur .btn{white-space:nowrap}
+.interrupteur > .ligne{flex-wrap:wrap;justify-content:flex-end;gap:.5rem}
 </style>
 </head>
 <body>
@@ -6050,7 +6053,7 @@ VUES.reglages = () => `<div class="wrap">${barreRetour("Réglages")}
 function reglagesCorps(enPartie){ return `
     <div class="interrupteur"><div><strong>📱 Télécommande</strong><br><span class="doux">Pilote le jeu depuis ton téléphone ou ta tablette. Connecte-la avant de brancher le vidéoprojecteur : le QR code ne s’affiche qu’à ta demande.</span></div>
       <button class="bascule" role="switch" aria-checked="${!!REGLAGES.telecommande}" aria-label="Télécommande" data-action="telecommande-on"></button></div>
-    ${REGLAGES.telecommande?`<div class="interrupteur"><div><strong>Code de la salle : ${esc(REGLAGES.salle||"")}</strong><br><span class="doux">${etatRelais()} ${S.distantConnecte?"· télécommande connectée":""}</span></div>
+    ${REGLAGES.telecommande?`<div class="interrupteur"><div><strong>Code de la salle : ${esc(REGLAGES.salle||"")}</strong><br><span class="doux">${relaisEnLigne()?"":etatRelais()+" "}${S.distantConnecte?"📱 Télécommande connectée":"Télécommande en attente"}</span></div>
       <div class="ligne"><button class="btn" data-action="qr">Afficher le QR code</button><button class="btn discret" data-action="nouvelle-salle">Nouveau code</button></div></div>`:""}
     <div class="interrupteur"><div><strong>📲 Salle des élèves : ${esc(REGLAGES.salleJ||S.salleJ||"")}</strong><br><span class="doux">En cas de problème, un nouveau code coupe toutes les tablettes : elles rescannent le QR code et retrouvent leur équipe.</span></div>
       <button class="btn discret" data-action="nouvelle-salle-joueurs">Nouveau code élèves</button></div>
