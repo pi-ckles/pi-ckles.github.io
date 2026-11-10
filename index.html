@@ -557,6 +557,10 @@ body.lumiere-basse #ciel{opacity:.25}
   .jr-buzzer{width:min(70vw,46vh)}
 }
 .jr-rep span{overflow-wrap:normal;word-break:normal;hyphens:none}
+
+/* icône Quitter (dessinée : le caractère ⏻ manque dans beaucoup de polices) */
+button .ico-quitter{display:inline-block!important;width:1.05em!important;height:1.05em!important;min-width:1.05em;flex:none;vertical-align:-.15em;margin:0 .35em 0 0}
+.tm-carte.principal small{color:#3A3F6B}
 </style>
 </head>
 <body>
@@ -6341,7 +6345,7 @@ function demarrerTelecommande(code){
 }
 VUES.telecommande = () => {
   const E=S.etatDistant, T=S.tc||(S.tc={volet:null, arme:null});
-  const tete=`<div class="tc-tete"><span><strong>🕶️ Salle ${esc(S.salle||"")}</strong></span><span class="tc-ligne">${E&&E.ecran!=="accueil"?`<button class="btn tc-mini" data-action="envoi" data-nom="menu">🏠 Accueil</button>`:""}<button class="btn tc-mini" data-action="tc-quitter" aria-label="Quitter la télécommande">⏻</button>${E?(S.tcPerdu?`<span class="relais ko">⚠️ Reconnexion…</span>`:`<span class="relais ok">Connectée</span>`):etatRelais()}</span></div>`;
+  const tete=`<div class="tc-tete"><span><strong>🕶️ Salle ${esc(S.salle||"")}</strong></span><span class="tc-ligne">${E&&E.ecran!=="accueil"?`<button class="btn tc-mini" data-action="envoi" data-nom="menu">🏠 Accueil</button>`:""}<button class="btn tc-mini" data-action="tc-quitter" aria-label="Quitter la télécommande"><svg class="ico-quitter" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M6.3 6.8a8 8 0 1 0 11.4 0" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>Quitter</button>${E?(S.tcPerdu?`<span class="relais ko">⚠️ Reconnexion…</span>`:`<span class="relais ok">Connectée</span>`):etatRelais()}</span></div>`;
   const voteBloc = E && E.menusVote ? `<div class="bloc tc-vote"><p class="etiq">🗳️ Vote de ${esc(E.menusVote.equipe)} : ${E.menusVote.nb} / ${E.menusVote.attendus}</p>
       ${E.menusVote.liste.filter(x=>x.libre).map(x=>`<div class="tc-ligne tc-joueur"><span>${x.pompeux?"🎩 ":""}${esc(x.titre.length>60?x.titre.slice(0,60)+"…":x.titre)}</span><strong>${E.menusVote.votes[x.i]||0}</strong></div>`).join("")}
       <div class="tc-ligne"><button class="btn tc-mini cornichon" data-action="envoi" data-nom="menu-valider-vote">✅ Valider</button><button class="btn tc-mini" data-action="envoi" data-nom="menu-relancer-vote">🔄 Revoter</button></div>
@@ -6452,13 +6456,13 @@ VUES.joueur = () => {
     <label class="jr-champ">Ton pseudo<input id="pseudo" maxlength="16" value="${esc(S.pseudo)}" placeholder="Laisse vide pour rester anonyme" autocomplete="off"></label>
     <p class="jr-petit">Ton pseudo s’affichera au tableau. Choisis-le correct : le prof peut l’effacer.</p>
     <button class="btn moutarde jr-gros" data-action="j-rejoindre">Rejoindre la partie</button>
-    <button class="btn discret" data-action="j-quitter-jeu">⏻ Quitter Pi-ckles</button></div>`;
+    <button class="btn discret" data-action="j-quitter-jeu"><svg class="ico-quitter" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M6.3 6.8a8 8 0 1 0 11.4 0" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>Quitter Pi-ckles</button></div>`;
   if(!E){ const long = Date.now()-(S.debutConnexion||(S.debutConnexion=Date.now()))>6000;
     if(!long) setTimeout(()=>{ if(S.ecran==="joueur" && !S.etatJ){ S.dernierHtmlJ=null; rendre(); } },6200);
     return `<div class="jr jr-centre"><p class="jr-grand">Connexion au tableau…</p><p class="jr-petit">Salle ${esc(S.salleJ)}</p>
       ${long?`<p class="jr-petit">⚠️ Le tableau ne répond pas. Vérifie le code affiché au tableau, et que Pi-ckles y est bien ouvert.</p>`:""}
       <button class="btn" data-action="j-changer-salle">✏️ Changer de salle</button>
-      <button class="btn discret" data-action="j-quitter-jeu">⏻ Quitter Pi-ckles</button></div>`; }
+      <button class="btn discret" data-action="j-quitter-jeu"><svg class="ico-quitter" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M6.3 6.8a8 8 0 1 0 11.4 0" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>Quitter Pi-ckles</button></div>`; }
   // fin de partie : le bilan, puis retour au lobby
   if(E.fin && S.vuFin!==(E.idPartie||"fin")){
     const F=E.fin, monEq = moi ? moi.eq : null, st=(F.stats||{})[S.jid]||{}, gagne = monEq!=null && monEq===F.gagnant && !F.egalite;
