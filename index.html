@@ -6234,6 +6234,7 @@ setTimeout(()=>{ if(!["joueur","telecommande","quitte"].includes(S.ecran)) revei
 function etatRelais(){ const url=(REGLAGES.relais||"").trim();
   if(!url) return `<span class="relais off">Aucun relais réglé : même appareil seulement</span>`;
   if(!Lien.wsOk && S.relaisReveil==="reveil") return `<span class="relais off">⏳ Réveil du relais en ligne (jusqu’à une minute)…</span>`;
+  if(relaisEnLigne()) return Lien.wsOk ? `<span class="relais ok">✅ Relais en ligne connecté</span>` : `<span class="relais ko">Relais en ligne injoignable</span>`;
   return Lien.wsOk ? `<span class="relais ok">Relais connecté · ${esc(url)}</span>` : `<span class="relais ko">Relais injoignable · ${esc(url)}</span>`; }
 const codeSalle=()=>Array.from({length:4},()=>"ABCDEFGHJKMNPQRSTUVWXYZ23456789"[Math.floor(Math.random()*31)]).join("");
 // le QR code transmet aussi l’adresse du relais : rien à régler sur la télécommande
