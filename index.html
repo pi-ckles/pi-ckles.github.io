@@ -6050,8 +6050,9 @@ function reglagesCorps(enPartie){ return `
       <div class="ligne"><button class="btn" data-action="qr">Afficher le QR code</button><button class="btn discret" data-action="nouvelle-salle">Nouveau code</button></div></div>`:""}
     <div class="interrupteur"><div><strong>📲 Salle des élèves : ${esc(REGLAGES.salleJ||S.salleJ||"")}</strong><br><span class="doux">En cas de problème, un nouveau code coupe toutes les tablettes : elles rescannent le QR code et retrouvent leur équipe.</span></div>
       <button class="btn discret" data-action="nouvelle-salle-joueurs">Nouveau code élèves</button></div>
-    <div class="interrupteur"><div><strong>Relais de la télécommande</strong><br><span class="doux">Adresse du serveur relais (wss://…), à régler sur le tableau et sur la télécommande. Vide : même appareil seulement.</span></div>
-      <input id="relais" class="champ" type="url" inputmode="url" placeholder="wss://…" value="${esc(REGLAGES.relais||"")}" style="max-width:260px"></div>
+    ${relaisEnLigne() ? `<div class="interrupteur"><div><strong>Relais en ligne</strong><br><span class="doux">Version en ligne : la télécommande et les tablettes passent automatiquement par le relais du site. Rien à régler.</span></div>${etatRelais()}</div>`
+    : `<div class="interrupteur"><div><strong>Relais de la télécommande</strong><br><span class="doux">Adresse du serveur relais (wss://…), à régler sur le tableau et sur la télécommande. Vide : même appareil seulement.</span></div>
+      <input id="relais" class="champ" type="url" inputmode="url" placeholder="wss://…" value="${esc(REGLAGES.relais||"")}" style="max-width:260px"></div>`}
     <div class="interrupteur"><div><strong>Thème</strong><br><span class="doux">Automatique suit le réglage de l’appareil.</span></div>
       <div class="ligne">${[["auto","Automatique"],["light","Station de jour"],["dark","Nuit orbitale"]].map(([v,n])=>`<button class="puce ${REGLAGES.theme===v?"on":""}" data-action="theme" data-v="${v}" aria-pressed="${REGLAGES.theme===v}">${n}</button>`).join("")}</div></div>
     <div class="interrupteur"><div><strong>Sons</strong><br><span class="doux">Cloche, friteuse, tic-tac, gong.</span></div>
@@ -6223,9 +6224,9 @@ const Lien=creerLien(), LienJ=creerLien();
    Une fois le relais déployé (Render…), colle son adresse ici, entre les guillemets, par exemple :
    const RELAIS_PUBLIC = "wss://pickles-relais.onrender.com";
    Toute page ouverte depuis le site en ligne l’utilisera d’office (tableau, télécommande, tablettes). */
-const RELAIS_PUBLIC = "";
+const RELAIS_PUBLIC = "wss://pi-ckles-github-io.onrender.com";
 function relaisEnLigne(){ return RELAIS_PUBLIC && location.protocol==="https:" && !/^(localhost|127\.)/.test(location.hostname); }
-if(relaisEnLigne() && !(REGLAGES.relais||"").trim()) REGLAGES.relais=RELAIS_PUBLIC;
+if(relaisEnLigne()) REGLAGES.relais=RELAIS_PUBLIC;
 // un relais gratuit s’endort quand personne ne l’utilise : le tableau le réveille dès son ouverture (environ une minute)
 function reveillerRelais(){ const u=(REGLAGES.relais||"").trim(); if(!/^wss:/.test(u)) return;
   S.relaisReveil="reveil"; fetch(u.replace(/^wss:/,"https:"),{cache:"no-store"}).then(()=>{ S.relaisReveil="pret"; rendre(); }).catch(()=>{ S.relaisReveil="erreur"; rendre(); }); }
