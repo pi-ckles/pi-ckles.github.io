@@ -564,6 +564,109 @@ button .ico-quitter{display:inline-block!important;width:1.05em!important;height
 
 .interrupteur .btn{white-space:nowrap}
 .interrupteur > .ligne{flex-wrap:wrap;justify-content:flex-end;gap:.5rem}
+
+/* Accueil du mode solo */
+.solo-accueil .solo-bloc{background:var(--panel);border:3px solid var(--line);border-radius:18px;padding:1rem 1.2rem;margin:.9rem 0}
+.solo-accueil .solo-bloc h3{display:flex;align-items:center;flex-wrap:wrap;gap:.6rem;margin:0 0 .8rem}
+.solo-num{display:inline-grid;place-items:center;width:1.7em;height:1.7em;border-radius:50%;background:var(--moutarde);color:#1A2050;font-size:.85em}
+.solo-liens{margin-left:auto;font-family:var(--f-texte);font-size:.8rem;text-transform:none;letter-spacing:0;font-weight:600}
+.lien{background:none;border:0;padding:0;font:inherit;color:inherit;text-decoration:underline;cursor:pointer}
+.solo-puces{display:flex;flex-wrap:wrap;gap:.5rem}
+.solo-alerte{margin:0 0 .6rem;font-weight:700;color:#D63A27}
+.solo-manches{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.8rem}
+.solo-manche{display:flex;flex-direction:column;align-items:flex-start;gap:.35rem;text-align:left;font:inherit;color:var(--ink);background:var(--fond-carte,var(--panel));border:3px solid var(--line);border-radius:16px;padding:.9rem;cursor:pointer;box-shadow:4px 4px 0 var(--line);transition:transform .12s}
+.solo-manche:hover:not([disabled]){transform:translateY(-3px)}.solo-manche[disabled]{opacity:.45;cursor:not-allowed}
+.solo-ico{font-size:1.8rem;line-height:1}.solo-manche strong{font-family:var(--f-titre);font-size:1.15rem;line-height:1.15}
+.solo-regle{font-size:.9rem;color:var(--ink-soft);flex:1}
+.solo-record{font-size:.8rem;font-weight:700;padding:.15em .6em;border:2px solid var(--line);border-radius:999px;white-space:nowrap}.solo-record.a{background:var(--moutarde);color:#1A2050}
+.solo-jouer{align-self:flex-end;font-weight:800;font-size:.9rem}
+
+/* Équipes avec bots */
+.liste-bots{box-shadow:none;padding:.4rem 1rem}
+.equipes-bots{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:.8rem;margin:.8rem 0}
+.eb-equipe{border:3px solid var(--line);border-radius:16px;padding:.7rem .9rem;background:var(--panel)}
+.eb-equipe h4{margin:0 0 .5rem;font-family:var(--f-titre)}
+.eb-ligne{display:flex;justify-content:space-between;align-items:center;gap:.5rem;flex-wrap:wrap;padding:.35rem 0;border-bottom:1px dashed var(--line)}
+.eb-compteur{display:flex;align-items:center;gap:.5rem}.eb-compteur strong{min-width:1.5em;text-align:center;font-size:1.2rem}
+.eb-profils{display:flex;flex-wrap:wrap;gap:.3rem;justify-content:flex-end}.eb-profils .puce{font-size:.8rem;padding:.2em .6em}
+.btn.mini{padding:.15em .55em;font-size:1rem;min-width:2em}
+.bot-reflechit{font-size:1.2rem;margin:.6rem 0;animation:clignote 1.2s ease-in-out infinite}
+@keyframes clignote{50%{opacity:.45}}
+
+.eb-bot{flex-direction:column;align-items:stretch}.eb-bot .eb-profils{justify-content:flex-start}
+
+.prop-muette{display:inline-block;margin:.2rem .4rem;padding:.3em .7em;border:2px dashed var(--line);border-radius:10px;font-size:.95rem}
+.jr-continuer{display:block;margin:1rem auto 0}
+
+/* ===== Téléphone : écran de jeu compact ===== */
+@media (max-width:700px){
+  header.tableau{grid-template-columns:1fr 1fr !important;grid-template-areas:"centre centre" "g d" !important;gap:.35rem .5rem !important;padding:.4rem .5rem !important}
+  header.tableau .centre{grid-area:centre;display:flex;align-items:center;justify-content:center;gap:.6rem}
+  header.tableau #eq0{grid-area:g} header.tableau #eq1{grid-area:d}
+  header.tableau .centre .manche{font-size:.85rem}
+  header.tableau .chrono, header.tableau .chrono svg{width:38px !important;height:38px !important}
+  header.tableau .chrono .val{font-size:.95rem !important}
+  header.tableau .equipe{padding:.35rem .5rem !important;min-height:0 !important;border-width:3px !important}
+  header.tableau .equipe .nom{font-size:.78rem !important;line-height:1.1}
+  header.tableau .equipe .info{display:none}
+  header.tableau .equipe .score{font-size:1.7rem !important}
+  header.tableau .equipe .pastille{width:8px !important}
+  header.tableau .equipe .jokers{gap:.2rem}
+  header.tableau .equipe .joker{width:24px !important;height:24px !important;font-size:.75rem !important;padding:0 !important}
+  main.scene{padding-bottom:84px !important}
+  main.scene .carton{padding:.8rem .9rem !important}
+  main.scene .question{font-size:clamp(1.05rem,5vw,1.4rem) !important;line-height:1.25}
+  main.scene .repondant{font-size:.95rem !important}
+  main.scene .choix-btn{padding:.55rem .7rem !important;min-height:0 !important;font-size:1rem !important}
+  main.scene .duo-reponses .btn.gros{padding:.9rem .6rem !important;font-size:1.3rem !important}
+  main.scene .sp-btn{padding:.7rem .4rem !important;font-size:.95rem !important}
+  nav.barre-prof{padding:.15rem .4rem !important;gap:.1rem !important}
+  nav.barre-prof .ico-btn{padding:.25rem .4rem !important}
+  nav.barre-prof .ico{font-size:1.1rem !important}
+}
+
+.buzz-geant{display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;max-width:560px;margin:.8rem auto;padding:1.3rem 1rem;font-family:var(--f-titre);font-size:2.4rem;letter-spacing:.05em;color:#FFF8EA;background:var(--c);border-radius:22px;touch-action:manipulation}
+.buzz-geant small{font-family:var(--f-texte);font-size:.8rem;letter-spacing:0;opacity:.85;margin-top:.2rem}
+.buzz-geant:active{transform:translateY(3px) scale(.98)}
+
+.buzz-geant.lecture,.buzz-geant[disabled]{filter:grayscale(.75);opacity:.6;cursor:wait}
+
+.fiche-patron{max-width:440px;border-left:10px solid var(--c)}.fiche-patron h2{margin:.2rem 0 0}
+@media (max-width:700px){
+  header.tableau .equipe{display:grid !important;grid-template-columns:8px 1fr;grid-template-rows:auto auto;column-gap:.45rem;row-gap:.25rem;align-items:center;cursor:pointer}
+  header.tableau .equipe>.pastille{grid-column:1;grid-row:1/3;height:100% !important}
+  header.tableau .equipe>div:not(.score){display:contents}
+  header.tableau .equipe .nom{grid-column:2;grid-row:1}
+  header.tableau .equipe .jokers{grid-column:2;grid-row:2;justify-self:start;display:flex}
+  header.tableau .equipe .score{grid-column:2;grid-row:2;justify-self:end;font-size:1.45rem !important;line-height:1}
+  header.tableau .equipe.droite{grid-template-columns:1fr 8px}
+  header.tableau .equipe.droite>.pastille{grid-column:2}
+  header.tableau .equipe.droite .nom{grid-column:1;text-align:right}
+  header.tableau .equipe.droite .jokers{grid-column:1;justify-self:end}
+  header.tableau .equipe.droite .score{grid-column:1;justify-self:start}
+}
+
+.bonus-chrono{display:inline-block;font-family:var(--f-titre);font-size:.8rem;padding:.15em .6em;border-radius:999px;background:var(--moutarde);color:#1A2050;animation:bonusPulse 1.6s ease-in-out infinite}
+@keyframes bonusPulse{50%{transform:scale(1.06)}}
+@media (max-width:700px){ header.tableau .centre{flex-wrap:wrap} .bonus-chrono{font-size:.7rem} }
+
+/* Palmarès */
+.palm-grille{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.6rem;margin:.8rem 0 1.2rem}
+.palm-case{display:flex;flex-direction:column;align-items:center;text-align:center;padding:.7rem .5rem;border:3px solid var(--line);border-radius:14px;background:var(--panel)}
+.palm-case strong{font-family:var(--f-titre);font-size:1.8rem;line-height:1.1}.palm-case span{font-size:.85rem;color:var(--ink-soft)}
+.palm-case.or{background:color-mix(in srgb,var(--moutarde) 22%,var(--panel))}
+.palm-liste{display:flex;flex-direction:column;gap:.35rem}
+.palm-ligne{display:grid;grid-template-columns:7.5rem 7rem 1fr 4.5rem 6rem;gap:.5rem;align-items:center;padding:.45rem .7rem;border:2px solid var(--line);border-radius:12px;background:var(--panel);font-size:.92rem}
+.palm-ligne.g{border-left:6px solid #4F8E22}.palm-ligne.p{border-left:6px solid #D63A27}.palm-ligne.n{border-left:6px solid var(--moutarde)}
+@media (max-width:700px){ .palm-ligne{grid-template-columns:1fr 1fr;row-gap:.15rem} }
+
+/* Accueil : une grande carte, quatre cartes en 2 × 2, et les réglages avec les liens du bas */
+.comptoir .carte-acc{position:relative;justify-content:flex-start;gap:.3rem;min-height:9.5rem}
+.comptoir .carte-acc strong{font-size:1.25em;white-space:nowrap}
+.comptoir .carte-acc>span:not(.ico-acc){font-size:.92rem;opacity:.9}
+.comptoir .carte-acc .ico-acc{font-size:1.9rem !important;line-height:1;margin-bottom:.2rem;opacity:1 !important}
+.liens-accueil{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem}
+@media (max-width:700px){ .comptoir{grid-template-columns:1fr 1fr !important} .comptoir .principal{grid-column:1/-1} .comptoir .carte-acc{min-height:0;padding:.8rem .9rem !important} .comptoir .carte-acc strong{white-space:normal;font-size:1.05em} .comptoir .carte-acc>span:not(.ico-acc){font-size:.82rem} }
 </style>
 </head>
 <body>
@@ -4852,7 +4955,7 @@ const Banque = (()=>{
       const lycee = chaps.some(c=>/^([txl]|d2|p1)-/.test(c)), sixieme = chaps.some(c=>/^six-/.test(c));
       const themes = sixieme ? ["s6-curio","s6-pop"] : Object.keys(C).filter(c=>lycee ? /^l-/.test(c) : /^c-/.test(c));
       for(let e=0;e<40;e++){ const q=tirer(themes,"nuggets",deja); if(!q || /\bces\b|Lequel|Laquelle|ces animaux|ces nombres/.test(q.enonce)) continue;
-        return Object.assign(ouv(q.enonce,q.choix[q.bonne].html),{chap:"Curiosité scientifique"}); }
+        return Object.assign(ouv(q.enonce,q.choix[q.bonne].html),{chap:"Curiosité scientifique", choix:q.choix, bonne:q.bonne}); }
       const une=()=>{ const r=Math.random(), tle=chaps.some(c=>/^[tx]-/.test(c));
         if(chaps.some(c=>/^[cl]-/.test(c))){ if(r<.2) return Object.assign(noteSnack(),{chap:"Note de snack"});
           for(let e=0;e<20;e++){ const q=tirer(chaps,"nuggets",deja); if(!/\bces\b|Lequel|Laquelle/.test(q.enonce)) return Object.assign(ouv(q.enonce,q.choix[q.bonne].html),{chap:q.chap}); } }
@@ -5338,8 +5441,9 @@ const S = {
 /* ---------------------- Rendu & navigation ---------------------- */
 function aller(ecran, sens=1){ S.ecran=ecran; S.anim=sens; arreterChrono(); document.body.classList.remove("lumiere-basse","plateau-actif"); rendre(); scrollTo(0,0); }
 function rendre(){
+  setTimeout(()=>Bots.tick(),0);
   const app=$("#app"); app.classList.toggle("entre", !!S.anim); if(S.anim){ app.dataset.sens=S.anim; } S.anim=0;
-  const v = VUES[S.ecran]; app.innerHTML = v() + (S.overlay==="reglages" ? `<div class="voile" data-action="fermer-reglages" data-fond="1"><div class="panneau modale" role="dialog" aria-modal="true" aria-label="Réglages"><div class="ligne" style="margin-bottom:.4rem"><h2 style="font-size:1.6rem">Réglages</h2><span class="espace"></span><button class="btn" data-action="fermer-reglages">Fermer</button></div>${reglagesCorps(true)}</div></div>` : "");
+  const v = VUES[S.ecran]; app.innerHTML = v() + (S.overlay==="reglages" ? `<div class="voile" data-action="fermer-reglages" data-fond="1"><div class="panneau modale" role="dialog" aria-modal="true" aria-label="Réglages"><div class="ligne" style="margin-bottom:.4rem"><h2 style="font-size:1.6rem">Réglages</h2><span class="espace"></span><button class="btn" data-action="fermer-reglages">Fermer</button></div>${reglagesCorps(true)}</div></div>` : "") + fichePatronModale();
   S.carte=false;
   if(APRES[S.ecran]) APRES[S.ecran]();
   const h=$("#app h1, #app h2"); if(h && S.ecran!=="accueil"){ h.setAttribute("tabindex","-1"); }
@@ -5368,18 +5472,19 @@ VUES.accueil = () => `
       ${partieEnCours()?`<div style="margin-top:1.6rem"><button class="btn gros moutarde" data-action="reprendre">Reprendre la partie : ${esc(S.partie.equipes[0].patron.nom)} contre ${esc(S.partie.equipes[1].patron.nom)}</button></div>`:""}
       <div class="comptoir">
         <button class="btn cornichon principal" data-action="aller" data-cible="assistant">${fuseeSVG()}<strong>Nouvelle partie</strong><span>Deux équipes, cinq manches, un Bocal infernal.</span></button>
-        <button class="btn" data-action="aller" data-cible="solo"><strong>Entraînement solo</strong><span>Rejouer une manche, seul, à l’infini.</span></button>
-        <button class="btn" data-action="aller" data-cible="snack"><strong>Le snack de la classe</strong><span>La station qui grandit à chaque partie.</span></button>
-        <button class="btn" data-action="aller" data-cible="vivier"><strong>Les patrons</strong><span>${PATRONS.length} savants, leur histoire et leur bonus.</span></button>
-        <button class="btn" data-action="aller" data-cible="reglages"><strong>Réglages</strong><span>Thème, sons, chrono par défaut.</span></button>
+        <button class="btn carte-acc" data-action="aller" data-cible="solo"><span class="ico-acc" aria-hidden="true">🎯</span><strong>Entraînement</strong><span>Rejouer une manche, seul, à l’infini.</span></button>
+        <button class="btn carte-acc" data-action="aller" data-cible="palmares"><span class="ico-acc" aria-hidden="true">🏆</span><strong>Palmarès</strong><span>Tes parties contre les bots et tes records.</span></button>
+        <button class="btn carte-acc" data-action="aller" data-cible="snack"><span class="ico-acc" aria-hidden="true">🛸</span><strong>Le snack</strong><span>La station de la classe, qui grandit à chaque partie.</span></button>
+        <button class="btn carte-acc" data-action="aller" data-cible="vivier"><span class="ico-acc" aria-hidden="true">🧪</span><strong>Les patrons</strong><span>${PATRONS.length} savants, leur histoire et leur bonus.</span></button>
       </div>
       <div class="presentateur">${mascotteSVG("5","loupe")}<div class="bulle">${blagueDuMoment()}</div></div>
       <div class="codes-accueil">
-        <span class="code-carte">📲 Salle des élèves <strong>${esc(S.salleJ||"")}</strong></span>
+        <span class="code-carte">📲 Salle des joueurs <strong>${esc(S.salleJ||"")}</strong></span>
         ${REGLAGES.telecommande?`<button class="btn discret" data-action="qr">🕶️ Télécommande : ${S.distantConnecte?"connectée ✓":"connecter"}</button>`:""}
-        <button class="btn discret" data-action="aller" data-cible="rejoindre">Je suis élève : rejoindre</button>
+        <button class="btn discret" data-action="aller" data-cible="rejoindre">Je suis joueur : rejoindre</button>
       </div>
       <nav class="liens-accueil" aria-label="Informations">
+        <button class="btn discret" data-action="aller" data-cible="reglages">⚙️ Réglages</button>
         <button class="btn discret" data-action="aller" data-cible="regles">📖 Règles du jeu</button>
         <button class="btn discret" data-action="aller" data-cible="cgu">⚖️ Conditions d’utilisation</button>
       </nav>
@@ -5388,7 +5493,7 @@ VUES.accueil = () => `
   </main>`;
 
 /* ---------- Assistant de nouvelle partie ---------- */
-const ETAPES = ["Niveau","Chapitres","Format","Classe","Options"];
+const ETAPES = ["Niveau","Chapitres","Format","Joueurs"];
 VUES.assistant = () => {
   const c=S.config, e=S.etape;
   const fil = `<ol class="etapes">${ETAPES.map((n,i)=>`<li class="${i+1===e?"actif":i+1<e?"fait":""}"><span class="n">${i+1}</span>${n}</li>`).join("")}</ol>`;
@@ -5415,29 +5520,22 @@ VUES.assistant = () => {
       <div class="grille" style="grid-template-columns:repeat(auto-fit,minmax(210px,1fr))">${MANCHES.map(m=>`<button class="choix-carte" data-action="manche" data-id="${m.id}" aria-pressed="${c.manches.includes(m.id)}" ${c.format==="mesure"?"":"disabled"}><strong>${m.nom}</strong><span>${m.desc}</span></button>`).join("")}</div>`;
   }
   if(e===4){
-    const classes=Object.keys(Stock.lire("classes",{}));
-    corps = `<h3>Qui joue ?</h3>
-      <div class="champ"><label for="classe">Nom de la classe</label>
-        <input id="classe" list="classes" value="${esc(c.classe)}" placeholder="Par exemple 5eB" data-champ="classe" autocomplete="off">
-        <datalist id="classes">${classes.map(n=>`<option value="${esc(n)}">`).join("")}</datalist>
-        <span class="doux">Les livraisons gagnées iront au snack de cette classe.</span></div>
-      <div class="grille formats" style="margin-top:.8rem">
-        <button class="choix-carte" data-action="eleves" data-id="anonyme" aria-pressed="${c.modeEleves==="anonyme"}"><strong>Mode anonyme</strong><span>L’appli désigne les élèves par leur numéro de siège.</span></button>
-        <button class="choix-carte" data-action="eleves" data-id="prenoms" aria-pressed="${c.modeEleves==="prenoms"}"><strong>Avec les prénoms</strong><span>Répartition aléatoire des prénoms dans les deux équipes.</span></button>
-      </div>
-      ${c.modeEleves==="anonyme"
-        ? `<div class="champ"><label for="nb">Nombre d’élèves</label><input id="nb" type="number" min="2" max="40" value="${c.nbEleves}" data-champ="nbEleves" inputmode="numeric"></div>`
-        : `<div class="champ"><label for="prenoms">Prénoms, un par ligne</label><textarea id="prenoms" data-champ="prenoms" placeholder="Léa&#10;Nathan&#10;Inès">${esc(c.prenoms)}</textarea><span class="doux">Les prénoms restent sur cet appareil le temps de la partie, ils ne sont pas enregistrés.</span></div>`}`;
-  }
-  if(e===5){
     const inter=(cle,titre,desc)=>`<div class="interrupteur"><div><strong>${titre}</strong><br><span class="doux">${desc}</span></div>
       <button class="bascule" role="switch" aria-checked="${c[cle]}" aria-label="${titre}" data-action="bascule" data-cle="${cle}"></button></div>`;
-    corps = `<h3>Comment la classe répond</h3>
+    const classes=Object.keys(Stock.lire("classes",{}));
+    corps = `<h3>Qui joue ?</h3>
       <div class="grille formats">
-        <button class="choix-carte" data-action="reponses" data-id="local" aria-pressed="${c.reponses==="local"}"><strong>Au comptoir</strong><span>Le prof valide à l’oral. Buzzers de la Note salée : touches Q et M.</span></button>
-        <button class="choix-carte" data-action="reponses" data-id="tablettes" aria-pressed="${c.reponses==="tablettes"}"><strong>Sur tablettes</strong><span>Chaque élève scanne le QR code : votes aux Amuse-bouches, buzzers, répondants tirés au sort.</span></button>
+        <button class="choix-carte" data-action="reponses" data-id="local" aria-pressed="${c.reponses==="local"}"><strong>🎮 Je joue ici</strong><span>Toi contre des bots, directement sur cet écran. Sans bot choisi, un adversaire est ajouté d’office.</span></button>
+        <button class="choix-carte" data-action="reponses" data-id="tablettes" aria-pressed="${c.reponses==="tablettes"}"><strong>📱 Les joueurs se connectent</strong><span>Chacun scanne le QR code avec son téléphone ou sa tablette. Bots facultatifs pour compléter les équipes.</span></button>
       </div>
-      ${c.reponses==="tablettes"?panneauJoueursAssistant():""}
+      ${c.reponses==="local"
+        ? `<div class="champ"><label for="pseudoLocal">Ton prénom ou pseudo <span class="doux">(facultatif)</span></label><input id="pseudoLocal" value="${esc(c.pseudoLocal||"")}" placeholder="Toi" data-champ="pseudoLocal" maxlength="20" autocomplete="off"></div>`
+        : `${panneauJoueursAssistant()}
+          <div class="champ"><label for="classe">Nom de la classe <span class="doux">(facultatif)</span></label>
+            <input id="classe" list="classes" value="${esc(c.classe)}" placeholder="Par exemple 5eB" data-champ="classe" autocomplete="off">
+            <datalist id="classes">${classes.map(n=>`<option value="${esc(n)}">`).join("")}</datalist>
+            <span class="doux">Si tu la remplis, les livraisons gagnées iront au snack de cette classe.</span></div>`}
+      ${panneauBots()}
       <h3 style="margin-top:1.4rem">Options</h3>
       <div class="panneau" style="box-shadow:none;padding:.4rem 1.1rem">
         ${inter("jokers","Jokers","Deux jokers par équipe, tirés au sort.")}
@@ -5456,7 +5554,7 @@ VUES.assistant = () => {
     <div class="panneau">${fil}${corps}
       <div class="navassistant">
         <button class="btn" data-action="etape" data-sens="-1" ${e===1?"disabled":""}>Étape précédente</button>
-        ${e<5 ? `<button class="btn moutarde" data-action="etape" data-sens="1" ${peutSuivre?"":"disabled"}>Étape suivante</button>`
+        ${e<4 ? `<button class="btn moutarde" data-action="etape" data-sens="1" ${peutSuivre?"":"disabled"}>Étape suivante</button>`
               : `<button class="btn gros ketchup" data-action="tirer">Tirer les patrons</button>`}
       </div></div></div>`;
 };
@@ -5468,8 +5566,113 @@ function tirerPatrons(){
   if(ca===cb) cb=COULEURS[(b.id+3)%COULEURS.length];
   return [{p:a,coul:ca},{p:b,coul:cb}];
 }
+/* =====================================================================
+   BOTS : des joueurs pilotés par l’ordinateur, dans n’importe quelle équipe
+   Quatre façons de jouer. Une partie « avec bots » se joue sans arbitre :
+   les humains répondent eux-mêmes à l’écran, les bots jouent tout seuls.
+   ===================================================================== */
+const PROFILS_BOT={
+  // buzz : délai après la fin des 2,5 s de lecture ; reflexion : temps pour répondre à son tour (ms)
+  infaillible:{nom:"Infaillible", ico:"🎯", p:1,   buzz:[50,300],   reflexion:[800,1500],  mem:[10,10], desc:"Ne se trompe jamais"},
+  fiable:     {nom:"Fiable",      ico:"👍", p:.85, buzz:[150,600],  reflexion:[1000,2000], mem:[8,10],  desc:"Se trompe de temps en temps"},
+  humain:     {nom:"Comme un humain", ico:"🙂", p:.65, buzz:[350,1100], reflexion:[1500,3000], mem:[5,8], desc:"Tombe dans les pièges classiques"},
+  gaffeur:    {nom:"Gaffeur",     ico:"🙃", p:.2,  buzz:[50,350],   reflexion:[700,1200],  mem:[1,4],  desc:"Se trompe presque toujours, avec aplomb"}};
+const PRENOMS_BOT=["Lina","Tom","Zoé","Ilyes","Inès","Hugo","Maël","Jade","Noah","Lou","Sacha","Nina","Rayan","Léa","Gabin","Mia","Adam","Rose","Eden","Kenza","Malo","Iris","Nolan","Alba"];
+const modeBots=()=>!!(S.partie ? (S.partie.bots && Object.keys(S.partie.bots).length) : (S.config.bots||[]).length);
+// noms des bots de la partie : un prénom par bot, tiré au début de chaque partie
+// équipes avec bots : les humains d’abord, répartis un sur deux (deux humains ne jouent jamais ensemble si l’on peut l’éviter),
+// puis chaque bot rejoint l’équipe la moins nombreuse ; à effectif égal, au hasard
+function repartirAvecBots(humains, bots){ const E=[[],[]], d=Math.random()<.5?0:1;
+  melange(humains).forEach((h,i)=>E[(i+d)%2].push(h));
+  melange(bots).forEach(b=>{ const i = E[0].length===E[1].length ? (Math.random()<.5?0:1) : (E[0].length<E[1].length?0:1); E[i].push(b); });
+  return E; }
+function nommerBots(){ const pris=new Set(); let L=S.config.bots||[]; if(S.config.reponses==="local" && !L.length) L=[{profil:"humain"}];
+  return L.map(b=>{ let n; do{ n=hasard(PRENOMS_BOT); }while(pris.has(n) && pris.size<PRENOMS_BOT.length); pris.add(n); return {nom:n+" 🤖", profil:b.profil}; }); }
+function estBot(nom){ const P=S.partie; return !!(P && P.bots && nom && P.bots[nom]); }
+function profilDe(nom){ const P=S.partie; return P && P.bots && PROFILS_BOT[P.bots[nom]]; }
+function humainsDe(i){ return S.partie.equipes[i].membres.filter(n=>!estBot(n)); }
+function botsDe(i){ return S.partie.equipes[i].membres.filter(n=>estBot(n)); }
+const entre=([a,b])=>a+Math.random()*(b-a);
+// justesse selon la question : spécialité du chef, menu pompeux plus durs ; domaine du patron un peu plus facile
+function justesse(nom, eq){ const pr=profilDe(nom); if(!pr) return 0; if(pr.p>=1) return 1; let p=pr.p; const P=S.partie, q=P.q||{};
+  if(q.service==="Spécialité du chef") p-=.1; const mm=P.menus&&P.menus.choix&&P.menus.choix[eq]; if(mm&&mm.pompeux) p-=.1;
+  if(typeof bonusActif==="function" && bonusActif(eq)) p+=.05; return Math.max(.03,Math.min(1,p)); }
+// choix d’un bot dans un QCM : juste selon sa justesse ; sinon un piège (comme un humain) ou n’importe quoi (gaffeur)
+function choixBot(nom, eq, choix){ const iBon=choix.findIndex(c=>c.ok); if(Math.random()<justesse(nom,eq)) return iBon;
+  const pieges=choix.map((c,k)=>k).filter(k=>!choix[k].ok && !choix[k].farfelue), farf=choix.map((c,k)=>k).filter(k=>choix[k].farfelue);
+  const pr=S.partie.bots[nom]; if(pr==="gaffeur" && farf.length && Math.random()<.35) return hasard(farf);
+  return pieges.length ? hasard(pieges) : choix.map((c,k)=>k).filter(k=>k!==iBon)[0]; }
+// réflexe d’une équipe : son bot le plus rapide, un peu plus vif quand ils sont plusieurs (gain plafonné)
+// décision d’un bot au buzzer : il sait (et buzze vite) ou il ne sait pas (et, sauf le gaffeur, hésite ou s’abstient)
+function decisionBuzz(i){ const nom=hasard(botsDe(i)); if(!nom) return null; const pr=S.partie.bots[nom], ok=Math.random()<justesse(nom,i);
+  let t=entre(profilDe(nom).buzz)*Math.max(.8,1-.04*(botsDe(i).length-1));
+  // quand il ne sait pas : il hésite un peu puis tente sa chance ; seul le fiable préfère parfois se taire
+  if(!ok){ const hes={infaillible:1, fiable:.7, humain:.6, gaffeur:0}[pr]||0;
+    if(Math.random()<hes){ if(pr==="fiable" && Math.random()<.25) return null; t+=entre([1200,2600]); } }
+  return {nom, ok, t}; }
+function reflexeEquipe(i){ const b=botsDe(i); if(!b.length) return null;
+  const meilleur=Math.min(...b.map(n=>entre(profilDe(n).buzz))); return meilleur*Math.max(.8,1-.04*(b.length-1)); }
+const reflexion=nom=>entre((profilDe(nom)||PROFILS_BOT.humain).reflexion);
+function botParle(nom, texte){ toast(`${nom} : ${texte}`); }
+// Chef d’orchestre : appelé après chaque rendu, il programme au plus une action par situation
+const Bots={ cle:null, t:[],
+  annuler(){ this.t.forEach(clearTimeout); this.t=[]; },
+  plus(ms, f){ const P=S.partie, cle=this.cle; this.t.push(setTimeout(()=>{ if(S.partie!==P || this.cle!==cle || S.ecran!=="jeu") return; f(); }, ms)); },
+  tick(){ const P=S.partie; if(!modeBots() || !P || S.ecran!=="jeu" || !P.bots) return;
+    if(S.fichePatron!=null){ this.annuler(); this.cle=null; return; }   // fiche du patron ouverte : tout le monde attend
+    const m=mancheCourante(); if(!m) return;
+    const q=P.q||{}, Bg=P.burger, M=P.menus;
+    const cle=[P.idx,P.phase,P.question,m.id,q.enonce||q.texte||"",q.repondu,P.buzz,P.buzzAdd,P.rebond,P.tour,M&&M.choix&&M.choix.filter(Boolean).length,M&&M.retournes,Bg&&Bg.etape,Bg&&Bg.res.length,Bg&&Bg.candidat,q.revele,S.verrou].join("|");
+    if(cle===this.cle) return; this.cle=cle; this.annuler(); if(S.verrou) return;
+    // la Carte du chef : une équipe sans humain choisit son menu seule
+    if(m.id==="menus" && P.phase==="choixMenu" && M){ const ci=choisisseur(M);
+      if(ci!=null && !humainsDe(ci).length){ const libres=M.liste.map((x,i)=>i).filter(i=>i<M.retournes && !M.choix.includes(M.liste[i]));
+        if(libres.length) this.plus(2200,()=>{ ACTIONS["prendre-menu"]({i:hasard(libres)}); }); }
+      return; }
+    if(P.phase!=="jeu") return;
+    if(m.id==="nuggets" && q.choix && q.repondu==null && P.tablettes){
+      if(!P.votesOuverts) return; const bots=botsDe(P.tour);
+      bots.forEach((nom,i)=>this.plus(reflexion(nom)+i*200,()=>{ if(!P.votesOuverts) return; P.votes["bot:"+nom]=choixBot(nom,P.tour,q.choix); rendre();
+        const humains=joueursActifs(P.tour).map(([id])=>id);
+        if(humains.every(id=>P.votes[id]!=null) && bots.every(b=>P.votes["bot:"+b]!=null)){ clearTimeout(P.voteT); P.voteT=setTimeout(()=>cloreVote(),900); } }));
+      return; }
+    if(m.id==="nuggets" && q.choix && q.repondu==null){ const nom=repondant(P.equipes[P.tour]);
+      if(estBot(nom)) this.plus(reflexion(nom),()=>{ const k=choixBot(nom,P.tour,q.choix); botParle(nom,`je dis ${"ABCD"[k]} !`); ACTIONS.choix({k}); }); return; }
+    if(m.id==="menus" && q.enonce && !q.revele && q.choix){ const nom=repondant(P.equipes[P.tour]);
+      if(estBot(nom)) this.plus(reflexion(nom)*1.5,()=>{ const k=choixBot(nom,P.tour,q.choix); botParle(nom,`« ${texteNu(q.choix[k].html)} »`); ACTIONS["menu-choix"]({k}); }); return; }
+    if(m.id==="menus" && q.enonce && !q.revele){ const nom=repondant(P.equipes[P.tour]);
+      if(estBot(nom)) this.plus(reflexion(nom)*1.5,()=>{ const ok=Math.random()<justesse(nom,P.tour);
+        botParle(nom, ok?`« ${String(q.reponse).replace(/<[^>]+>/g,"")} »`:hasard(["euh… je crois que… non.","j’hésite… je dis une bêtise.","c’est forcément 42 !"]));
+        ACTIONS[ok?"juste":"faux"]({eq:P.tour}); }); return; }
+    if(m.id==="selpoivre" && q.texte && q.repondu==null){
+      if(P.buzz==null){ demarrerLecture(); const t0=P.qDebutBots; [0,1].forEach(i=>{ const D=decisionBuzz(i); if(!D) return;
+          this.plus(Math.max(0,t0+D.t-Date.now()),()=>{ if(P.buzz!=null || q.repondu!=null) return; P.buzzParBot=D.nom; P.botSait=D.ok; ACTIONS.buzz({eq:i, parBot:true}); }); }); return; }
+      const b=P.buzz, quiRepond = P.buzzParBot && !P.rebond ? P.buzzParBot : (!humainsDe(b).length ? botsDe(b)[0] : null);
+      if(quiRepond) this.plus(700,()=>{ const ok = (quiRepond===P.buzzParBot && !P.rebond && P.botSait!=null) ? P.botSait : Math.random()<justesse(quiRepond,b), autres=["sel","poivre","deux"].filter(v=>v!==q.rep);
+        const v=ok?q.rep:hasard(autres), lib={sel:P.duelSP.sel, poivre:P.duelSP.poivre, deux:"les deux"}[v]; botParle(quiRepond,`${lib} !`); ACTIONS.sp({v}); }); return; }
+    if(m.id==="addition" && q.enonce && !q.revele && P.gagnant==null){
+      if(P.buzzAdd==null){ demarrerLecture(); const t0=P.qDebutBots; [0,1].forEach(i=>{ const D=decisionBuzz(i); if(!D) return;
+          this.plus(Math.max(0,t0+D.t-Date.now()),()=>{ if(P.buzzAdd!=null) return; P.buzzParBot=D.nom; P.botSait=D.ok; ACTIONS["buzz-add"]({eq:i, parBot:true}); P.buzzNom=D.nom; rendre(); }); }); return; }
+      const b=P.buzzAdd, nom=P.buzzParBot; if(nom && estBot(nom)) this.plus(900,()=>{
+        if(q.choix){ const iBon=q.choix.findIndex(c=>c.ok); let k=choixBot(nom,b,q.choix); if(P.botSait===true) k=iBon; else if(P.botSait===false && k===iBon) k=q.choix.findIndex(c=>!c.ok); botParle(nom,`« ${String(q.choix[k].html).replace(/<[^>]+>/g,"")} »`); ACTIONS[q.choix[k].ok?"juste":"faux"]({eq:b}); }
+        else { const ok=Math.random()<justesse(nom,b); botParle(nom, ok?`« ${String(q.reponse).replace(/<[^>]+>/g,"")} »`:"heu… raté."); ACTIONS[ok?"juste":"faux"]({eq:b}); } }); return; }
+    if(m.id==="burger" && Bg){
+      if(Bg.etape==="questions" && estBot(Bg.candidat)) return;
+      if(Bg.etape==="reponses" && estBot(Bg.candidat) && Bg.res.length<10 && !Bg.res.includes(false)){
+        if(Bg.objectifBot==null) Bg.objectifBot=Math.round(entre(profilDe(Bg.candidat).mem));
+        this.plus(1700,()=>{ const v=Bg.res.length<Bg.objectifBot; botParle(Bg.candidat, v?`« ${Bg.questions[Bg.res.length].r} »`:"…trou noir !"); ACTIONS["burger-rep"]({v:v?"1":"0"}); }); } } } };
+function panneauBots(){ const L=S.config.bots||(S.config.bots=[]);
+  const local=S.config.reponses==="local";
+  return `<h3 style="margin-top:1.2rem">🤖 Bots${L.length?` (${L.length})`:""}</h3>
+  <p class="doux" style="margin:-.3rem 0 .5rem">${L.length?"Répartis au hasard avec les joueurs, pour des équipes équilibrées.":local?"Aucun bot choisi : un adversaire 🙂 « comme un humain » sera ajouté d’office.":"Facultatif : pour compléter les équipes."}</p>
+  <div class="panneau liste-bots">${L.map((b,k)=>`<div class="eb-ligne eb-bot"><span>🤖 Bot ${k+1}</span><span class="eb-profils">${Object.entries(PROFILS_BOT).map(([id,pr])=>`<button class="puce ${b.profil===id?"on":""}" data-action="eb-profil" data-k="${k}" data-p="${id}" title="${pr.desc}">${pr.ico} ${pr.nom}</button>`).join("")}<button class="btn mini" data-action="eb-retirer" data-k="${k}" aria-label="Retirer ce bot">✕</button></span></div>`).join("")}
+    <button class="btn discret" data-action="eb-ajout">+ Ajouter un bot</button>
+    ${L.length?`<p class="doux">Sans arbitre, les joueurs vérifient eux-mêmes leurs réponses à la Carte du chef. 🎯 ne se trompe jamais · 👍 se trompe parfois · 🙂 tombe dans les pièges classiques · 🙃 se trompe presque toujours.</p>`:""}</div>`; }
 function repartir(){
   const c=S.config;
+  // avec des bots : humains et bots mélangés, puis répartis un sur deux, pour des équipes équilibrées
+  if((S.botsPartie||[]).length){ const h = c.reponses==="local" ? [String(c.pseudoLocal||"").trim()||"Toi"] : [];
+    return repartirAvecBots(h, S.botsPartie.map(b=>b.nom)); }
   let eleves = c.modeEleves==="prenoms"
     ? c.prenoms.split(/\n/).map(s=>s.trim()).filter(Boolean)
     : Array.from({length:Math.max(2,+c.nbEleves||2)},(_,i)=>"Siège "+(i+1));
@@ -5478,6 +5681,7 @@ function repartir(){
   const m=Math.ceil(eleves.length/2); return [eleves.slice(0,m),eleves.slice(m)];
 }
 function nouvellePartie(){
+  S.botsPartie=nommerBots();
   setTimeout(()=>{ if(enTablettes() && S.partie){ S.partie.idJ=Date.now(); repartirTablettes(S.partie); rendre(); envoyerEtatJ(true); } },0);
 
   const c=S.config, duo=tirerPatrons(), [ma,mb]=repartir();
@@ -5491,6 +5695,7 @@ function nouvellePartie(){
     idx:0, phase:"titre", tour:0, question:0, cible:null, gagnant:null,
     menus:null, burger:null, roulette:true
   };
+  if(S.botsPartie.length){ S.partie.bots={}; S.botsPartie.forEach(b=>{ S.partie.bots[b.nom]=b.profil; }); }
 }
 VUES.tirage = () => {
   const P=S.partie, rl=P.roulette;
@@ -5498,7 +5703,7 @@ VUES.tirage = () => {
       <div class="tete" style="background:${eq.coul}"><div class="avatar">${initiales(eq.patron.nom)}</div><h3 id="nomp${i}">${esc(eq.patron.nom)}</h3></div>
       <div class="corps"><p class="doux" id="discp${i}">${eq.patron.disc}</p><p id="biop${i}">${rl?"…":esc(bioPatron(eq.patron))}</p>
         <span class="domaine" id="domp${i}">Bonus : ${esc(domaine(eq.patron))}</span>
-        ${rl?"":`<p style="margin-top:.8rem"><strong>${eq.membres.length} élèves</strong>${S.config.modeEleves==="anonyme"?` · ${eq.cote}`:""}</p>
+        ${rl?"":`<p style="margin-top:.8rem"><strong>${eq.membres.length} joueurs</strong>${S.config.modeEleves==="anonyme"?` · ${eq.cote}`:""}</p>
         <div class="membres">${eq.membres.map(m=>`<span>${esc(m)}</span>`).join("")}</div>`}
       </div></article>`;
   return `<div class="wrap">${barreRetour("Ce soir au comptoir","assistant")}
@@ -5555,6 +5760,7 @@ function tableauScores(){
   const html0=plaque(P.equipes[0],0), html1=plaque(P.equipes[1],1); S.prevScores=P.equipes.map(e=>e.score);
   return `<header class="tableau">${html0}
     <div class="centre"><div class="manche">${m?m.nom:"Fin de partie"}</div>
+      ${P.phase==="jeu" && bonusChrono() ? `<div class="bonus-chrono" title="Question du domaine du patron : 5 secondes de plus et points ×1,2">✨ +5 s · bonus ${esc(domaine(P.equipes[P.tour].patron))}</div>` : ""}
       ${P.cible?`<div class="doux">Score cible : ${P.cible}</div>`:""}
       ${P.phase==="jeu" && m && m.id!=="burger" ? `<button class="chrono ${bonusChrono()?"boost":""}" data-action="chrono" aria-label="Lancer ou arrêter le chrono"><svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="34" fill="none" style="stroke:var(--panel2)" stroke-width="9"/><circle id="arc" cx="40" cy="40" r="34" fill="none" style="stroke:var(--moutarde)" stroke-width="9" stroke-linecap="round" stroke-dasharray="213.6" stroke-dashoffset="${chronoT?213.6*(1-chronoReste/chronoTotal):0}"/></svg><span class="val" id="chronoVal">${chronoT||chronoFige||(S.partie&&S.partie.jokerActif)?chronoReste:dureeChrono()}</span></button>`:""}
     </div>${html1}</header>`;
@@ -5589,7 +5795,6 @@ function barreProf(m){
     <button class="ico-btn" data-action="menu"><span class="ico" aria-hidden="true">🏠</span><span class="txt">Menu</span></button>
     ${REGLAGES.telecommande?`<button class="ico-btn" data-action="qr" title="Afficher le QR code de la télécommande"><span class="ico" aria-hidden="true">📱</span><span class="txt">${S.distantConnecte?"Connectée":"Télécommande"}</span></button>`:""}
     ${S.partie && S.partie.tablettes?`<button class="ico-btn" data-action="qr-joueurs"><span class="ico" aria-hidden="true">📲</span><span class="txt">Joueurs</span></button>`:""}
-    <button class="ico-btn" data-action="console" title="Ouvre une fenêtre à garder sur ton écran, pas au tableau"><span class="ico" aria-hidden="true">🕶️</span><span class="txt">Console</span></button>
     <button class="ico-btn" data-action="ouvrir-reglages"><span class="ico" aria-hidden="true">⚙️</span><span class="txt">Réglages</span></button>
     <span class="sep" aria-hidden="true"></span>
     <button class="ico-btn" data-action="musique" aria-pressed="${REGLAGES.musique}"><span class="ico" aria-hidden="true">🎵</span><span class="txt">Musique</span></button>
@@ -5616,6 +5821,8 @@ const JARGON_EXP=["Dans un topos de Grothendieck suffisamment sympathique, la qu
 const JARGON=["Sous les hypothèses usuelles de l’arithmétique élémentaire, on demande :", "Question préliminaire, à traiter avec toute la rigueur qui s’impose :", "Dans le cadre axiomatique habituel, le jury souhaiterait savoir :", "Exercice réservé au lecteur courageux :", "Le comité scientifique pose la question suivante :"];
 /* ---------- Mémoire des questions : uniques dans la partie et d’une partie à l’autre pour une même classe ---------- */
 const hashQ=t=>{ const x=String(t).replace(/<[^>]+>/g,"").replace(/\s+/g," ").trim().toLowerCase(); let h=5381; for(let i=0;i<x.length;i++) h=((h<<5)+h+x.charCodeAt(i))|0; return (h>>>0).toString(36); };
+// « Je joue ici » : la mémoire suit le joueur (son pseudo) ; en classe, elle suit la classe
+function cleHistorique(){ return S.config.reponses==="local" ? "joueur:"+(String(S.config.pseudoLocal||"").trim()||"Toi") : S.config.classe; }
 function memoireQuestions(classe){
   const nom=(classe||"").trim(), tout=Stock.lire("historique",{}), passe=new Set(nom?(tout[nom]||[]):[]), partie=new Set();
   return { has:e=>{ const h=hashQ(e); return partie.has(h)||passe.has(h); },
@@ -5623,8 +5830,8 @@ function memoireQuestions(classe){
       const t=Stock.lire("historique",{}); const l=t[nom]||[]; l.push(h); t[nom]=l.slice(-6000); Stock.ecrire("historique",t); } };
 }
 function nouvelleQuestion(m){
-  finJoker(); chronoFige=false; setTimeout(()=>{ preparerQuestionTablettes(m); rendre(); },0);
-  const P=S.partie, ch=S.config.chapitres; if(!P.vus) P.vus=memoireQuestions(S.config.classe);
+  finJoker(); chronoFige=false; preparerQuestionBots(); setTimeout(()=>{ preparerQuestionTablettes(m); rendre(); },0);
+  const P=S.partie, ch=S.config.chapitres; if(!P.vus) P.vus=memoireQuestions(cleHistorique());
   if(m.id==="nuggets"){ P.q = P.prochaine && P.prochaine.manche==="nuggets" ? P.prochaine.q : Banque.nuggets(ch,P.vus); P.prochaine={manche:"nuggets", q:Banque.nuggets(ch,P.vus)}; }
   else if(m.id==="selpoivre"){
     if(!P.duelsJoues) P.duelsJoues=new Set();
@@ -5688,12 +5895,54 @@ function sceneIntroSP(){
       <ul>${l.map(([t,v])=>`<li>« ${t} » : ${v}</li>`).join("")}</ul></div>`; })():""}
     <button class="btn gros moutarde" data-action="sp-go">${premier?"Première affirmation":"On continue"}</button>`;
 }
+// Commandes sans arbitre : les humains répondent eux-mêmes, les bots jouent seuls
+// « Je joue ici » : un seul joueur humain, donc un seul grand buzzer, aussi au clavier (barre d’espace)
+// « Je joue ici » : toucher une plaque d’équipe ouvre la fiche de son patron et son bonus
+function fichePatronModale(){ const P=S.partie, i=S.fichePatron; if(i==null || !P || !P.equipes[i]) return ""; const eq=P.equipes[i], pa=eq.patron;
+  const lycee=["2de","1re","Tle","Exp","CL"].includes(S.config.niveau);
+  return `<div class="voile" data-action="fermer-patron" data-fond="1"><div class="panneau modale fiche-patron" role="dialog" aria-label="Patron ${esc(pa.nom)}" style="--c:${eq.coul}">
+    <p class="doux" style="margin:0">Le patron de ${i===P.equipes.findIndex(e=>e.membres.some(n=>!estBot(n)))?"ton équipe":"l’équipe adverse"}</p>
+    <h2>${esc(pa.nom)}</h2><p class="doux">${esc(pa.disc||"")}</p>
+    <p><strong>✨ Bonus ${esc(domaine(pa))}</strong> : sur une question de ce domaine, l’équipe gagne 5 secondes et ses points comptent ×1,2. En contrepartie, un menu choisi dans ce domaine est servi un cran plus technique.</p>
+    <p>${esc((lycee&&pa.bioLycee)||pa.bio||"")}</p>
+    <p class="doux">Équipe : ${eq.membres.map(esc).join(", ")}</p>
+    <button class="btn moutarde" data-action="fermer-patron">Fermer</button></div></div>`; }
+function repondantBuzz(bz){ const P=S.partie;
+  if(P.buzzParBot && !P.rebond) return P.buzzParBot;
+  const h=humainsDe(bz); if(h.length) return P.tablettes && P.buzzNom && h.includes(P.buzzNom) ? P.buzzNom : (h.length===1 ? (S.config.reponses==="local"?"TOI":h[0]) : "l’équipe");
+  return botsDe(bz)[0]||repondant(P.equipes[bz]); }
+function buzzGeant(action){ const P=S.partie; if(!modeBots() || S.config.reponses!=="local") return ""; const h=[0,1].filter(i=>humainsDe(i).length); if(h.length!==1) return "";
+  const lit=enLecture();
+  return `<button class="btn buzz-geant ${lit?"lecture":""}" style="--c:${P.equipes[h[0]].coul}" data-action="${action}" data-eq="${h[0]}" ${lit?"disabled":""}>${lit?"📖 Lecture…":"BUZZ !"}<small>${lit?"le buzzer s’allume dans un instant":"ou barre d’espace"}</small></button>`; }
+function commandesBots(m, q, eq, pts){ const P=S.partie;
+  const attente=nom=>`<p class="bot-reflechit"><strong>${esc(nom)}</strong> réfléchit…</p>`;
+  if(m.id==="addition"){
+    if(P.gagnant!=null || q.revele) return q.choix ? `<div class="choix">${q.choix.map((c,k)=>`<button class="btn choix-btn ${c.ok?"juste":k===q.choisiAdd?"faux":"eteint"}" disabled><span class="lettre">${"ABCD"[k]}</span><span>${c.html}</span></button>`).join("")}</div>` : "";
+    if(P.buzzAdd==null){ const g=buzzGeant("buzz-add"); if(g) return g; const h=[0,1].filter(i=>humainsDe(i).length);
+      return h.length ? `<div class="duo-reponses">${h.map(i=>`<div class="colonne"><button class="btn gros" style="background:${P.equipes[i].coul};color:#FFF8EA" data-action="buzz-add" data-eq="${i}" ${enLecture()?"disabled":""}>Buzz ${esc(P.equipes[i].patron.nom)}</button><span class="doux">touche ${i?"M":"Q"}</span></div>`).join("")}</div>` : `<p class="doux">Les bots sont au buzzer…</p>`; }
+    if(P.buzzParBot) return attente(P.buzzParBot);
+    if(q.choix && P.tablettes && P.buzzNom && jidDe(P.buzzNom)) return `<p class="doux">📱 ${esc(P.buzzNom)} répond sur son appareil…</p>`;
+    if(q.choix) return `<p class="doux">${esc(P.equipes[P.buzzAdd].patron.nom)} a buzzé : choisis ta réponse.</p><div class="choix">${q.choix.map((c,k)=>`<button class="btn choix-btn" data-action="add-choix" data-k="${k}"><span class="lettre">${"ABCD"[k]}</span><span>${c.html}</span></button>`).join("")}</div>`;
+    return `<div class="reponses-simples"><button class="btn gros cornichon" data-action="juste" data-eq="${P.buzzAdd}">Juste (+3)</button><button class="btn gros ketchup" data-action="faux" data-eq="${P.buzzAdd}">Faux (+3 en face)</button></div>`;
+  }
+  const nom=repondant(eq);
+  if(q.choix){ const fini=q.revele;
+    if(!fini && estBot(nom)) return attente(nom);
+    if(!fini && P.tablettes && jidDe(nom)) return `<p class="doux">📱 ${esc(nom)} répond sur son appareil…</p>${q.choix.map((c,k)=>`<span class="prop-muette">${"ABCD"[k]}. ${c.html}</span>`).join("")}`;
+    return `<div class="choix">${q.choix.map((c,k)=>`<button class="btn choix-btn ${fini?(c.ok?"juste":k===q.choisiMenu?"faux":"eteint"):""}" data-action="menu-choix" data-k="${k}" ${fini?"disabled":""}><span class="lettre">${"ABCD"[k]}</span><span>${c.html}</span></button>`).join("")}</div>`; }
+  if(estBot(nom)) return q.revele ? "" : attente(nom);
+  // Carte du chef, en attendant les QCM du lot 2 : on vérifie soi-même
+  return q.revele
+    ? `<div class="reponses-simples"><button class="btn gros cornichon" data-action="juste" data-eq="${P.tour}">J’avais juste (+${pts})</button><button class="btn gros ketchup" data-action="faux" data-eq="${P.tour}">J’avais faux</button></div>`
+    : `<button class="btn gros moutarde" data-action="voir-reponse">Voir la réponse</button>`;
+}
 function sceneQuestion(m){
   const P=S.partie, [A,B]=P.equipes, q=P.q||{};
   const enDuel = m.id==="addition";
   const eq = P.equipes[P.tour];
   let qui;
-  if(enDuel) qui = `<p class="repondant">Au buzzer : <strong>${esc(repondant(A))}</strong> pour ${esc(A.patron.nom)} contre <strong>${esc(repondant(B))}</strong> pour ${esc(B.patron.nom)}</p>`;
+  // chacun a son buzzer (téléphone, tablette ou grand bouton) : pas de duel désigné à annoncer
+  if(enDuel) qui = "";
   else qui = `<p class="repondant">Au tour de ${esc(eq.patron.nom)}, répondant : <strong>${esc(repondant(eq))}</strong></p>`;
   if(P.tablettes){
     if(m.id==="nuggets") qui = `<p class="repondant">Au tour de ${esc(eq.patron.nom)} : toute l’équipe vote sur sa tablette${P.votesOuverts?` · 🗳️ <strong>${Object.keys(P.votes||{}).length} / ${joueursActifs(P.tour).length}</strong> votes`:""}</p>
@@ -5713,23 +5962,24 @@ function sceneQuestion(m){
     corps=`<p class="question">${q.enonce}</p>`;
     commandes=`<div class="choix">${q.choix.map((c,k)=>{ const elim = q.elimines && q.elimines.includes(k);
       const cl = rep==null ? (elim?"faux":"") : c.ok ? "juste" : k===rep ? "faux" : "eteint";
-      return `<button class="btn choix-btn ${cl}" data-action="choix" data-k="${k}" ${rep!=null||elim?"disabled":""}>${q.distrib?`<span class="nb-votes">${q.distrib[k]}</span>`:""}<span class="lettre">${"ABCD"[k]}</span><span>${c.html}</span></button>`; }).join("")}</div>`;
+      return `<button class="btn choix-btn ${cl}" data-action="choix" data-k="${k}" ${rep!=null||elim||(modeBots()&&estBot(repondant(eq)))?"disabled":""}>${q.distrib?`<span class="nb-votes">${q.distrib[k]}</span>`:""}<span class="lettre">${"ABCD"[k]}</span><span>${c.html}</span></button>`; }).join("")}</div>`;
     if(rep!=null){ const bonne=q.choix[q.bonne], choisi=rep>=0?q.choix[rep]:null;
       commandes+=`<div class="explication">${choisi && choisi.ok ? `<strong>Bien vu !</strong>`
         : `<strong>${rep<0?"Temps écoulé.":"Raté !"}</strong> La bonne réponse était ${bonne.html}.${choisi?` <span class="doux">${choisi.expl}</span>`:""}`}</div>`;
-      if(choisi && !choisi.ok && !q.accorde) commandes+=`<button class="btn discret" data-action="accorder" data-eq="${P.tour}">Accorder quand même (le chef tranche)</button>`;
-      if(choisi && choisi.ok && !q.piege) commandes+=`<button class="btn moutarde" data-action="piege">Un piège bien expliqué (+1)</button>`; }
+      if(!modeBots() && choisi && !choisi.ok && !q.accorde) commandes+=`<button class="btn discret" data-action="accorder" data-eq="${P.tour}">Accorder quand même (le chef tranche)</button>`;
+      if(!modeBots() && choisi && choisi.ok && !q.piege) commandes+=`<button class="btn moutarde" data-action="piege">Un piège bien expliqué (+1)</button>`; }
   } else if(m.id==="selpoivre" && P.duelSP){
     const d=P.duelSP, rep=q.repondu, bz=P.buzz;
     corps=`<p class="doux" style="margin:.2rem 0 .4rem">${d.sel} ou ${d.poivre.charAt(0).toLowerCase()+d.poivre.slice(1)} ? Ou les deux ?</p><p class="question">${q.texte}</p>`;
     qui = bz==null
-      ? `<p class="repondant">Au buzzer : <strong>${esc(repondant(A))}</strong> pour ${esc(A.patron.nom)} contre <strong>${esc(repondant(B))}</strong> pour ${esc(B.patron.nom)}</p>`
-      : `<p class="repondant"><strong>${esc(P.equipes[bz].patron.nom)}</strong> ${P.rebond?"récupère le rebond":"a buzzé"} : répondant <strong>${esc(repondant(P.equipes[bz]))}</strong></p>`;
+      ? ""
+      : `<p class="repondant"><strong>${esc(P.equipes[bz].patron.nom)}</strong> ${P.rebond?"récupère le rebond":"a buzzé"} : répondant <strong>${esc(modeBots()?repondantBuzz(bz):repondant(P.equipes[bz]))}</strong></p>`;
     commandes = (bz==null && rep==null)
-      ? `<div class="duo-reponses">${[0,1].map(i=>`<div class="colonne"><button class="btn gros" style="background:${P.equipes[i].coul};color:#FFF8EA" data-action="buzz" data-eq="${i}">Buzz ${esc(P.equipes[i].patron.nom)}</button><span class="doux">touche ${i?"M":"Q"}</span></div>`).join("")}</div>`
+      ? (buzzGeant("buzz") || `<div class="duo-reponses">${[0,1].filter(i=>!modeBots()||humainsDe(i).length).map(i=>`<div class="colonne"><button class="btn gros" style="background:${P.equipes[i].coul};color:#FFF8EA" data-action="buzz" data-eq="${i}" ${enLecture()?"disabled":""}>Buzz ${esc(P.equipes[i].patron.nom)}</button><span class="doux">touche ${i?"M":"Q"}</span></div>`).join("")}</div>`)
       : `<div class="sp-reponses">${[["sel",d.sel,"1"],["poivre",d.poivre,"2"],["deux","Les deux","3"]].map(([v,n,t])=>{ const cl = rep==null ? "" : v===q.rep ? "juste" : v===rep ? "faux" : "eteint";
-          return `<button class="btn sp-btn ${v} ${cl}" data-action="sp" data-v="${v}" ${rep!=null?"disabled":""}><span>${n}</span><kbd>${t}</kbd></button>`; }).join("")}</div>`
-          + (rep!=null && rep!=="aucune" && rep!==q.rep && !q.accorde ? `<button class="btn discret" data-action="accorder" data-eq="${P.buzz}">Accorder quand même (le chef tranche)</button>` : "");
+          const botMain = modeBots() && bz!=null && ((P.buzzParBot && !P.rebond) || !humainsDe(bz).length);
+          return `<button class="btn sp-btn ${v} ${cl}" data-action="sp" data-v="${v}" ${rep!=null||botMain?"disabled":""}><span>${n}</span><kbd>${t}</kbd></button>`; }).join("")}</div>`
+          + (!modeBots() && rep!=null && rep!=="aucune" && rep!==q.rep && !q.accorde ? `<button class="btn discret" data-action="accorder" data-eq="${P.buzz}">Accorder quand même (le chef tranche)</button>` : "");
   } else {
     corps=`<p class="question">${q.enonce||""}</p>${q.revele?`<p class="reponse">Réponse : ${q.reponse}</p>`:""}`;
     commandes = enDuel
@@ -5739,6 +5989,7 @@ function sceneQuestion(m){
       : `<div class="reponses-simples"><button class="btn gros cornichon" data-action="juste" data-eq="${P.tour}">Juste (+${pts})</button>
           <button class="btn gros ketchup" data-action="faux" data-eq="${P.tour}">Faux</button></div>`;
     commandes += `<button class="btn discret" data-action="voir-reponse">${q.revele?"Cacher la réponse":"Afficher la réponse"}</button>`;
+    if(modeBots()) commandes = commandesBots(m, q, eq, pts);
   }
   return `<div class="carton panneau ${S.carte?"arrive":""}">
       <p class="doux">${progression}${q.chap?` · ${esc(q.chap)}`:""}${q.service?` · <strong>${q.service}</strong>`:""}</p>
@@ -5801,7 +6052,7 @@ function sceneChoixMenus(){
         ${(()=>{ const R=menusVoteResume(), n=R&&R.votes[i]; return n?`<span class="votes-menu">🗳️ ${n}</span>`:""; })()}
         ${M.revele?`<p><span class="badge">${esc(mm.trad)}</span></p>`:""}
       </button>${pris>=0&&!M.revele?`<button class="changer" data-action="changer-menu" data-i="${i}">Changer d’avis</button>`:""}</div>`;}).join("")}</div>
-    ${(()=>{ const R=menusVoteResume(); return R?`<p class="doux">🗳️ Les élèves de ${esc(R.equipe)} votent : ${R.nb} / ${R.attendus}. Unanime = servi ; sinon, valide, relance ou tranche.</p>
+    ${(()=>{ const R=menusVoteResume(); return R?`<p class="doux">🗳️ Les joueurs de ${esc(R.equipe)} votent : ${R.nb} / ${R.attendus}. Unanime = servi ; sinon, valide, relance ou tranche.</p>
       <div class="ligne" style="justify-content:center"><button class="btn" data-action="menu-valider-vote">✅ Valider le vote</button><button class="btn discret" data-action="menu-relancer-vote">🔄 Revoter</button></div>`:""; })()}
     ${!qui&&!enDevoilement?`<button class="btn gros moutarde" data-action="jouer-menus">${M.revele?"Manche suivante (automatique dans quelques secondes)":"Servir les questions"}</button>`:""}`;
 }
@@ -5827,15 +6078,15 @@ function sceneBurger(){
   if(Bg.etape==="reponses"){
     const prochaine=Bg.res.length, attendue=Bg.questions[Math.min(prochaine,9)];
     // En entraînement solo, le joueur voit l’écran : aucune réponse affichée
-    const solo = !!S.partie.solo;
+    const solo = !!S.partie.solo || modeBots();
     return `${solo?"":`<div class="filigrane-fond" aria-hidden="true">${esc(attendue.r)}</div>`}
       <h2 style="font-size:clamp(1.4rem,3vw,2.2rem)">${esc(Bg.candidat)}, à toi : les dix réponses, dans l’ordre</h2>
       ${solo?"":`<p class="doux" style="margin:0">Le candidat tourne le dos au tableau. Réponse ${Math.min(prochaine+1,10)} attendue : <strong>${esc(attendue.r)}</strong> (${esc(attendue.q)})</p>`}
       <div class="cases">${Bg.questions.map((x,i)=>`<div class="case ${Bg.res[i]===true?"juste":Bg.res[i]===false?"faux":""} ${i===prochaine?"prochaine":""}"><span>${i+1}</span>${solo?"":`<span class="filigrane">${esc(x.r)}</span>`}</div>`).join("")}</div>
-      <div class="commandes">
+      ${modeBots() ? (estBot(Bg.candidat) ? `<p class="bot-reflechit"><strong>${esc(Bg.candidat)}</strong> fouille dans sa mémoire…</p>` : (S.partie.tablettes && jidDe(Bg.candidat)) ? `<p class="doux">📱 ${esc(Bg.candidat)} répond sur son appareil… réponse n° ${prochaine+1}</p>` : choixBocal(Bg, prochaine)) : `<div class="commandes">
         <button class="btn cornichon gros" data-action="burger-rep" data-v="1">Réponse ${prochaine+1} juste</button>
         <button class="btn ketchup gros" data-action="burger-rep" data-v="0">Faux ou trou</button>
-      </div>`;
+      </div>`}`;
   }
   // résultat
   const n=Bg.res.filter(Boolean).length;
@@ -5844,6 +6095,12 @@ function sceneBurger(){
     <p class="question" style="font-size:1.4rem">${n} bonne${n>1?"s":""} réponse${n>1?"s":""} d’affilée sur 10.</p>
     <button class="btn gros moutarde" data-action="vers-fin">Voir le bilan</button>`;
 }
+// mémoire de la place : la bonne réponse n° k et trois réponses d’autres questions de la même série
+function propositionsBocal(Bg, k){ Bg.choixRep=Bg.choixRep||{};
+  if(!Bg.choixRep[k]){ const bonne=Bg.questions[k].r, autres=[...new Set(Bg.questions.map(x=>x.r).filter(r=>r!==bonne))];
+    Bg.choixRep[k]=melange([bonne, ...melange(autres).slice(0,3)]); } return Bg.choixRep[k]; }
+function choixBocal(Bg, k){ if(k>=10) return ""; propositionsBocal(Bg,k);
+  return `<p class="doux">Réponse n° ${k+1} : laquelle était-ce ?</p><div class="choix">${Bg.choixRep[k].map((r,i)=>`<button class="btn choix-btn" data-action="bocal-choix" data-i="${i}"><span class="lettre">${"ABCD"[i]}</span><span>${esc(r)}</span></button>`).join("")}</div>`; }
 function lancerBurger(){
   const P=S.partie;
   const eqIdx = P.gagnant!=null ? P.gagnant : (P.equipes[0].score>=P.equipes[1].score?0:1);
@@ -5852,7 +6109,8 @@ function lancerBurger(){
 }
 function rouletteCandidat(){
   const P=S.partie, Bg=P.burger, eq=P.equipes[Bg.equipe];
-  const choix=hasard(eq.membres); let n=0; const tours=matchMedia("(prefers-reduced-motion: reduce)").matches?1:18;
+  const pool = modeBots() && humainsDe(Bg.equipe).length ? humainsDe(Bg.equipe) : eq.membres;
+  const choix=hasard(pool); let n=0; const tours=matchMedia("(prefers-reduced-motion: reduce)").matches?1:18;
   const t=setInterval(()=>{ n++; son("pioche"); const el=$("#candidat"); if(el) el.textContent = n<tours?hasard(eq.membres):choix;
     if(n>=tours){ clearInterval(t); Bg.candidat=choix; son("gong"); rendre(); } },90);
 }
@@ -5886,15 +6144,43 @@ VUES.fin = () => {
     </div>
     <div class="panneau" style="margin:1.6rem auto 0;max-width:640px;text-align:left">
       ${Bg?`<p><strong>${esc(recompense)}</strong>${Bg.candidat?` pour ${esc(Bg.candidat)}`:""}.</p>`:""}
-      <p>${S.config.classe?`Le snack de la ${esc(S.config.classe)} reçoit <strong>${livraisons} livraisons</strong>.`:`Aucune classe indiquée : les livraisons n’ont pas été enregistrées.`}</p>
+      ${S.config.reponses==="local" ? `${(P.recordsPalmares||[]).length?`<p>🏆 <strong>Nouveau record</strong> : ${P.recordsPalmares.map(esc).join(", ")} !</p>`:""}<p class="doux">La partie est enregistrée dans ton palmarès.</p>`
+        : `<p>${S.config.classe?`Le snack de la ${esc(S.config.classe)} reçoit <strong>${livraisons} livraisons</strong>.`:`Aucune classe indiquée : les livraisons n’ont pas été enregistrées.`}</p>`}
     </div>
     <div class="commandes" style="margin-top:1.4rem">
-      ${S.config.classe?`<button class="btn" data-action="voir-snack">Voir le snack</button>`:""}
+      ${S.config.classe&&S.config.reponses!=="local"?`<button class="btn" data-action="voir-snack">Voir le snack</button>`:""}
+      ${S.config.reponses==="local"?`<button class="btn" data-action="aller" data-cible="palmares">🏆 Palmarès</button>`:""}
       <button class="btn moutarde" data-action="revanche">Revanche, nouveaux patrons</button>
       <button class="btn" data-action="aller" data-cible="accueil">Accueil</button>
     </div></div>`;
 };
+/* ---------- Palmarès : les parties « Je joue ici », joueur par joueur ---------- */
+function enregistrerPalmares(){ const P=S.partie; if(!P || S.config.reponses!=="local" || P.palmaresFait) return; P.palmaresFait=true;
+  const moi=P.equipes.findIndex(e=>e.membres.some(n=>!estBot(n))); if(moi<0) return;
+  const pseudo=String(S.config.pseudoLocal||"").trim()||"Toi", eq=P.equipes[moi], adv=P.equipes[1-moi], Bg=P.burger;
+  const bocal = Bg && Bg.equipe===moi && !estBot(Bg.candidat) ? Bg.res.filter(Boolean).length : null;
+  const partie={ date:Date.now(), niveau:S.config.niveau, pour:Math.round(eq.score*10)/10, contre:Math.round(adv.score*10)/10,
+    gagne: eq.score>adv.score, nul: eq.score===adv.score, bocal, adversaires:botsDe(1-moi).map(n=>P.bots[n]), coequipiers:botsDe(moi).map(n=>P.bots[n]), patron:eq.patron.nom };
+  const T=Stock.lire("palmares",{}), J=T[pseudo]||{parties:[]}, avant=statsPalmares(J);
+  J.parties.unshift(partie); J.parties=J.parties.slice(0,300); T[pseudo]=J; Stock.ecrire("palmares",T);
+  const apres=statsPalmares(J), msg=[];
+  if(J.parties.length>1){
+    if(apres.meilleurScore>avant.meilleurScore) msg.push(`meilleur score (${String(apres.meilleurScore).replace(".",",")} points)`);
+    if(partie.gagne && apres.plusGrandEcart>avant.plusGrandEcart) msg.push(`plus large victoire (+${String(apres.plusGrandEcart).replace(".",",")})`);
+    if(apres.meilleureSerie>avant.meilleureSerie) msg.push(`plus longue série de victoires (${apres.meilleureSerie})`);
+    if(bocal!=null && apres.meilleurBocal>avant.meilleurBocal) msg.push(`meilleur Bocal infernal (${apres.meilleurBocal}/10)`); }
+  if(partie.gagne && partie.adversaires.includes("infaillible") && !avant.battuInfaillible) msg.push("premier infaillible battu 🎯");
+  P.recordsPalmares=msg; }
+function statsPalmares(J){ const L=(J&&J.parties)||[], g=L.filter(x=>x.gagne);
+  let serie=0, meilleure=0; L.slice().reverse().forEach(x=>{ serie=x.gagne?serie+1:0; meilleure=Math.max(meilleure,serie); });
+  let enCours=0; for(const x of L){ if(x.gagne) enCours++; else break; }
+  const bocaux=L.map(x=>x.bocal).filter(x=>x!=null);
+  return { parties:L.length, victoires:g.length, taux:L.length?Math.round(100*g.length/L.length):0,
+    meilleurScore:L.length?Math.max(...L.map(x=>x.pour)):0, plusGrandEcart:g.length?Math.max(...g.map(x=>Math.round((x.pour-x.contre)*10)/10)):0,
+    meilleureSerie:meilleure, serieEnCours:enCours, meilleurBocal:bocaux.length?Math.max(...bocaux):0, grandsBocaux:bocaux.filter(x=>x===10).length,
+    battuInfaillible:g.some(x=>(x.adversaires||[]).includes("infaillible")) }; }
 function enregistrerPartie(){
+  enregistrerPalmares();
   const P=S.partie; const nom=S.config.classe.trim();
   const Bg=P.burger, n=Bg?Bg.res.filter(Boolean).length:0;
   let liv=Math.max(0,Math.round(P.equipes[0].score+P.equipes[1].score)) + (n===10?80:n>=5?30:0);
@@ -5904,6 +6190,29 @@ function enregistrerPartie(){
   if(n===10 && Bg.candidat){ c.honneur.unshift({nom: S.config.modeEleves==="anonyme"? P.equipes[Bg.equipe].patron.nom : Bg.candidat, date:new Date().toLocaleDateString("fr-FR")}); c.honneur=c.honneur.slice(0,20); }
   classes[nom]=c; Stock.ecrire("classes",classes); S.snackClasse=nom; return liv;
 }
+
+VUES.palmares = () => { const T=Stock.lire("palmares",{}), noms=Object.keys(T);
+  if(!S.palmaresNom || !T[S.palmaresNom]) S.palmaresNom = (T[String(S.config.pseudoLocal||"").trim()||"Toi"] ? (String(S.config.pseudoLocal||"").trim()||"Toi") : noms[0]) || null;
+  const J=S.palmaresNom?T[S.palmaresNom]:null, st=statsPalmares(J), nb=x=>String(x).replace(".",",");
+  const NIV=Object.fromEntries(NIVEAUX.map(n=>[n.id,n.nom])), ICO=Object.fromEntries(Object.entries(PROFILS_BOT).map(([k,v])=>[k,v.ico]));
+  const corps = !J ? `<div class="panneau" style="text-align:center"><h3>Pas encore de partie</h3><p>Joue une partie « 🎮 Je joue ici » contre des bots : elle s’inscrira ici, avec tes records.</p><button class="btn moutarde" data-action="aller" data-cible="assistant">Nouvelle partie</button></div>`
+  : `${noms.length>1?`<div class="solo-puces" style="margin:.6rem 0">${noms.map(n=>`<button class="puce ${n===S.palmaresNom?"on":""}" data-action="palmares-nom" data-n="${esc(n)}">${esc(n)}</button>`).join("")}</div>`:""}
+    <div class="palm-grille">
+      <div class="palm-case"><strong>${st.parties}</strong><span>parties</span></div>
+      <div class="palm-case"><strong>${st.victoires}</strong><span>victoires (${st.taux} %)</span></div>
+      <div class="palm-case"><strong>${st.serieEnCours}</strong><span>victoires d’affilée en cours</span></div>
+      <div class="palm-case or"><strong>${nb(st.meilleurScore)}</strong><span>meilleur score</span></div>
+      <div class="palm-case or"><strong>+${nb(st.plusGrandEcart)}</strong><span>plus large victoire</span></div>
+      <div class="palm-case or"><strong>${st.meilleureSerie}</strong><span>plus longue série</span></div>
+      <div class="palm-case or"><strong>${st.meilleurBocal}/10</strong><span>meilleur Bocal${st.grandsBocaux?` · ${st.grandsBocaux} Grand${st.grandsBocaux>1?"s":""}`:""}</span></div>
+      <div class="palm-case ${st.battuInfaillible?"or":""}"><strong>${st.battuInfaillible?"🎯":"—"}</strong><span>${st.battuInfaillible?"infaillible battu":"aucun infaillible battu"}</span></div>
+    </div>
+    <h3>Dernières parties</h3>
+    <div class="palm-liste">${J.parties.slice(0,15).map(x=>`<div class="palm-ligne ${x.gagne?"g":x.nul?"n":"p"}"><span>${x.gagne?"✅":x.nul?"🤝":"❌"} <strong>${nb(x.pour)} – ${nb(x.contre)}</strong></span>
+      <span>${esc(NIV[x.niveau]||x.niveau||"")}</span><span>contre ${(x.adversaires||[]).map(a=>ICO[a]||"🤖").join(" ")||"—"}${(x.coequipiers||[]).length?` · avec ${(x.coequipiers).map(a=>ICO[a]||"🤖").join(" ")}`:""}</span>
+      <span>${x.bocal!=null?`🫙 ${x.bocal}/10`:""}</span><span class="doux">${new Date(x.date).toLocaleDateString("fr-FR")}</span></div>`).join("")}</div>
+    <p style="margin-top:1rem"><button class="btn discret" data-action="palmares-oublier">Oublier les questions posées</button> <button class="btn discret" data-action="palmares-effacer">Effacer le palmarès de ${esc(S.palmaresNom)}</button></p>`;
+  return `<div class="wrap">${barreRetour("Palmarès")}<p class="doux">Tes parties « Je joue ici » contre les bots, et tes records. Tout reste sur cet appareil.</p>${corps}</div>`; };
 
 /* ---------- Le snack de la classe ---------- */
 VUES.snack = () => {
@@ -5957,12 +6266,41 @@ VUES.vivier = () => {
 
 /* ---------- Réglages ---------- */
 /* ---------- Règles du jeu ---------- */
-VUES.regles = () => `<div class="wrap texte-long">${barreRetour("Règles du jeu")}
+/* ---------- Textes modifiables : textes/regles.md et textes/cgu.md ----------
+   Le jeu lit ces fichiers à chaque ouverture de l’écran : on peut changer le texte sans toucher à la page.
+   S’ils sont introuvables (fichier ouvert par double-clic, dossier absent), la version intégrée s’affiche. */
+S.textes=S.textes||{}; S.textesDate=S.textesDate||{};
+function mdVersHtml(md){
+  md=md.replace(/<!--[\s\S]*?-->/g,"").replace(/\r/g,"");
+  const enLigne=t=>t.replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>").replace(/(^|[^*])\*(?!\s)(.+?)\*/g,"$1<em>$2</em>")
+    .replace(/`([^`]+)`/g,"<code>$1</code>").replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');
+  const cadres=[]; let html="", liste=null, para=[];
+  const finPara=()=>{ if(para.length){ html+=`<p>${enLigne(para.join(" "))}</p>`; para=[]; } };
+  const finListe=()=>{ if(liste){ html+=`<ul>${liste.map(x=>`<li>${enLigne(x)}</li>`).join("")}</ul>`; liste=null; } };
+  const finCadre=()=>{ finPara(); finListe(); if(html.trim()) cadres.push(html); html=""; };
+  for(const brut of md.split("\n")){ const l=brut.trim();
+    if(!l){ finPara(); finListe(); continue; }
+    if(/^-{3,}$/.test(l)){ finCadre(); continue; }
+    let m;
+    if((m=l.match(/^#{1,3}\s+(.*)$/))){ finPara(); finListe(); html+=`<h3>${enLigne(m[1])}</h3>`; continue; }
+    if((m=l.match(/^>\s?(.*)$/))){ finPara(); finListe(); html+=`<p class="doux">${enLigne(m[1])}</p>`; continue; }
+    if((m=l.match(/^[-*]\s+(.*)$/))){ finPara(); (liste=liste||[]).push(m[1]); continue; }
+    finListe(); para.push(l); }
+  finCadre();
+  return cadres.map(c=>`<div class="panneau">${c}</div>`).join("");
+}
+function chargerTexte(nom){ if(!/^https?:/.test(location.protocol)) return;
+  if(S.textesDate[nom] && Date.now()-S.textesDate[nom]<3000) return; S.textesDate[nom]=Date.now();
+  fetch(`textes/${nom}.md?v=${Date.now()}`,{cache:"no-store"}).then(r=>r.ok?r.text():null).then(t=>{ if(!t) return;
+    const h=mdVersHtml(t); if(h!==S.textes[nom]){ S.textes[nom]=h; if(S.ecran===nom) rendre(); } }).catch(()=>{}); }
+VUES.regles = () => { chargerTexte("regles"); return S.textes.regles ? `<div class="wrap texte-long">${barreRetour("Règles du jeu")}${S.textes.regles}</div>` : REGLES_INTEGREES(); };
+VUES.cgu = () => { chargerTexte("cgu"); return S.textes.cgu ? `<div class="wrap texte-long">${barreRetour("Conditions d’utilisation")}${S.textes.cgu}</div>` : CGU_INTEGREES(); };
+const REGLES_INTEGREES = () => `<div class="wrap texte-long">${barreRetour("Règles du jeu")}
   <div class="panneau">
     <h3>Le principe</h3>
     <p>Bienvenue au dernier snack avant le trou noir. Deux équipes s’affrontent sur cinq manches de maths et de sciences loufoques. L’équipe gagnante envoie un candidat affronter le <strong>Bocal infernal</strong>. Le prof anime : il lit, valide et garde toujours le dernier mot.</p>
     <h3>Avant de jouer</h3>
-    <p>L’assistant demande le niveau (de la 6e à la Terminale, Expert, Culture collège ou Culture lycée), les chapitres, le format (complète, express ou sur mesure), la classe et les options. La classe répond soit <strong>au comptoir</strong> (à l’oral, le prof valide), soit <strong>sur tablettes</strong> (chaque élève scanne le QR code de la salle des élèves). L’appli tire ensuite au sort deux <strong>patrons</strong>, des savants célèbres, et répartit la classe en deux équipes.</p>
+    <p>L’assistant demande le niveau (de la 6e à la Terminale, Expert, Culture collège ou Culture lycée), les chapitres, le format (complète, express ou sur mesure), puis <strong>qui joue</strong> : <strong>🎮 Je joue ici</strong> (toi contre des bots, directement sur cet écran ; sans bot choisi, un adversaire est ajouté d’office) ou <strong>📱 Les joueurs se connectent</strong> (chacun scanne le QR code avec son téléphone ou sa tablette ; des bots peuvent compléter les équipes, et le nom de la classe envoie les livraisons à son snack). L’appli tire ensuite au sort deux <strong>patrons</strong>, des savants célèbres, et répartit les joueurs en deux équipes : deux joueurs humains ne sont jamais ensemble si les bots permettent de l’éviter.</p>
     <h3>Le bonus du patron</h3>
     <p>Sur une question du domaine de son patron, l’équipe gagne 5 secondes et ses points comptent ×1,2 ; sa plaque s’illumine. En contrepartie, un menu choisi dans ce domaine est servi un cran plus technique.</p>
   </div>
@@ -5980,7 +6318,7 @@ VUES.regles = () => `<div class="wrap texte-long">${barreRetour("Règles du jeu"
   </div>
   <div class="panneau">
     <h3>Les jokers</h3>
-    <p>Deux jokers par équipe, valables pour une question. 🍟 <strong>Supplément frites</strong> : une seconde chance. 🌶️ <strong>Sauce piquante</strong> : points doublés, temps restant divisé par deux. 🧃 <strong>Menu enfant</strong> : dix secondes de concertation, chrono arrêté. Un joker ne remet jamais le chrono à zéro. Sur tablettes, un élève propose un joker et il part dès que la majorité de son équipe accepte. Aucun joker au Bocal infernal.</p>
+    <p>Deux jokers par équipe, valables pour une question. 🍟 <strong>Supplément frites</strong> : une seconde chance. 🌶️ <strong>Sauce piquante</strong> : points doublés, temps restant divisé par deux. 🧃 <strong>Menu enfant</strong> : dix secondes de concertation, chrono arrêté. Un joker ne remet jamais le chrono à zéro. Sur tablettes, un joueur propose un joker et il part dès que la majorité de son équipe accepte. Aucun joker au Bocal infernal.</p>
     <h3>La mauvaise foi</h3>
     <p>L’animateur peut donner ou retirer un point de mauvaise foi à l’équipe de son choix, avec une justification absurde tirée au hasard. Il est seul juge, et c’est assumé.</p>
     <h3>Le snack de la classe</h3>
@@ -5996,13 +6334,12 @@ VUES.regles = () => `<div class="wrap texte-long">${barreRetour("Règles du jeu"
   </div>
   <div class="panneau">
     <h3>Pour l’animateur</h3>
-    <p><strong>Barre du bas</strong> : menu, télécommande, joueurs, console, réglages, musique, sons et outils (mauvaise foi par équipe, chrono, manche suivante). Raccourcis : <kbd>A</kbd> à <kbd>D</kbd> pour les Amuse-bouches, <kbd>Q</kbd> et <kbd>M</kbd> pour les buzzers, <kbd>1</kbd>, <kbd>2</kbd>, <kbd>3</kbd> pour Ketchup ou Moutarde, <kbd>Espace</kbd> pour passer, <kbd>C</kbd> pour figer ou reprendre le chrono, <kbd>Échap</kbd> pour fermer un panneau.</p>
+    
     <p><strong>📱 Télécommande</strong> (Réglages) : scanne son QR code avant de projeter ; tu pilotes alors toute la partie depuis ton téléphone, réponses à l’avance comprises, et le tableau ne montre plus que le jeu. Tablettes et télécommande communiquent par un petit relais sur le réseau local. Les tablettes et la télécommande restent silencieuses : seul le tableau fait du bruit.</p>
-    <p><strong>🕶️ Console</strong> : une seconde fenêtre avec les réponses, à garder sur ton écran (mode « Étendre », touches Windows + P).</p>
   </div></div>`;
 
 /* ---------- Conditions d’utilisation ---------- */
-VUES.cgu = () => `<div class="wrap texte-long">${barreRetour("Conditions d’utilisation")}
+const CGU_INTEGREES = () => `<div class="wrap texte-long">${barreRetour("Conditions d’utilisation")}
   <div class="panneau">
     <p class="doux">Version du 6 novembre 2026. En utilisant Pi-ckles, vous acceptez les présentes conditions.</p>
     <h3>1. Objet et esprit du jeu</h3>
@@ -6055,8 +6392,8 @@ function reglagesCorps(enPartie){ return `
       <button class="bascule" role="switch" aria-checked="${!!REGLAGES.telecommande}" aria-label="Télécommande" data-action="telecommande-on"></button></div>
     ${REGLAGES.telecommande?`<div class="interrupteur"><div><strong>Code de la salle : ${esc(REGLAGES.salle||"")}</strong><br><span class="doux">${relaisEnLigne()?"":etatRelais()+" "}${S.distantConnecte?"📱 Télécommande connectée":"Télécommande en attente"}</span></div>
       <div class="ligne"><button class="btn" data-action="qr">Afficher le QR code</button><button class="btn discret" data-action="nouvelle-salle">Nouveau code</button></div></div>`:""}
-    <div class="interrupteur"><div><strong>📲 Salle des élèves : ${esc(REGLAGES.salleJ||S.salleJ||"")}</strong><br><span class="doux">En cas de problème, un nouveau code coupe toutes les tablettes : elles rescannent le QR code et retrouvent leur équipe.</span></div>
-      <button class="btn discret" data-action="nouvelle-salle-joueurs">Nouveau code élèves</button></div>
+    <div class="interrupteur"><div><strong>📲 Salle des joueurs : ${esc(REGLAGES.salleJ||S.salleJ||"")}</strong><br><span class="doux">En cas de problème, un nouveau code coupe toutes les tablettes : elles rescannent le QR code et retrouvent leur équipe.</span></div>
+      <button class="btn discret" data-action="nouvelle-salle-joueurs">Nouveau code joueurs</button></div>
     ${relaisEnLigne() ? `<div class="interrupteur"><div><strong>Relais en ligne</strong><br><span class="doux">Version en ligne : la télécommande et les tablettes passent automatiquement par le relais du site. Rien à régler.</span></div>${etatRelais()}</div>`
     : `<div class="interrupteur"><div><strong>Relais de la télécommande</strong><br><span class="doux">Adresse du serveur relais (wss://…), à régler sur le tableau et sur la télécommande. Vide : même appareil seulement.</span></div>
       <input id="relais" class="champ" type="url" inputmode="url" placeholder="wss://…" value="${esc(REGLAGES.relais||"")}" style="max-width:260px"></div>`}
@@ -6091,22 +6428,29 @@ const soloChapitres=niv=>S.soloChaps && S.soloChaps.niv===niv ? S.soloChaps.ids 
 function soloStop(){ clearInterval(S.soloT); S.soloT=null; clearTimeout(S.soloM); }
 VUES.solo = () => { soloStop();
   const rec=Stock.lire("records",{}), niv=soloNiveau(), chs=CHAPITRES[niv]||[], sel=soloChapitres(niv);
-  return `<div class="wrap">${barreRetour("Entraînement solo")}
-  <p class="doux">Seul face aux questions : choisis ton niveau, tes chapitres, puis une manche. Ton meilleur score reste sur cet appareil.</p>
-  <div class="panneau"><h3>Ton niveau</h3><div class="ligne">${NIVEAUX.filter(n=>n.dispo).map(n=>`<button class="puce ${n.id===niv?"on":""}" data-action="solo-niv" data-id="${n.id}">${esc(n.nom)}</button>`).join("")}</div>
-    <h3>Tes chapitres <span class="doux">(${sel.length} / ${chs.length})</span></h3>
-    <div class="ligne"><button class="btn discret" data-action="solo-tout">Tout</button><button class="btn discret" data-action="solo-rien">Rien</button></div>
-    <div class="ligne">${chs.map(([id,nom])=>`<button class="puce ${sel.includes(id)?"on":""}" data-action="solo-chap" data-id="${id}">${esc(nom)}</button>`).join("")}</div></div>
-  <h3>Choisis ta manche</h3>
-  <div class="grille formats">${MANCHES.map(m=>`<button class="choix-carte" data-action="solo-manche" data-id="${m.id}" ${sel.length?"":"disabled"}><strong>${m.nom}</strong><span>${soloRegle(m.id)}</span><span class="badge">Record : ${rec[niv+":"+m.id]??"aucun"}</span></button>`).join("")}</div></div>`;
+  const ICO={nuggets:"🍢",selpoivre:"🍅",menus:"📜",addition:"🧾",burger:"🫙"};
+  return `<div class="wrap solo-accueil">${barreRetour("Entraînement solo")}
+  <p class="doux">Seul face aux questions du jeu : choisis ton niveau, tes chapitres, puis une manche. Ton meilleur score reste sur cet appareil.</p>
+  <section class="solo-bloc"><h3><span class="solo-num">1</span>Ton niveau</h3>
+    <div class="solo-puces">${NIVEAUX.filter(n=>n.dispo).map(n=>`<button class="puce ${n.id===niv?"on":""}" data-action="solo-niv" data-id="${n.id}">${esc(n.nom)}</button>`).join("")}</div></section>
+  <section class="solo-bloc"><h3><span class="solo-num">2</span>Tes chapitres <span class="doux">${sel.length} sur ${chs.length}</span>
+      <span class="solo-liens"><button class="lien" data-action="solo-tout">Tout cocher</button> · <button class="lien" data-action="solo-rien">Tout décocher</button></span></h3>
+    <div class="solo-puces">${chs.map(([id,nom])=>`<button class="puce ${sel.includes(id)?"on":""}" data-action="solo-chap" data-id="${id}">${sel.includes(id)?"✓ ":""}${esc(nom)}</button>`).join("")}</div></section>
+  <section class="solo-bloc solo-bloc-manches"><h3><span class="solo-num">3</span>Choisis ta manche</h3>
+    ${sel.length?"":`<p class="solo-alerte">Coche au moins un chapitre pour jouer.</p>`}
+    <div class="solo-manches">${MANCHES.map(m=>{ const r=rec[niv+":"+m.id];
+      return `<button class="solo-manche" data-action="solo-manche" data-id="${m.id}" ${sel.length?"":"disabled"}>
+        <span class="solo-ico">${ICO[m.id]||"🍽️"}</span><strong>${m.nom}</strong><span class="solo-regle">${soloRegle(m.id)}</span>
+        <span class="solo-record ${r!=null?"a":""}">${r!=null?`🏆 Record : ${String(r).replace(".",",")}`:"Pas encore de record"}</span><span class="solo-jouer">Jouer ▶</span></button>`; }).join("")}</div></section></div>`;
 };
-function soloRegle(id){ return {nuggets:"10 QCM, 20 secondes chacun. Les pièges sont expliqués.", selpoivre:"10 affirmations : l’une, l’autre ou les deux ? 10 secondes chacune.",
-  menus:"Un menu de 5 questions ouvertes. Réponds dans ta tête, puis vérifie honnêtement.", addition:"8 curiosités scientifiques, 20 secondes chacune, 3 points la bonne réponse.",
-  burger:"10 questions faciles à mémoriser, puis les 10 réponses dans l’ordre. Une erreur et c’est fini."}[id]; }
+function soloRegle(id){ return {nuggets:"10 QCM · 20 s chacun · pièges expliqués", selpoivre:"10 affirmations · 10 s chacune",
+  menus:"1 menu · 5 questions · 4 propositions", addition:"8 curiosités · 20 s · 3 points la bonne réponse",
+  burger:"10 questions à retenir, puis les réponses dans l’ordre"}[id]; }
 function soloQuestion(){ const T=S.solo, m=T.m.id; soloStop(); T.etat="question"; T.choisi=null; T.ok=null;
   if(m==="nuggets") T.q=Banque.nuggets(T.chaps, T.vus);
   else if(m==="selpoivre"){ let q=Banque.itemSP(T.duel, T.vus); if(!q){ T.duel=Banque.duel(T.chaps, T.duel.ref, T.vus, T.duels); q=Banque.itemSP(T.duel, T.vus); if(!q){ T.duel.forcer=true; q=Banque.itemSP(T.duel, T.vus); } } T.q=q; }
   else if(m==="menus"){ const q=Banque.menu(T.menu.chaps, T.i, SOLO_NB.menus, T.ctx, {titre:T.menu.titre}); T.q={enonce:q.enonce, reponse:q.reponse ?? (q.choix?q.choix[q.bonne].html:""), service:q.service};
+    { const Q=qcmMenu(T.q.reponse, T.menu.chaps, T.menu.titre, q.enonce); T.q.choix=Q.choix; T.q.bonne=Q.bonne; }
     if(!Banque.aTheme(T.menu.titre, T.menu.chaps) && ACCROCHES[T.menu.titre]) T.q.enonce=`<span class="accroche">${ACCROCHES[T.menu.titre]}</span><br>`+T.q.enonce; }
   else if(m==="addition"){ const q=Banque.eclair(T.chaps, T.vus); T.q={enonce:q.enonce, reponse:q.reponse}; }
   const sec=SOLO_CHRONO[m]; T.fin=Date.now()+sec*1000; T.sec=sec;
@@ -6139,7 +6483,7 @@ VUES.soloJeu = () => { const T=S.solo; if(!T) return VUES.solo();
   } else {
     const q=T.q, fini=T.etat!=="question";
     let zone="";
-    if(T.m.id==="nuggets"){
+    if(T.m.id==="nuggets" || (T.m.id==="menus" && q.choix)){
       zone=`<div class="choix solo-qcm">${q.choix.map((c,k)=>`<button class="btn choix-btn ${fini?(c.ok?"juste":k===T.choisi?"faux":"eteint"):""}" data-action="solo-rep" data-k="${k}" ${fini?"disabled":""}><span class="lettre">${"ABCD"[k]}</span><span>${c.html}</span></button>`).join("")}</div>
         ${fini && T.choisi!=null && !q.choix[T.choisi].ok ? `<p class="solo-expl">💡 ${q.choix[T.choisi].expl||""}</p>` : ""}`;
     } else if(T.m.id==="selpoivre"){
@@ -6164,7 +6508,8 @@ function apresReponse(m, juste){
   const P=S.partie; arreterChrono(); S.verrou=true; rendre();
   const carton=$(".carton"); if(carton) carton.style.boxShadow=`0 0 0 6px ${juste?"var(--ok)":"var(--ko)"}`;
   const idx=P.idx, attente = (m.id==="addition" && P.gagnant!=null) ? 1800 : (m.id==="nuggets" && juste) ? 3600 : (m.id==="selpoivre" && !juste) ? 2600 : DELAI[m.id];
-  setTimeout(()=>{ S.verrou=false; if(S.ecran==="jeu" && S.partie===P && P.idx===idx && P.phase==="jeu") avancer(); }, attente);
+  const qn=P.question; if(P.avanceProg===qn) return; P.avanceProg=qn;
+  setTimeout(()=>{ S.verrou=false; if(S.ecran==="jeu" && S.partie===P && P.idx===idx && P.phase==="jeu" && P.question===qn) avancer(); }, attente);
 }
 function avancer(){
   const P=S.partie, m=mancheCourante(); if(!m || P.phase!=="jeu" || m.id==="burger") return;
@@ -6281,7 +6626,7 @@ function lireMiroir(){
         controles:[...c.querySelectorAll("[data-action]")].filter(ok).map(ctl), champ:(c.querySelector("input[data-champ]")||{}).dataset?.champ||null}); continue; }
     if(c.matches(".choix-carte")){ finPuces(); if(!ok(c) || c.disabled) continue; /* niveaux « en cuisine » : inutiles sur le téléphone */ const x=ctl(c); x.titre=txt(c.querySelector("strong"))||x.label; x.desc=txt(c.querySelector("span:not(.badge)")); out.push({type:"carte", ...x}); continue; }
     if(c.matches(".puce") && ok(c)){ if(!puces) puces={type:"puces", items:[]}; puces.items.push(ctl(c)); continue; }
-    if(c.matches(".joueurs-qr")){ finPuces(); out.push({type:"info", t:"📲 "+txt(c.querySelector("p strong"))+" élève(s) connecté(s) · salle "+txt(c.querySelector(".code-salle"))}); continue; }
+    if(c.matches(".joueurs-qr")){ finPuces(); out.push({type:"info", t:"📲 "+txt(c.querySelector("p strong"))+" joueur(s) connecté(s) · salle "+txt(c.querySelector(".code-salle"))}); continue; }
     if(c.matches("h2,h3")){ finPuces(); const t=txt(c); if(t) out.push({type:"titre", t}); continue; }
     if(c.matches("input[data-champ]")){ finPuces(); out.push({type:"champ", cle:c.dataset.champ, v:c.value, num:c.type==="number", ph:c.placeholder||""}); continue; }
     if(c.matches("[data-action]") && ok(c)){ finPuces(); if(c.dataset.cible==="rejoindre") continue; if(!c.disabled) out.push({type:"bouton", ...ctl(c), titre:txt(c.querySelector("strong")), desc:txt(c.querySelector("span:not(.badge):not(.ico)"))}); continue; }
@@ -6314,7 +6659,7 @@ function etatPresentateur(){
     manche: m? m.nom : null, console: contenuConsole(),
     prochaine: pr? {enonce:pr.enonce, reponse: pr.choix? pr.choix[pr.bonne].html : pr.reponse} : null, boutons, miroir, classes,
     joueurs: Object.entries(S.joueurs).map(([id,j])=>({id, nom:j.nom, pseudo:j.pseudo})),
-    exclus: [...(S.exclus||[])].map(id=>({id, nom:(S.nomsExclus||{})[id]||"Élève retiré"})), salleJ:S.salleJ,
+    exclus: [...(S.exclus||[])].map(id=>({id, nom:(S.nomsExclus||{})[id]||"Joueur retiré"})), salleJ:S.salleJ,
     tablettes: !!(P && P.tablettes), mancheId: m && m.id, buzzAdd: P && m && m.id==="addition" ? (P.buzzAdd!=null?P.buzzAdd:null) : null,
     buzzSP: P && m && m.id==="selpoivre" && P.q && P.q.repondu==null ? (P.buzz!=null?P.buzz:null) : null,
     // écrans de lancement : la télécommande montre ce que voit la classe, pas encore la question
@@ -6394,9 +6739,9 @@ VUES.telecommande = () => {
       <button class="btn tc-mini" data-action="tc-renommer" data-jid="${esc(j.id)}" data-nom-actuel="${esc(j.nom)}">✏️ Renommer</button>
       <button class="btn tc-mini" data-action="envoi" data-nom="anonymiser" data-jid="${esc(j.id)}">Anonymiser</button>
       <button class="btn tc-mini ketchup" data-action="tc-exclure" data-jid="${esc(j.id)}" data-nom-actuel="${esc(j.nom)}">Exclure</button></div>`).join("")}</div>` : "";
-  const exclus=(E.exclus||[]).length ? `<div class="bloc"><p class="etiq">Élèves exclus (${E.exclus.length})</p>${E.exclus.map(j=>`<div class="tc-ligne tc-joueur"><span>${esc(j.nom)}</span>
+  const exclus=(E.exclus||[]).length ? `<div class="bloc"><p class="etiq">Joueurs exclus (${E.exclus.length})</p>${E.exclus.map(j=>`<div class="tc-ligne tc-joueur"><span>${esc(j.nom)}</span>
       <button class="btn tc-mini cornichon" data-action="envoi" data-nom="reintegrer" data-jid="${esc(j.id)}">↩️ Réintégrer</button></div>`).join("")}</div>` : "";
-  const codeJ=`<div class="bloc"><p class="etiq">Salle des élèves</p><div class="tc-ligne tc-joueur"><strong class="code-salle">${esc(E.salleJ||"")}</strong>
+  const codeJ=`<div class="bloc"><p class="etiq">Salle des joueurs</p><div class="tc-ligne tc-joueur"><strong class="code-salle">${esc(E.salleJ||"")}</strong>
       <button class="btn tc-mini" data-action="tc-nouveau-code-j">Changer le code</button></div></div>`;
   if(T.volet==="joueurs") volet=`<div class="tc-volet tc-console">${codeJ}${pseudos||"<p>Aucun joueur connecté.</p>"}${exclus}</div>`;
   if(T.volet==="question") volet=`<div class="tc-volet tc-console">${E.console}${E.prochaine?`<div class="bloc"><p class="etiq">À suivre</p><p class="q">${E.prochaine.enonce}</p><p class="rep">${E.prochaine.reponse}</p></div>`:""}</div>`;
@@ -6493,6 +6838,10 @@ VUES.joueur = () => {
     <button class="jr-carte-dos" data-action="j-reveler">🥒<span>Touche pour découvrir ton patron</span></button></div></div>`;
   const m=E.manche, monEq=moi.eq, adv=E.equipes[1-monEq];
   let corps="";
+  const A=E.action && E.action.pour===S.jid ? E.action : null;
+  if(A){ return `<div class="jr">${bandeau}<p class="jr-question">${A.quoi==="bocal"?"🫙 ":""}${A.titre}</p>
+      <div class="jr-choix ${A.quoi==="bocal"?"":"jr-une-colonne"}">${A.choix.map((c,k)=>`<button class="jr-rep" data-action="j-qcm" data-quoi="${A.quoi}" data-k="${k}"><span class="jr-lettre">${"ABCD"[k]}</span><span>${c}</span></button>`).join("")}</div>
+      <p class="jr-petit">${A.quoi==="add"?"Tu as buzzé : à toi de répondre !":A.quoi==="menu"?"Tiré au sort : c’est toi qui réponds.":"Retrouve la réponse, dans l’ordre."}</p></div>`; }
   if(m && m.id==="menus" && E.choixMenu){ const C=E.choixMenu, mon=(C.mesVotes||{})[S.jid];
     corps = C.ci!==monEq ? `<div class="jr-attente"><p class="jr-grand">⏳ ${esc(C.equipe)} choisit son menu</p></div>`
       : `<p class="jr-question">Quel menu voulez-vous ?</p><p class="jr-petit">Débattez à l’oral, puis votez. Si tout le monde est d’accord, le menu est servi.</p>
@@ -6534,7 +6883,8 @@ VUES.joueur = () => {
       ${dejaVote?`<span class="jr-petit">${D.oui} oui / ${D.besoin}</span>`:`<span class="jr-oui-non"><button class="btn cornichon" data-action="j-joker-vote" data-oui="1">👍</button><button class="btn ketchup" data-action="j-joker-vote" data-oui="0">👎</button></span>`}</div>`; }
   else if(aLaMain && mesJokers.some(x=>!x.utilise) && !D)
     jokers=`<div class="jr-jokers">${mesJokers.filter(x=>!x.utilise).map(x=>`<button class="jr-joker" data-action="j-joker" data-k="${x.k}" title="${esc(x.nom)}">${x.ico}<span>${esc(x.nom)}</span></button>`).join("")}</div>`;
-  return `<div class="jr">${bandeau}${jokers}${corps}</div>`;
+  const suite = E.continuer ? `<button class="btn moutarde jr-gros jr-continuer" data-action="j-continuer">${esc(E.continuer)} ▶</button>` : "";
+  return `<div class="jr">${bandeau}${jokers}${corps}${suite}</div>`;
 };
 function miroirTelecommande(E){
   const kebab=k=>k.replace(/[A-Z]/g,x=>"-"+x.toLowerCase());
@@ -6559,7 +6909,7 @@ function miroirTelecommande(E){
       html+=`<div class="tm-ligne"><div class="tm-ligne-txt"><strong>${esc(it.t)}</strong>${it.d?`<small>${esc(it.d)}</small>`:""}</div>
         ${sw?go(sw,"tm-switch"+(sw.on?" on":""),`<i></i>`):""}
         ${segs.length?`<div class="tm-segments">${segs.map(x=>go(x,"tm-seg"+(x.on?" on":""),esc(x.label))).join("")}</div>`:""}</div>`; }
-    else if(it.type==="champ") html+=`<label class="tm-champ"><span>${it.cle==="classe"?"Classe":"Nombre d’élèves"}</span>
+    else if(it.type==="champ") html+=`<label class="tm-champ"><span>${it.cle==="classe"?"Classe":"Nombre de joueurs"}</span>
       <input data-tc-champ="${esc(it.cle)}" value="${esc(it.v)}" ${it.num?'type="number" inputmode="numeric" min="2" max="40"':`list="tc-classes" placeholder="${esc(it.ph)}"`} autocomplete="off"></label>`;
     else if(it.type==="nav") nav=it;
   }
@@ -6601,6 +6951,8 @@ function ouvrirSalleJoueurs(){
     if(m.t==="buzz") buzzJoueur(j);
     if(m.t==="joker") demanderJoker(j, m.jid, +m.k);
     if(m.t==="vote-menu") voteMenu(m.jid, +m.i);
+    if(m.t==="qcm"){ const A=actionJoueur(); if(A && A.pour===m.jid && A.quoi===m.quoi){ if(m.quoi==="add") ACTIONS["add-choix"]({k:+m.k}); if(m.quoi==="menu") ACTIONS["menu-choix"]({k:+m.k}); if(m.quoi==="bocal") ACTIONS["bocal-choix"]({i:+m.k}); } }
+    if(m.t==="continuer" && modeBots()){ const b=boutonLancement(); if(b) b.click(); }
     if(m.t==="quitter"){ const P=S.partie; if(P && j.eq!=null){ const mb=P.equipes[j.eq].membres, i=mb.indexOf(j.nom); if(i>=0) mb.splice(i,1); if(!mb.length) mb.push("Siège 1"); }
       delete S.joueurs[m.jid]; toast(`${j.nom} a quitté la salle.`); rendre(); envoyerEtatJ(true); return; }
     if(m.t==="joker-vote") voteJoker(j, m.jid, !!m.oui);
@@ -6631,6 +6983,12 @@ function joueursActifs(eq){ const t=Date.now(); return Object.entries(S.joueurs)
 function idDuNom(nom){ const e=Object.entries(S.joueurs).find(([,j])=>j.nom===nom); return e?e[0]:null; }
 // répartition des tablettes au tirage des patrons
 function repartirTablettes(P){
+  const botsP=Object.keys(P.bots||{});
+  if(botsP.length){ const ids0=Object.keys(S.joueurs); if(!ids0.length) return false;
+    const E=repartirAvecBots(ids0.map(id=>({id})), botsP.map(n=>({bot:n})));
+    E.forEach((liste,e)=>liste.forEach(x=>{ if(x.id) S.joueurs[x.id].eq=e; }));
+    P.equipes.forEach((eq,e)=>{ eq.membres=E[e].map(x=>x.id?S.joueurs[x.id].nom:x.bot); if(!eq.membres.length) eq.membres=["Siège 1"]; eq.rot=0; });
+    P.tablettes=true; return true; }
   const ids=melange(Object.keys(S.joueurs)); if(!ids.length) return false;
   ids.forEach((id,i)=>S.joueurs[id].eq=i%2);
   // seul dans la salle : l’élève prend la première équipe, l’autre garde ses sièges
@@ -6642,8 +7000,8 @@ function voteJoueur(j, jid, k){
   const P=S.partie, m=P && mancheCourante(); if(!m || m.id!=="nuggets" || !P.votesOuverts || j.eq!==P.tour || !(k>=0&&k<4)) return;
   if(P.q && P.q.elimines && P.q.elimines.includes(k)) return;
   P.votes[jid]=k; rendre();
-  const equipe=joueursActifs(P.tour).map(([id])=>id);
-  if(equipe.length && equipe.every(id=>P.votes[id]!=null)){ clearTimeout(P.voteT); P.voteT=setTimeout(()=>cloreVote(),900); }
+  const equipe=joueursActifs(P.tour).map(([id])=>id), bots=(typeof botsDe==="function"&&P.bots)?botsDe(P.tour):[];
+  if(equipe.length && equipe.every(id=>P.votes[id]!=null) && bots.every(b=>P.votes["bot:"+b]!=null)){ clearTimeout(P.voteT); P.voteT=setTimeout(()=>cloreVote(),900); }
 }
 function cloreVote(){
   const P=S.partie, q=P && P.q; if(!q || !q.choix || !P.votesOuverts || q.repondu!=null) return;
@@ -6703,6 +7061,78 @@ function tirerRepondantMenu(P){ const a=P.equipes[P.tour]; P.dejaTires=P.dejaTir
 // écran de service : on tire d’avance le premier répondant, et c’est bien lui qui répondra
 function premierRepondantMenu(P, eq){ if(!P.tablettes) return repondant(eq); if(!P.eluPrevu) P.eluPrevu=tirerRepondantMenu(P); return P.eluPrevu; }
 // à chaque nouvelle question : votes, buzz et duel remis à zéro
+// avec des bots, personne ne buzze pendant les 2,5 s de lecture ; un buzz trop tôt bloque l’équipe 1 s de plus (faux départ)
+function demarrerLecture(){ const P=S.partie, m=P&&mancheCourante(); if(!P || !modeBots() || !m || P.phase!=="jeu" || S.ecran!=="jeu" || !["selpoivre","addition"].includes(m.id) || !P.q) return;
+  if(P.lectureQ===P.q) return; P.lectureQ=P.q; P.qDebutBots=Date.now()+2500;
+  clearTimeout(P.lectureT); P.lectureT=setTimeout(()=>{ if(S.partie===P && S.ecran==="jeu") rendre(); },2560); }
+function enLecture(){ const P=S.partie; demarrerLecture(); return !!(P && modeBots() && Date.now()<(P.qDebutBots||0)); }
+function buzzAutorise(eq, parBot){ return S.fichePatron==null && (parBot || !enLecture()); }
+// Fabrique 4 propositions crédibles pour une question ouverte :
+//  - réponse avec des nombres : on fait varier un nombre (±1, ×2, ÷2, ±10, ×10, ÷10) ou un signe, comme les erreurs de calcul ;
+//  - réponse en mots : on prend des réponses d’autres questions du même menu ou des mêmes chapitres, du même genre.
+const texteNu=h=>String(h).replace(/<[^>]+>/g,"").replace(/\s+/g," ").trim();
+const EXP="⁰¹²³⁴⁵⁶⁷⁸⁹";
+function variantesExposants(rep){ const m=rep.match(/[⁰¹²³⁴⁵⁶⁷⁸⁹]+/); if(!m) return [];
+  const v=+[...m[0]].map(c=>EXP.indexOf(c)).join(""), haut=n=>String(n).split("").map(d=>EXP[+d]).join("");
+  return melange([v+1,v-1,v*2,v+2].filter(x=>x>=0 && x!==v).map(x=>rep.replace(m[0],haut(x)))); }
+function variantesNombres(rep){ const nums=[...rep.matchAll(/\d+(?:,\d+)?/g)]; const res=new Set(); if(!nums.length) return [];
+  for(let essai=0; essai<80 && res.size<10; essai++){ const m=hasard(nums), v=parseFloat(m[0].replace(",",".")), dec=(m[0].split(",")[1]||"").length;
+    // un entier reste un entier (pas de « 1,5 rose ») ; un décimal garde des décimales
+    let cand=[v+1,v-1,v+2,v-2,v*2]; if(v>=10) cand.push(v+10,v-10); if(v>=3 && !dec) cand.push(v*10);
+    if(dec){ cand.push(v/10, v+0.1, v-0.1, v/2); } else { if(v%2===0) cand.push(v/2); if(v%10===0) cand.push(v/10); }
+    const w=hasard(cand.filter(x=>x>=0 && Number.isFinite(x) && x!==v)); if(w==null) continue;
+    const pr=dec?Math.max(dec,1):0, str=String(Math.round(w*10**pr)/10**pr).replace(".",",");
+    const c=rep.slice(0,m.index)+str+rep.slice(m.index+m[0].length); if(texteNu(c)!==texteNu(rep) && !/−0(?![,\d])/.test(texteNu(c))) res.add(c); }
+  if(/−/.test(rep)) res.add(rep.replace("−","+")); else if(/\+/.test(rep)) res.add(rep.replace("+","−"));
+  return melange([...res]); }
+const cleNorm=t=>texteNu(t).replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹]/g,c=>"^"+"⁰¹²³⁴⁵⁶⁷⁸⁹".indexOf(c)).replace(/−/g," moins ").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9^]+/g," ").trim();
+// genre d’une réponse, pour ne proposer que des réponses du même genre
+function genreReponse(t){ const n=texteNu(t);
+  if(/^(oui|non)\b/i.test(n)) return "oui-non";
+  if(/siècle|antiquité|av\. ?j|moyen âge|renaissance/i.test(n)) return "epoque";
+  if(/\d/.test(n)) return "nombre";
+  if(/^(?:[A-ZÉÈÀ][\p{L}’'-]+)(?: (?:de |van |von |du |la |le )?[A-ZÉÈÀ][\p{L}’'-]+){1,3}$/u.test(n)) return "nom-propre";
+  const mots=n.split(/\s+/).length; return mots===1?"mot":mots<=4?"groupe":"phrase"; }
+// familles de mots qui se confondent : les meilleures erreurs pour une réponse d’un seul mot
+const FAMILLES_MOTS=[["aigu","obtus","droit","plat","nul","rentrant"],["pair","impair","premier","multiple"],["croissante","décroissante","constante","alternée"],
+  ["croissant","décroissant","constant"],["isocèle","équilatéral","rectangle","quelconque","scalène"],["carré","rectangle","losange","parallélogramme","trapèze"],
+  ["cube","pavé droit","prisme","pyramide","cylindre","cône","sphère","boule"],["vrai","faux"],["oui","non"],["positif","négatif","nul"],["positive","négative","nulle"],
+  ["convexe","concave","affine","linéaire"],["rationnel","irrationnel","décimal","entier","naturel"],["parallèles","perpendiculaires","sécantes","confondues"],
+  ["médiane","moyenne","étendue","quartile","mode"],["translation","rotation","symétrie axiale","symétrie centrale","homothétie"],
+  ["mètre","litre","gramme","seconde","newton","joule","watt","volt","ampère","hertz","pascal"],["Mercure","Vénus","Terre","Mars","Jupiter","Saturne","Uranus","Neptune"],
+  ["sinus","cosinus","tangente"],["numérateur","dénominateur","quotient","reste","diviseur"],["Lina","Tom","Inès","Hugo","Zoé","Noah"]];
+const POOL_MENU={};
+function poolReponses(chaps, titre){ const cle=(titre||"")+"|"+chaps.join(","); if(POOL_MENU[cle]) return POOL_MENU[cle]; const pool=new Set();
+  for(const opts of [{titre},{}]) for(let k=0;k<6;k++){ const ctx={gens:new Set(), enonces:new Set()};
+    for(let r=0;r<5;r++){ try{ const q=Banque.menu(chaps, r, 5, ctx, opts); const rep=q.reponse ?? (q.choix?q.choix[q.bonne].html:null); if(rep) pool.add(String(rep)); }catch(e){} } }
+  return (POOL_MENU[cle]=[...pool]); }
+function qcmMenu(reponse, chaps, titre, enonce){ const bonne=String(reponse), nu=texteNu(bonne), g=genreReponse(bonne), vus=new Set([cleNorm(bonne)]); const faux=[];
+  const ajoute=r=>{ const c=cleNorm(r); if(!c || vus.has(c) || faux.length>=3) return; vus.add(c); faux.push(r); };
+  if(g==="nombre" || g==="epoque") variantesNombres(bonne).forEach(ajoute);
+  variantesExposants(bonne).forEach(ajoute);
+  if(g==="oui-non"){ const inv=/^oui/i.test(nu)?"Non":"Oui"; ajoute(inv); ajoute(nu.replace(/^(oui|non)/i, inv)); }
+  const E=texteNu(enonce||"");
+  // « … aigu ou obtus ? » : l’autre terme de l’alternative est la meilleure erreur
+  const alt=E.match(/([\p{L}’'-]+) ou ([\p{L}’'-]+) ?\?/u);
+  if(alt){ const [a1,a2]=[alt[1],alt[2]], cap=x=>/^[A-ZÉ]/.test(nu)?x.charAt(0).toUpperCase()+x.slice(1):x;
+    if(cleNorm(a1)===cleNorm(nu)) ajoute(cap(a2)); else if(cleNorm(a2)===cleNorm(nu)) ajoute(cap(a1)); }
+  // les prénoms cités dans une question « Qui… ? » (« Lina a 10,9 €, Tom 10,83 € : qui a le plus ? »)
+  if(/\bqui\b/i.test(E) && /^[A-ZÉ]/.test(nu)){ (E.match(/(?<=[^.?!]\s)[A-ZÉ][a-zéèêëàâîïôöûüç]+\b/g)||[]).forEach(ajoute);
+  }
+  // familles de mots : si la réponse en fait partie, les erreurs viennent de la même famille
+  const lex=FAMILLES_MOTS.find(f=>f.some(w=>cleNorm(w)===cleNorm(nu)));
+  if(lex){ const cap=x=>/^[A-ZÉ]/.test(nu)?x.charAt(0).toUpperCase()+x.slice(1):x; melange(lex).forEach(w=>ajoute(cap(w))); }
+  const pool=melange(poolReponses(chaps||[], titre)).filter(r=>genreReponse(r)===g && !(g==="mot" && !/^[\p{L}’'-]+$/u.test(texteNu(r))))
+    .sort((a,b)=>Math.abs(texteNu(a).length-nu.length)-Math.abs(texteNu(b).length-nu.length));
+  pool.forEach(ajoute);
+  if(faux.length<3) melange(poolReponses(chaps||[], titre)).forEach(ajoute);
+  const choix=melange([{html:bonne, ok:true}, ...faux.slice(0,3).map(f=>({html:f, ok:false}))]);
+  return {choix, bonne:choix.findIndex(c=>c.ok)}; }
+function preparerQuestionBots(){ const P=S.partie; if(P){ P.lectureQ=null; P.buzzParBot=null;
+  if(modeBots()){ P.buzzAdd=null; P.buzzNom=null;
+    // la question n’est créée qu’après cet appel : on attend la fin de nouvelleQuestion()
+    setTimeout(()=>{ const m=mancheCourante(), q=P.q;
+    if(m && m.id==="menus" && q && !q.choix && q.reponse!=null){ const mm=P.menus&&P.menus.choix&&P.menus.choix[P.tour]; const Q=qcmMenu(q.reponse, mm?mm.chaps:S.config.chapitres, mm&&!mm.pompeux?mm.titre:null, q.enonce); q.choix=Q.choix; q.bonne=Q.bonne; } },0); } } }
 function preparerQuestionTablettes(m){
   const P=S.partie; if(!P || !P.tablettes) return;
   if(P.demandeJoker){ P.demandeJoker=null; clearTimeout(P.demandeT); }
@@ -6724,6 +7154,17 @@ function snackResume(nom){ const c=nom && Stock.lire("classes",{})[nom]; if(!c) 
   return {classe:nom, livraisons:c.livraisons, parties:c.parties, planete:prev?prev.planete:"", prochain:prochain?{ico:prochain.ico,nom:prochain.nom,seuil:prochain.seuil}:null,
     pct: prochain&&prev ? Math.round((c.livraisons-prev.seuil)/(prochain.seuil-prev.seuil)*100) : 100,
     modules:MODULES.map(m=>({ico:m.ico, nom:m.nom, ok:c.livraisons>=m.seuil})), honneur:(c.honneur||[]).slice(0,10)}; }
+function jidDe(nom){ return nom ? Object.keys(S.joueurs).find(id=>S.joueurs[id].nom===nom) : null; }
+// sans arbitre, en mode tablettes : la question à laquelle un joueur précis doit répondre sur son appareil
+function actionJoueur(){ const P=S.partie, m=P&&mancheCourante(); if(!P || !m || !P.tablettes || !modeBots() || S.ecran!=="jeu" || P.phase!=="jeu") return null; const q=P.q||{};
+  if(m.id==="addition" && P.buzzAdd!=null && !q.revele && q.choix && P.buzzNom && !estBot(P.buzzNom)){ const j=jidDe(P.buzzNom); if(j) return {pour:j, quoi:"add", titre:q.enonce, choix:q.choix.map(c=>c.html)}; }
+  if(m.id==="menus" && q.choix && !q.revele){ const nom=repondant(P.equipes[P.tour]), j=!estBot(nom)&&jidDe(nom); if(j) return {pour:j, quoi:"menu", titre:q.enonce, choix:q.choix.map(c=>c.html)}; }
+  const Bg=P.burger; if(m.id==="burger" && Bg && Bg.etape==="reponses" && !estBot(Bg.candidat) && Bg.res.length<10 && !Bg.res.includes(false)){ const j=jidDe(Bg.candidat), k=Bg.res.length;
+    if(j) return {pour:j, quoi:"bocal", titre:`Réponse n° ${k+1} : laquelle était-ce ?`, choix:propositionsBocal(Bg,k).map(esc)}; }
+  return null; }
+// les écrans de lancement : le bouton que les joueurs peuvent déclencher depuis leur appareil
+const NAV_LANCEMENT=["C’est parti","Première affirmation","Affirmation suivante","Servir","Jouer les menus","Entrer dans la pénombre","Tirer au sort","Poser les dix questions","Voir le bilan","Manche suivante","Continuer","Ouvrir le comptoir"];
+function boutonLancement(){ return [...document.querySelectorAll("#app button")].find(x=>!x.disabled && NAV_LANCEMENT.some(t=>x.textContent.includes(t))) || null; }
 function etatJoueurs(){
   const P=S.partie, m=P && mancheCourante(), q=P && P.q;
   const base={ ecran:S.ecran, partie: !!P, idPartie: P && P.idJ, snack: snackResume((S.config.classe||"").trim()),
@@ -6736,7 +7177,8 @@ function etatJoueurs(){
       stats:Object.fromEntries(Object.entries(S.joueurs).map(([id,j])=>[id,j.st||{}])) }}; }
   const e=P.equipes.map(x=>({patron:x.patron.nom, coul:x.coul, score:Math.round(x.score*10)/10}));
   const D=P.demandeJoker;
-  const st={...base, jokers:P.equipes.map(x=>x.jokers.map((jk,k)=>({k, ico:jk.ico, nom:jk.nom, utilise:jk.utilise}))),
+  const btnL = modeBots() ? boutonLancement() : null;
+  const st={...base, action:actionJoueur(), continuer: btnL ? btnL.textContent.replace(/\s+/g," ").trim().slice(0,40) : null, jokers:P.equipes.map(x=>x.jokers.map((jk,k)=>({k, ico:jk.ico, nom:jk.nom, utilise:jk.utilise}))),
     demande: D ? {eq:D.eq, k:D.k, par:D.par, ico:P.equipes[D.eq].jokers[D.k].ico, nom:P.equipes[D.eq].jokers[D.k].nom, oui:D.oui.size, non:D.non.size, besoin:besoinJoker(D), votants:[...D.oui,...D.non]} : null,
     equipes:e, manche: S.ecran==="jeu"&&m?{id:m.id, nom:m.nom}:null, phase:S.ecran==="jeu"?P.phase:"attente", tour:P.tour, chrono: chronoT?chronoReste:null, verrou:!!S.verrou};
   { const R=menusVoteResume(); if(R) st.choixMenu={...R, mesVotes:P.votesMenu||{}}; }
@@ -6766,7 +7208,7 @@ function panneauJoueursJeu(){
   return `<div class="voile" data-action="qr-joueurs" data-fond="1"><div class="panneau modale qr-modale"><h2>📲 Rejoindre la partie</h2>
     <div id="qrJoueurs2" class="qr"></div><p class="doux">Code : <strong class="code-salle">${esc(S.salleJ)}</strong></p>
     <p>${Object.keys(S.joueurs).length} joueurs connectés</p>
-    ${S.exclus.size?`<div class="exclus-liste"><p class="doux">Élèves exclus :</p>${[...S.exclus].map(id=>`<button class="btn discret" data-action="reintegrer" data-jid="${esc(id)}">↩️ Réintégrer ${esc((S.nomsExclus||{})[id]||"l’élève")}</button>`).join("")}</div>`:""}
+    ${S.exclus.size?`<div class="exclus-liste"><p class="doux">Joueurs exclus :</p>${[...S.exclus].map(id=>`<button class="btn discret" data-action="reintegrer" data-jid="${esc(id)}">↩️ Réintégrer ${esc((S.nomsExclus||{})[id]||"le joueur")}</button>`).join("")}</div>`:""}
     <div class="ligne" style="justify-content:center"><button class="btn discret" data-action="nouvelle-salle-joueurs">Nouveau code</button><button class="btn" data-action="qr-joueurs">Fermer</button></div></div></div>`;
 }
 
@@ -6973,11 +7415,14 @@ const ACTIONS = {
   format:(d)=>{ S.config.format=d.id; if(FORMATS[d.id].manches) S.config.manches=FORMATS[d.id].manches.slice(); rendre(); },
   manche:(d)=>{ const c=S.config.manches, i=c.indexOf(d.id); i>=0?c.splice(i,1):c.push(d.id); S.config.manches=MANCHES.map(m=>m.id).filter(id=>c.includes(id)); rendre(); },
   eleves:(d)=>{ S.config.modeEleves=d.id; rendre(); },
+  "eb-ajout":()=>{ const L=S.config.bots||(S.config.bots=[]); if(L.length<30) L.push({profil:"humain"}); rendre(); },
+  "eb-retirer":(d)=>{ (S.config.bots||[]).splice(+d.k,1); rendre(); },
+  "eb-profil":(d)=>{ S.config.bots[+d.k].profil=d.p; rendre(); },
   reponses:(d)=>{ S.config.reponses=d.id; if(d.id==="tablettes") ouvrirSalleJoueurs(); rendre(); },
   bascule:(d)=>{ S.config[d.cle]=!S.config[d.cle]; rendre(); },
   "chrono-duree":(d)=>{ S.config.chrono=+d.val; rendre(); },
-  etape:(d)=>{ S.etape=Math.min(5,Math.max(1,S.etape+ +d.sens)); S.anim=+d.sens; son("pioche"); rendre(); },
-  tirer:()=>{ if(S.config.modeEleves==="prenoms" && S.config.prenoms.split("\n").filter(s=>s.trim()).length<2){ toast("Ajoute au moins deux prénoms, ou passe en mode anonyme."); S.etape=4; rendre(); return; }
+  etape:(d)=>{ S.etape=Math.min(4,Math.max(1,S.etape+ +d.sens)); S.anim=+d.sens; son("pioche"); rendre(); },
+  tirer:()=>{ if(S.config.reponses==="tablettes" && !Object.keys(S.joueurs).length){ toast("Personne n’est connecté : fais scanner le QR code, ou choisis « Je joue ici »."); return; }
     nouvellePartie(); aller("tirage"); },
   retirer:()=>{ nouvellePartie(); rendre(); },
   ouvrir:()=>{ S.partie.demarree=true; const m=mancheCourante(); sas(m?m.nom:"", `Manche 1 sur ${S.partie.manches.length}`, ()=>aller("jeu",0)); },
@@ -7009,7 +7454,7 @@ const ACTIONS = {
   "clore-vote":()=>cloreVote(),
   "joker-accepter":()=>accepterJoker(),
   "joker-refuser":()=>{ const P=S.partie; if(P && P.demandeJoker){ P.demandeJoker=null; clearTimeout(P.demandeT); toast("Joker refusé par le chef."); rendre(); envoyerEtatJ(true); } },
-  "buzz-add":(d)=>{ const P=S.partie; if(!P || P.buzzAdd!=null) return; const i=+d.eq; P.buzzAdd=i; P.buzzNom=P.equipes[i].patron.nom; son("buzz"); arreterChrono(); chronoFige=true; rendre(); envoyerEtatJ(true); },
+  "buzz-add":(d)=>{ const P=S.partie; if(!P || P.buzzAdd!=null) return; if(!buzzAutorise(+d.eq, d.parBot)) return; const i=+d.eq; P.buzzAdd=i; P.buzzNom=P.equipes[i].patron.nom; son("buzz"); arreterChrono(); chronoFige=true; rendre(); envoyerEtatJ(true); },
   "rejoindre-code":()=>{ const c=($("#codeSalleJ")||{}).value||""; const code=c.trim().toUpperCase(); if(!/^[A-Z0-9]{4,6}$/.test(code)){ toast("Le code fait 4 caractères."); return; }
     location.hash="#joueur-"+code; LienJ.fermer(); demarrerJoueur(code); rendre(); },
   "j-rejoindre":()=>{ const cs=$("#salleJ"), code=(cs?cs.value:S.salleJ||"").trim().toUpperCase();
@@ -7030,6 +7475,8 @@ const ACTIONS = {
   "j-quitter":()=>{ if(!confirm("Quitter la salle ?")) return; envoyerJ("quitter"); if(!S.simu) Stock.ecrire("inscritJ",false); S.inscrit=false; S.etatJ=null; S.monVote=null; S.dernierHtmlJ=null; rendre(); },
   "j-lobby":()=>{ if(S.etatJ) S.vuFin=S.etatJ.idPartie||"fin"; rendre(); },
   "j-vote-menu":(d)=>{ envoyerJ("vote-menu",{i:+d.i}); const E=S.etatJ; if(E && E.choixMenu){ E.choixMenu.mesVotes={...(E.choixMenu.mesVotes||{}), [S.jid]:+d.i}; } S.dernierHtmlJ=null; rendre(); },
+  "j-qcm":(d)=>{ envoyerJ("qcm",{quoi:d.quoi, k:+d.k}); if(S.etatJ) S.etatJ.action=null; S.dernierHtmlJ=null; rendre(); },
+  "j-continuer":()=>{ envoyerJ("continuer"); if(S.etatJ) S.etatJ.continuer=null; S.dernierHtmlJ=null; rendre(); },
   "j-buzz":()=>{ envoyerJ("buzz"); const b=$(".jr-buzzer"); if(b) b.classList.add("appuye"); },
   "qr-joueurs":()=>{ S.qrJoueurs=!S.qrJoueurs; rendre(); },
   renommer:(d)=>{ const j=S.joueurs[d.jid]; if(!j || !d.nom) return; const ancien=j.nom; j.bloque=true; j.pseudo=d.nom; j.nom=nomUnique(d.nom, d.jid);
@@ -7037,20 +7484,20 @@ const ACTIONS = {
   exclure:(d)=>{ const j=S.joueurs[d.jid]; if(!j) return; S.exclus.add(d.jid); (S.nomsExclus=S.nomsExclus||{})[d.jid]=j.nom; const P=S.partie;
     if(P && j.eq!=null){ const mb=P.equipes[j.eq].membres, i=mb.indexOf(j.nom); if(i>=0) mb.splice(i,1); if(!mb.length) mb.push("Siège 1"); }
     delete S.joueurs[d.jid]; LienJ.envoyer({t:"etatJ", etat:{exclu:d.jid}}); toast(`${j.nom} a été retiré de la partie.`); rendre(); envoyerEtatJ(true); },
-  reintegrer:(d)=>{ if(!S.exclus.has(d.jid)) return; S.exclus.delete(d.jid); const n=(S.nomsExclus||{})[d.jid]||"L’élève"; delete (S.nomsExclus||{})[d.jid];
+  reintegrer:(d)=>{ if(!S.exclus.has(d.jid)) return; S.exclus.delete(d.jid); const n=(S.nomsExclus||{})[d.jid]||"Le joueur"; delete (S.nomsExclus||{})[d.jid];
     toast(`${n} peut revenir : sa tablette se reconnecte toute seule.`); rendre(); envoyerEtatJ(true); },
   "nouvelle-salle-joueurs":()=>{ do{ REGLAGES.salleJ=codeSalle(); }while(REGLAGES.salleJ===REGLAGES.salle); Stock.ecrire("reglages",REGLAGES);
-    LienJ.fermer(); S.salleJ=null; ouvrirSalleJoueurs(); if(S.ecran==="jeu") S.qrJoueurs=true; toast(`Nouveau code de salle élèves : ${S.salleJ}. Les tablettes doivent rescanner le QR code.`); rendre(); },
+    LienJ.fermer(); S.salleJ=null; ouvrirSalleJoueurs(); if(S.ecran==="jeu") S.qrJoueurs=true; toast(`Nouveau code de la salle des joueurs : ${S.salleJ}. Les tablettes doivent rescanner le QR code.`); rendre(); },
   anonymiser:(d)=>{ const j=S.joueurs[d.jid]; if(!j) return; const n="Joueur "+(Object.keys(S.joueurs).indexOf(d.jid)+1); const P=S.partie;
     if(P && j.eq!=null){ const mb=P.equipes[j.eq].membres, i=mb.indexOf(j.nom); if(i>=0) mb[i]=n; } j.pseudo=""; j.nom=n; j.bloque=true; rendre(); envoyerEtatJ(true); },
-  champ:(d)=>{ if(!["classe","nbEleves"].includes(d.cle)) return; S.config[d.cle] = d.cle==="nbEleves" ? Math.max(2,Math.min(40,+d.v||2)) : String(d.v).slice(0,40); rendre(); },
+  champ:(d)=>{ if(d.cle==="pseudoLocal"){ S.config.pseudoLocal=String(d.v).slice(0,20); return; } if(!["classe","nbEleves"].includes(d.cle)) return; S.config[d.cle] = d.cle==="nbEleves" ? Math.max(1,Math.min(40,+d.v||1)) : String(d.v).slice(0,40); rendre(); },
   points:(d)=>{ const i=+d.eq, n=+d.n; if(!S.partie || !(i===0||i===1) || !n) return; ajouterPoints(i,n); son(n>0?"cloche":"friteuse"); rendre(); },
   envoi:(d)=>{ const {action, nom, ...data}=d; Lien.envoyer({t:"action", nom, data}); },
   qr:()=>{ S.qrOuvert=!S.qrOuvert; rendre(); },
   "tc-renommer":(d)=>{ const n=prompt("Nouveau nom pour "+d.nomActuel+" :", ""); if(n && n.trim()) Lien.envoyer({t:"action", nom:"renommer", data:{jid:d.jid, nom:n.trim().slice(0,16)}}); },
   "tc-quitter":()=>{ if(!confirm("Quitter la télécommande ? Le tableau reprendra ses boutons.")) return; Lien.fermer(); S.ecran="quitte"; S.etatDistant=null;
     history.replaceState(null,"",location.pathname+location.search); rendre(); try{ window.close(); }catch(e){} },
-  "tc-nouveau-code-j":()=>{ if(confirm("Changer le code de la salle des élèves ? Toutes les tablettes devront rescanner le QR code (les élèves gardent leur équipe).")) Lien.envoyer({t:"action", nom:"nouvelle-salle-joueurs", data:{}}); },
+  "tc-nouveau-code-j":()=>{ if(confirm("Changer le code de la salle des joueurs ? Toutes les tablettes devront rescanner le QR code (les joueurs gardent leur équipe).")) Lien.envoyer({t:"action", nom:"nouvelle-salle-joueurs", data:{}}); },
   "tc-exclure":(d)=>{ if(confirm("Retirer "+d.nomActuel+" de la partie ?")) Lien.envoyer({t:"action", nom:"exclure", data:{jid:d.jid}}); },
   "tc-volet":(d)=>{ S.tc.volet = S.tc.volet===d.v ? null : d.v; rendre(); },
   "tc-fin":()=>{ if(S.tc.arme==="fin"){ S.tc.arme=null; Lien.envoyer({t:"action", nom:"fin-manche", data:{}}); rendre(); return; }
@@ -7088,6 +7535,18 @@ const ACTIONS = {
     if(!ok && secondeChance(P.tour)){ q.elimines=(q.elimines||[]).concat(+d.k); rendre(); return; }
     q.repondu=+d.k; if(ok){ ajouterPoints(P.tour,ptsJoker(P.tour,ptsBonus(P.tour,1))); son("cloche"); } else son("friteuse"); apresReponse(m, ok); },
   // le prof refuse un buzz parti avant la fin de la lecture : la main est rendue, on relit, on rebuzze
+  "menu-choix":(d)=>{ const P=S.partie, q=P&&P.q, m=P&&mancheCourante(); if(!q || !q.choix || q.revele || !m || m.id!=="menus") return; q.choisiMenu=+d.k; ACTIONS[q.choix[+d.k].ok?"juste":"faux"]({eq:P.tour}); },
+  "palmares-nom":(d)=>{ S.palmaresNom=d.n; rendre(); },
+  "palmares-oublier":()=>{ if(!S.palmaresNom || !confirm(`Oublier les questions déjà posées à ${S.palmaresNom} ? Elles pourront revenir dans les prochaines parties.`)) return; const t=Stock.lire("historique",{}); delete t["joueur:"+S.palmaresNom]; Stock.ecrire("historique",t); toast("Toutes les questions reviennent en jeu."); rendre(); },
+  "palmares-effacer":()=>{ const T=Stock.lire("palmares",{}); if(!S.palmaresNom || !confirm(`Effacer toutes les parties de ${S.palmaresNom} ?`)) return; delete T[S.palmaresNom]; Stock.ecrire("palmares",T); S.palmaresNom=null; rendre(); },
+  "fiche-patron":(d)=>{ if(S.fichePatron!=null) return; S.fichePatron=+d.eq; const P=S.partie, Bg=P&&P.burger, m=P&&mancheCourante();
+    S.ficheAFige = !!(chronoT || (m && m.id==="burger" && Bg && Bg.etape==="questions" && !Bg.fige));
+    if(S.ficheAFige) basculerChrono(); Bots.annuler(); Bots.cle=null; rendre(); },
+  "fermer-patron":(d,e)=>{ if(d.fond && e && e.target.closest(".modale")) return; if(S.fichePatron==null) return; S.fichePatron=null;
+    const P=S.partie; if(P) P.lectureQ=null;          // la lecture recommence : personne ne profite de la pause
+    if(S.ficheAFige){ S.ficheAFige=false; basculerChrono(); }
+    Bots.cle=null; rendre(); },
+  "add-choix":(d)=>{ const P=S.partie, q=P&&P.q; if(!q || !q.choix || P.buzzAdd==null || q.revele || P.buzzParBot) return; q.choisiAdd=+d.k; ACTIONS[q.choix[+d.k].ok?"juste":"faux"]({eq:P.buzzAdd}); },
   "refuser-buzz":()=>{ const P=S.partie, m=P && mancheCourante(); if(!m) return;
     let relancer=false;
     if(m.id==="selpoivre" && P.buzz!=null && P.q && P.q.repondu==null){ P.buzz=null; }
@@ -7098,13 +7557,18 @@ const ACTIONS = {
     if(relancer) basculerChrono();
     toast("Buzz trop rapide : on relit, et on rebuzze !"); rendre(); envoyerEtatJ(true); },
   buzz:(d)=>{ const P=S.partie, m=mancheCourante(); if(S.verrou || !m || m.id!=="selpoivre" || P.phase!=="jeu" || P.buzz!=null || (P.q && P.q.repondu!=null)) return;
+    if(!buzzAutorise(+d.eq, d.parBot)) return;
     P.buzz=+d.eq; son("buzz"); rendre(); const el=$("#eq"+d.eq); if(el){ el.classList.add("buzz"); setTimeout(()=>el.classList.remove("buzz"),900); } },
   sp:(d)=>{ if(S.verrou) return; const P=S.partie, m=mancheCourante(), q=P.q; if(!q || q.repondu!=null || P.buzz==null) return;
     const ok=d.v===q.rep;
     if(ok){ q.repondu=d.v; ajouterPoints(P.buzz,ptsJoker(P.buzz,ptsBonus(P.buzz,1))); son("cloche"); apresReponse(m, true); return; }
     if(secondeChance(P.buzz)){ rendre(); return; }
     son("friteuse");
-    if(!P.rebond){ P.rebond=true; P.buzz=1-P.buzz; toast(`Raté ! Rebond pour ${P.equipes[P.buzz].patron.nom}.`); rendre(); return; }
+    if(!P.rebond){ P.rebond=true; P.buzz=1-P.buzz;
+      // avec des bots : on dit clairement que la main revient aux humains SANS qu’ils aient buzzé
+      if(modeBots() && humainsDe(P.buzz).length) toast(`Raté pour ${P.buzzParBot||P.equipes[1-P.buzz].patron.nom} ! Rebond : à toi de répondre, sans buzzer.`);
+      else toast(`Raté ! Rebond pour ${P.equipes[P.buzz].patron.nom}.`);
+      rendre(); return; }
     q.repondu=d.v; apresReponse(m, false); },
   accorder:(d)=>{ const P=S.partie, q=P.q; if(!q || q.accorde) return; q.accorde=true; ajouterPoints(+d.eq,1); son("cloche");
     toast(`Le chef tranche : point accordé à ${P.equipes[+d.eq].patron.nom} !`); rendre(); },
@@ -7133,6 +7597,8 @@ const ACTIONS = {
   "menu-go":()=>{ const P=S.partie, m=mancheCourante(); nouvelleQuestion(m); P.phase="jeu"; S.carte=true; son("cloche"); rendre(); chronoAuto(); },
   "burger-suivante":()=>{ if(S.partie.burger.etape==="questions") questionBurgerSuivante(); },
   "burger-go":()=>{ const Bg=S.partie.burger; Bg.etape="questions"; Bg.q=0; deroulerQuestions(); },
+  "bocal-choix":(d)=>{ const Bg=S.partie&&S.partie.burger; if(!Bg || Bg.etape!=="reponses") return; const k=Bg.res.length, r=(Bg.choixRep||{})[k]; if(!r) return;
+    ACTIONS["burger-rep"]({v: r[+d.i]===Bg.questions[k].r ? "1":"0"}); },
   "burger-rep":(d)=>{ const Bg=S.partie.burger; if(Bg.etape!=="reponses" || Bg.res.length>=10 || Bg.res.includes(false)) return; const v=d.v==="1"; Bg.res.push(v); son(v?"cloche":"friteuse");
     if(v && Bg.res.length===5){ setTimeout(()=>son("tonnerre"),250); document.body.classList.add("eclair"); setTimeout(()=>document.body.classList.remove("eclair"),700); }
     if(!v || Bg.res.length===10){ setTimeout(()=>{ Bg.etape="fin"; const n=Bg.res.filter(Boolean).length; document.body.classList.toggle("lumiere-basse", n<5);
@@ -7189,6 +7655,8 @@ const ACTIONS = {
 };
 
 document.addEventListener("click",e=>{
+  // « Je joue ici » : toucher une plaque d’équipe (hors jokers) ouvre la fiche du patron
+  if(S.config.reponses==="local" && S.partie && S.ecran==="jeu" && !e.target.closest("[data-action]")){ const pl=e.target.closest("header.tableau .equipe"); if(pl){ ACTIONS["fiche-patron"]({eq:pl.id==="eq1"?1:0}); return; } }
   const b=e.target.closest("[data-action]"); if(!b || b.disabled) return;
   if(b.tagName==="INPUT") return;
   const f=ACTIONS[b.dataset.action]; if(f) f(b.dataset, e);
@@ -7221,6 +7689,9 @@ document.addEventListener("keydown",e=>{
   if(S.ecran!=="jeu" || /INPUT|TEXTAREA/.test(e.target.tagName)) return;
   const P=S.partie, m=mancheCourante(); if(!m || P.phase!=="jeu") return;
   const k=e.key.toLowerCase();
+  if(modeBots() && S.config.reponses==="local" && k===" " && (m.id==="selpoivre"||m.id==="addition")){ e.preventDefault(); const h=[0,1].find(i=>humainsDe(i).length);
+    if(h!=null) ACTIONS[m.id==="selpoivre"?"buzz":"buzz-add"]({eq:h}); return; }
+  if(modeBots() && m.id==="addition" && (k==="q"||k==="m")){ ACTIONS["buzz-add"]({eq:k==="q"?0:1}); return; }
   if(m.id==="selpoivre" && (k==="q"||k==="m")){ ACTIONS.buzz({eq:k==="q"?0:1}); return; }
   if(m.id==="addition" && (k==="q"||k==="m")){ const i=k==="q"?0:1; son("buzz"); const el=$("#eq"+i); if(el){ el.classList.add("buzz"); setTimeout(()=>el.classList.remove("buzz"),900); } }
   if(k===" " && m.id!=="burger"){ e.preventDefault(); ACTIONS.suivante(); }
