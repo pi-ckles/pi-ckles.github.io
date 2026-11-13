@@ -667,6 +667,174 @@ button .ico-quitter{display:inline-block!important;width:1.05em!important;height
 .comptoir .carte-acc .ico-acc{font-size:1.9rem !important;line-height:1;margin-bottom:.2rem;opacity:1 !important}
 .liens-accueil{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem}
 @media (max-width:700px){ .comptoir{grid-template-columns:1fr 1fr !important} .comptoir .principal{grid-column:1/-1} .comptoir .carte-acc{min-height:0;padding:.8rem .9rem !important} .comptoir .carte-acc strong{white-space:normal;font-size:1.05em} .comptoir .carte-acc>span:not(.ico-acc){font-size:.82rem} }
+
+/* Multijoueur : la salle */
+.salle-panneau{display:flex;gap:1.2rem;align-items:center;flex-wrap:wrap}
+.code-salle-geant{font-family:var(--f-titre);font-size:clamp(2.2rem,7vw,3.6rem);letter-spacing:.25em;margin:.1rem 0}
+.salle-liste{display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;margin:.6rem 0}
+.salle-joueur{display:inline-flex;align-items:center;gap:.4rem;padding:.25em .7em;border:2px solid var(--line);border-radius:999px;background:var(--panel);font-weight:700}
+.salle-joueur.moi{background:var(--moutarde);color:#1A2050}
+.salle-options{display:flex;flex-direction:column;gap:.2rem;padding:.7rem 1rem;border:3px dashed var(--line);border-radius:16px;max-width:520px;margin:.6rem auto;text-align:center}
+.salle-attente .jr-grand{margin:.2rem 0}
+
+/* Accueil : deux grandes cartes (partie et salle), puis quatre cartes */
+.comptoir{grid-template-columns:repeat(4,1fr) !important;width:min(980px,94vw)}
+.comptoir .principal{grid-row:auto !important;grid-column:span 2 !important;flex-direction:row !important;align-items:center !important;justify-content:flex-start !important;gap:1rem;min-height:9.5rem}
+.comptoir .principal svg{width:86px !important;flex:none;margin:0 !important}
+.comptoir .principal-txt{display:flex;flex-direction:column;gap:.3rem;text-align:left}
+.comptoir .principal-txt strong{font-size:1.9em !important;line-height:1.05}
+.comptoir .principal-txt span{font-size:.95rem}
+.comptoir .principal-salle{background:#2D6FD6;color:#FFF8EA}
+.comptoir .ico-principal{font-size:4.2rem;line-height:1;flex:none;width:86px;text-align:center}
+@media (max-width:700px){
+  .comptoir{grid-template-columns:1fr 1fr !important}
+  .comptoir .principal{grid-column:1/-1 !important;min-height:0;padding:1rem !important}
+  .comptoir .principal svg{width:64px !important}
+  .comptoir .ico-principal{font-size:3rem;width:64px}
+  .comptoir .principal-txt strong{font-size:1.5em !important}
+}
+
+.comptoir .btn .ico-principal{font-size:4.2rem !important;opacity:1 !important;line-height:1}
+@media (max-width:700px){ .comptoir .btn .ico-principal{font-size:3rem !important} }
+
+/* Multijoueur : écran du joueur complété */
+.jr-chrono-bandeau{font-weight:800;font-variant-numeric:tabular-nums;margin-left:auto;margin-right:.4rem}
+.jr-presentation .jr-titre-manche{font-family:var(--f-titre);font-size:clamp(1.8rem,8vw,2.6rem);line-height:1.05;margin:.2rem 0 .5rem}
+.jr-patron.petit{transform:scale(.8);margin-top:1rem}
+
+/* Multijoueur : tour visible, gestion des joueurs */
+.jr-tour{margin:.4rem auto .2rem;padding:.45rem .9rem;border-radius:14px;background:color-mix(in srgb,var(--c) 22%,transparent);border:3px solid var(--c);font-size:1.15rem;text-align:center;max-width:94%}
+.jr-tour strong{font-family:var(--f-titre);font-size:1.35em;color:var(--c)}
+.jr-tour.a-nous{animation:clignote 1.6s ease-in-out infinite}
+.jr-pas-mon-tour{opacity:.45;filter:grayscale(.6)}
+.salle-gestion{gap:.4rem}
+.salle-ligne{display:flex;justify-content:space-between;align-items:center;gap:.6rem;width:min(420px,92vw);padding:.35rem .6rem;border:2px solid var(--line);border-radius:12px;background:var(--panel)}
+
+/* Multijoueur : habillage habituel en haut, actions en bas */
+.jr-entete{margin:-.2rem -.2rem .6rem;grid-template-columns:1fr auto 1fr}
+/* son équipe : une simple étiquette ; seule l’équipe qui a la main est éclairée */
+.jr-entete .equipe.jr-mienne .nom::after{content:"toi";display:inline-block;margin-left:.35em;padding:0 .4em;border-radius:999px;background:var(--line);color:var(--panel);font-family:var(--f-texte);font-size:.62em;font-weight:800;vertical-align:middle;letter-spacing:.03em}
+.jr-entete .centre{display:flex;flex-direction:column;align-items:center;gap:.25rem}
+.jr-chrono-rond{width:3.1rem;height:3.1rem;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--moutarde) calc(var(--p)*360deg), var(--panel2) 0);position:relative}
+.jr-chrono-rond::before{content:"";position:absolute;inset:5px;border-radius:50%;background:var(--panel)}
+.jr-chrono-rond span{position:relative;font-family:var(--f-titre);font-size:1.15rem;font-variant-numeric:tabular-nums;margin:0}
+.jr:has(.jr-barre){padding-bottom:5.5rem}
+.jr-barre{display:flex;align-items:center;gap:.3rem}
+.jr-barre-nom{font-weight:800;padding:0 .5rem;max-width:8rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+.jr-bocal-q{font-size:clamp(1.4rem,6vw,2rem)}
+.jr-bocal-res{display:grid;grid-template-columns:1fr 1fr;gap:.35rem;width:100%;max-width:520px;margin:.4rem auto}
+.jr-bocal-res>div{padding:.35rem .6rem;border:2px solid var(--line);border-radius:12px;background:var(--panel);text-align:left;font-weight:700}
+.jr-bocal-res>div span{display:inline-block;min-width:1.4em;opacity:.6}
+.jr-bocal-res .juste{background:#4F8E22;color:#FFF8EA}.jr-bocal-res .faux{background:#D63A27;color:#FFF8EA}.jr-bocal-res .prochaine{outline:3px solid var(--moutarde)}
+
+.choix-btn.emballee{text-decoration:line-through;opacity:.45}
+.choix-btn.emballee::after{content:"🥡";margin-left:auto;font-size:1.2em;text-decoration:none}
+
+/* Tiroir des outils : compact, lisible au téléphone */
+.tiroir-mf{display:flex;flex-direction:column;gap:.4rem;margin-bottom:.6rem}
+.mf-ligne{display:flex;align-items:center;gap:.4rem;padding:.3rem .3rem .3rem .7rem;border-left:6px solid var(--c);border-radius:12px;background:var(--panel2)}
+.mf-nom{flex:1;min-width:0;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mf-btn{min-width:3.4rem;padding:.4rem .6rem !important;flex:none}
+.tiroir-actions{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.tiroir-actions .btn{white-space:nowrap}
+@media (max-width:520px){ .tiroir-actions{grid-template-columns:1fr} }
+@media (hover:none){ .tiroir .raccourcis{display:none} }   /* pas de clavier : pas de raccourcis */
+
+.confirm-voile{z-index:9999}
+.confirm-modale{max-width:420px;text-align:center}
+.confirm-texte{font-size:1.1rem;font-weight:700;margin:.2rem 0 1rem}
+.confirm-boutons{display:flex;gap:.6rem;justify-content:center}
+.confirm-boutons .btn{min-width:7rem}
+
+/* réponses emballées par le Doggy bag (et réponses déjà éliminées) : bien visibles, hors jeu */
+.jr-rep.emballee,.jr-rep.elimine{opacity:.4;filter:grayscale(1)}
+.jr-rep.emballee span:not(.jr-lettre){text-decoration:line-through}
+.jr-rep.emballee::after{content:"🥡";margin-left:auto;font-size:1.3em;filter:none}
+
+/* salle : les cartes des menus du tableau, chez chaque joueur (deux colonnes sur téléphone) */
+.jr-menus-cartes{width:100%;max-width:640px;margin:.4rem auto}
+@media (max-width:700px){ .jr-menus-cartes{grid-template-columns:1fr 1fr !important;gap:.6rem !important} .jr-menus-cartes .menu-carte{min-height:8.5rem} .jr-menus-cartes .menu-carte h3{font-size:1rem} }
+.jr-menus-cartes .menu-carte.mien{outline:4px solid var(--moutarde);outline-offset:2px}
+
+
+/* Assistant : quatre étapes harmonisées */
+.as-compte{display:flex;flex-wrap:wrap;align-items:baseline;gap:.3rem .8rem;margin:.2rem 0 .7rem}
+.as-liens{font-size:.92rem}
+.as-liens .lien{font-weight:700}
+.as-note{margin-top:.8rem}
+.navassistant{position:sticky;bottom:0;z-index:5;margin:1.4rem -.2rem 0;padding:.7rem .2rem calc(.7rem + env(safe-area-inset-bottom,0px));background:var(--panel);border-top:2px dashed color-mix(in srgb,var(--ink-soft) 40%,transparent)}
+.navassistant .btn{flex:1;font-size:1rem;padding:.75rem .8rem;white-space:nowrap}
+.navassistant .btn[disabled]{visibility:hidden}
+@media (max-width:700px){
+  .etapes{flex-wrap:nowrap;gap:.35rem;margin-bottom:1rem}
+  .etapes li:not(.actif){font-size:0;gap:0}
+  .etapes li:not(.actif) .n{font-size:.85rem}
+  .etapes li+li::before{width:.9rem;margin-right:.35rem}
+  .etapes li.actif{font-size:1rem}
+  .interrupteur:has(> .ligne){flex-direction:column;align-items:stretch;gap:.45rem}
+  .interrupteur > .ligne{justify-content:flex-start;flex-wrap:nowrap}
+  .interrupteur > .ligne .puce{flex:1;text-align:center}
+}
+
+.jr-pat{background:none;border:0;padding:.1rem .25rem;font:inherit;color:inherit;cursor:pointer;border-radius:8px;text-decoration:underline dotted;text-underline-offset:3px}
+.jr-pat:hover,.jr-pat:focus-visible{background:color-mix(in srgb,var(--moutarde) 25%,transparent)}
+header.tableau .equipe{cursor:pointer}
+
+@media (max-width:700px){ .interrupteur{flex-wrap:wrap} .interrupteur > div:first-child{flex:1 1 55%;min-width:55%} }
+
+@media (max-width:700px){ .interrupteur input[type=range]{width:100% !important} }
+
+/* Les patrons : filtres compacts, fiches serrées */
+.viv-intro{margin:.2rem 0 .8rem}
+.viv-barre{display:flex;justify-content:flex-start;margin-bottom:.6rem}
+.viv-seg{display:inline-flex;border:3px solid var(--line);border-radius:999px;overflow:hidden;background:var(--panel)}
+.viv-seg button{border:0;background:none;color:inherit;font:inherit;font-weight:800;padding:.4rem 1.1rem;cursor:pointer}
+.viv-seg button.on{background:var(--cornichon);color:#FFF8EA}
+.viv-filtres{display:flex;gap:.45rem;overflow-x:auto;padding:.2rem .1rem .7rem;margin:0 -.2rem;scrollbar-width:none}
+.viv-filtres::-webkit-scrollbar{display:none}
+.viv-filtres .puce{flex:none;white-space:nowrap;padding:.35rem .8rem;font-size:.92rem}
+.viv-nb{opacity:.65;font-weight:700;margin-left:.2em}
+.viv-liste{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:.8rem}
+.viv-fiche{border:3px solid var(--line);border-left:10px solid var(--c);border-radius:16px;background:var(--panel);box-shadow:4px 4px 0 var(--line);padding:.75rem .9rem;display:flex;flex-direction:column;gap:.45rem}
+.viv-tete{display:flex;align-items:center;gap:.7rem}
+.viv-avatar{flex:none;display:grid;place-items:center;width:2.6rem;height:2.6rem;border-radius:50%;background:var(--c);color:#FFF8EA;font-family:var(--f-titre);border:2px solid var(--line)}
+.viv-tete h3{margin:0;font-size:1.1rem;line-height:1.1}
+.viv-disc{font-size:.85rem;color:var(--ink-soft)}
+.viv-fiche p{margin:0;font-size:.95rem;line-height:1.4}
+.viv-bonus{align-self:flex-start;font-weight:800;font-size:.88rem;padding:.2rem .6rem;border-radius:999px;border:2px dashed var(--line)}
+@media (max-width:700px){ .viv-liste{grid-template-columns:1fr} }
+
+.jr .jr-buzzer{width:min(36vh,62vw);font-size:2.4rem;border-width:6px}
+.jr-centre:has(.jr-buzzer){justify-content:flex-start;padding-top:.6rem;gap:.6rem}
+@media (max-width:700px){
+  .jr-scores-fin{gap:.5rem}
+  .jr-scores-fin div{min-width:0;flex:1;padding:.4rem .6rem}
+  .jr-scores-fin strong{font-size:1.6rem}
+  .jr-stats{padding:.4rem .7rem;min-width:0;width:100%}
+  .jr-stats p{font-size:.95rem;margin:.15rem 0}
+  .jr-fin-boutons,.jr .jr-gros{font-size:1rem}
+  .jr .jr-gros{padding:.6rem .9rem}
+}
+
+.jr-bocal-attendu{border:3px dashed var(--line);border-radius:14px;padding:.5rem .9rem;margin:.3rem auto;max-width:520px;font-size:1.1rem}
+.jr-bocal-attendu strong{font-family:var(--f-titre);font-size:1.25em}
+
+/* Rejoindre une partie : tout tient sur un écran de téléphone */
+.jr-rejoindre{display:flex;flex-direction:column;gap:1rem;width:100%;max-width:460px;margin:0 auto;padding:1.2rem 1rem 1.5rem;min-height:92vh;justify-content:center;box-sizing:border-box}
+.jr-rejoindre *{box-sizing:border-box}
+.jr-rejoindre .jr-champ input{width:100%;max-width:100%}
+.jr-rj-tete{text-align:center}
+.jr-rj-logo{font-size:2.6rem;line-height:1}
+.jr-rj-tete h1{font-family:var(--f-titre);font-size:2rem;margin:.1rem 0 .2rem}
+.jr-rj-champs{display:flex;flex-direction:column;gap:.6rem;padding:1rem;border:3px solid var(--line);border-radius:18px;background:var(--panel);box-shadow:4px 4px 0 var(--line)}
+.jr-rejoindre .jr-champ{display:flex;flex-direction:column;gap:.25rem;font-weight:800;text-align:left;font-size:.95rem}
+.jr-rejoindre .jr-champ input{font-size:1.15rem;padding:.6rem .8rem}
+.jr-rejoindre .jr-code{letter-spacing:.3em;text-transform:uppercase;text-align:center;font-family:var(--f-titre)}
+.jr-rejoindre .jr-rj-champs .jr-petit{margin:0;font-size:.85rem}
+.jr-rj-go{width:100%}
+.jr-rj-liens{text-align:center;margin:0;font-size:.95rem}
+.jr-rj-liens .lien{font-weight:700}
 </style>
 </head>
 <body>
@@ -811,8 +979,11 @@ const COULEURS = ["#D63A27","#E2A414","#4F8E22","#2F7FD0","#8E4CC9","#D9548A","#
 const JOKERS = [
   {id:"frites", ico:"🍟", nom:"Supplément frites", desc:"Une seconde chance si la réponse est fausse."},
   {id:"piquante", ico:"🌶️", nom:"Sauce piquante", desc:"Points doublés, chrono divisé par deux."},
-  {id:"enfant", ico:"🧃", nom:"Menu enfant", desc:"Le répondant consulte son équipe 10 s."}
+  {id:"enfant", ico:"🧃", nom:"Menu enfant", desc:"Le répondant consulte son équipe 10 s."},
+  {id:"doggy", ico:"🥡", nom:"Doggy bag", desc:"Deux mauvaises réponses partent au doggy bag."}
 ];
+// seul face aux bots ou en salle, personne avec qui se concerter : pas de Menu enfant
+const jokersPossibles=()=>["local","salle"].includes(S.config.reponses) ? JOKERS.filter(j=>j.id!=="enfant") : JOKERS;
 const MAUVAISE_FOI = [
   "Pour la qualité de votre silence.","Parce que votre patron me doit de l’argent.","Le cornichon a voté.",
   "Pénalité pour regard insistant vers la calculatrice.","Bonus de ponctualité intergalactique.","Parce que c’est jeudi sur Saturne.",
@@ -5102,9 +5273,13 @@ const Musique = {
   arreter(){ if(this.t){ clearInterval(this.t); this.t=null; } this.couperBoucle(); this.theme=null;
     if(this.gain){ const g=this.gain, a=audio(); g.gain.setTargetAtTime(0,a.currentTime,.15); setTimeout(()=>{ try{g.disconnect();}catch(e){} },900); this.gain=null; } },
   maj(){ REGLAGES.musique ? this.demarrer() : this.arreter(); },
-  volume(){ if(this.gain) this.gain.gain.value=REGLAGES.volMusique*.3; },
+  volume(){ if(this.gain) this.gain.gain.value=REGLAGES.volMusique*.3*(SonsFichiers.longs.length?.3:1); },
+  duck(){ const a=audio(); if(!this.gain || !a) return; this.gain.gain.setTargetAtTime(REGLAGES.volMusique*.3*(SonsFichiers.longs.length?.3:1), a.currentTime, .2); },
   // une ambiance par moment de la partie
-  mode(){ const P=S.partie, enJeu=S.ecran==="jeu" && P, m=enJeu ? mancheCourante() : null;
+  mode(){ if(S.ecran==="joueur") return (S.etatJ && S.etatJ.theme) || "comptoir";   // joueur en salle : l’ambiance vient de l’hôte
+    // consulter le palmarès, les règles ou les réglages ne change pas la musique en cours
+    if(this.theme && ["palmares","reglages","regles","cgu","vivier","snack"].includes(S.ecran)) return this.theme;
+    const P=S.partie, enJeu=S.ecran==="jeu" && P, m=enJeu ? mancheCourante() : null;
     if(!enJeu) return "comptoir";
     if(!m) return "fiesta";   // le bilan est toujours une fête pour l’équipe gagnante
     if(m.id==="addition") return P.gagnant!=null ? "spooky" : "tension";
@@ -5152,7 +5327,7 @@ const Musique = {
     for(const x of L.passages){ x.g.gain.cancelScheduledValues(ac.currentTime); x.g.gain.setTargetAtTime(0,ac.currentTime,.25); setTimeout(()=>{ try{ x.src.stop(); }catch(e){} },1500); }
     this.boucle=null; },
   planifier(){ const a=audio(); if(!this.gain) return;
-    const theme=this.mode(); if(theme!==this.theme){ this.theme=theme; this.pas=0; this.prochain=Math.max(this.prochain,a.currentTime+.05); this.couperBoucle(); }
+    const theme=this.mode(); if(theme!==this.theme){ const avant=this.theme; this.theme=theme; this.pas=0; this.prochain=Math.max(this.prochain,a.currentTime+.05); this.couperBoucle(); if(avant) SonsFichiers.couperLongs(); }
     // un son joué « en solo » (la victoire) coupe la musique le temps qu’il dure
     if(Date.now()<(S.soloJusque||0)){ this.couperBoucle(); this.prochain=a.currentTime+.05; this.theme=null; return; }
     const aDesMusiques=Object.keys(SonsFichiers.buf).some(k=>/^m-/.test(k)), cleFichier = SonsFichiers.buf["m-"+theme] ? "m-"+theme : aDesMusiques && SonsFichiers.buf["m-comptoir"] ? "m-comptoir" : null;
@@ -5290,11 +5465,13 @@ document.addEventListener("pointerdown",()=>{ if(REGLAGES.musique && !Musique.t)
 
 
 // tablettes et télécommande : silence total (seul le tableau fait du bruit)
-const appareilMuet = () => S.ecran==="joueur" || S.ecran==="telecommande";
-function son(nom){ if(!REGLAGES.sons || appareilMuet()) return; if(Date.now()<(S.soloJusque||0) && nom!==S.soloNom) return;
+const appareilMuet = () => (S.ecran==="joueur" && !(S.etatJ && S.etatJ.salle)) || S.ecran==="telecommande";
+function son(nom){ if(enSalle() && LienJ.role==="ecran" && S.partie) LienJ.envoyer({t:"son", nom});
+  if(!REGLAGES.sons || appareilMuet()) return; if(Date.now()<(S.soloJusque||0) && nom!==S.soloNom) return;
   const a=audio(); if(a && a.state==="suspended") a.resume(); if(SonsFichiers.jouer(nom)) return; SFX[nom] && SFX[nom](); }
 // joue un son seul : la musique se coupe, les autres effets se taisent, puis tout reprend selon l’écran
-function sonSeul(nom, delai=0){ setTimeout(()=>{ if(!REGLAGES.sons || appareilMuet()) return;
+function sonSeul(nom, delai=0){ setTimeout(()=>{ if(enSalle() && LienJ.role==="ecran" && S.partie) LienJ.envoyer({t:"son-seul", nom});
+    if(!REGLAGES.sons || appareilMuet()) return;
     const b=SonsFichiers.buf[nom], duree=b ? b.duration*1000 : 2200;
     S.soloNom=nom; S.soloJusque=Date.now()+duree+300; Musique.couperBoucle && Musique.couperBoucle();
     const a=audio(); if(a && a.state==="suspended") a.resume(); if(!SonsFichiers.jouer(nom)) SFX[nom] && SFX[nom]();
@@ -5341,11 +5518,20 @@ const SonsFichiers={ buf:{}, src:{}, norm:{}, charge:false,
       try{ const blob=await SonsIDB.lire(id); if(blob){ await this.decoder(id, await blob.arrayBuffer(), "importé"); continue; } }catch(e){}
       if(/^https?:/.test(location.protocol)){ for(const nomF of (id==="victoire"?[f,"musique-victoire.mp3"]:[f])){ try{ const r=await fetch("sons/"+nomF); if(r.ok){ await this.decoder(id, await r.arrayBuffer(), "dossier sons/"); break; } }catch(e){} } } }
     if(S.ecran==="reglages" || S.reglagesOuverts) rendre(); },
+  longs:[],
   jouer(id){ const b=this.buf[id]; if(!b) return false; const a=audio(); if(!a) return false;
-    const src=a.createBufferSource(), g=a.createGain(); src.buffer=b; g.gain.value=REGLAGES.volume*(this.norm[id]||1); src.connect(g).connect(a.destination); src.start(); return b.duration; } };
+    const src=a.createBufferSource(), g=a.createGain(); src.buffer=b; g.gain.value=REGLAGES.volume*(this.norm[id]||1); src.connect(g).connect(a.destination); src.start();
+    // un effet long (fanfare, orchestre…) : la musique s’efface le temps qu’il dure, et il s’arrête si l’ambiance change
+    if(b.duration>2.5){ const x={src,g,debut:a.currentTime,fin:a.currentTime+b.duration}; this.longs.push(x); src.onended=()=>{ this.longs=this.longs.filter(y=>y!==x); Musique.duck(); }; Musique.duck(); }
+    return b.duration; },
+  couperLongs(){ const a=audio(); if(!a) return;
+    const vieux=this.longs.filter(x=>a.currentTime-x.debut>1.5); this.longs=this.longs.filter(x=>!vieux.includes(x));   // un effet qui vient de partir (rire, victoire…) va au bout
+    vieux.forEach(x=>{ x.g.gain.cancelScheduledValues(a.currentTime); x.g.gain.setTargetAtTime(0,a.currentTime,.12); setTimeout(()=>{ try{x.src.stop();}catch(e){} },700); }); Musique.duck(); } };
 
 /* ---------------------- Outils ---------------------- */
-function confettis(n=100){
+function confettis(n=100, relaye){
+  // en salle, l’hôte envoie aussi les confettis à tous les joueurs
+  if(!relaye && enSalle() && LienJ.role==="ecran" && S.partie) LienJ.envoyer({t:"confettis", n});
   if(matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   const box=document.createElement("div"); box.className="confettis"; box.setAttribute("aria-hidden","true");
   const cols=["#D63A27","#E2A414","#8CC63F","#2F7FD0","#D9548A","#FFF4D6"];
@@ -5443,8 +5629,10 @@ function aller(ecran, sens=1){ S.ecran=ecran; S.anim=sens; arreterChrono(); docu
 function rendre(){
   setTimeout(()=>Bots.tick(),0);
   const app=$("#app"); app.classList.toggle("entre", !!S.anim); if(S.anim){ app.dataset.sens=S.anim; } S.anim=0;
-  const v = VUES[S.ecran]; app.innerHTML = v() + (S.overlay==="reglages" ? `<div class="voile" data-action="fermer-reglages" data-fond="1"><div class="panneau modale" role="dialog" aria-modal="true" aria-label="Réglages"><div class="ligne" style="margin-bottom:.4rem"><h2 style="font-size:1.6rem">Réglages</h2><span class="espace"></span><button class="btn" data-action="fermer-reglages">Fermer</button></div>${reglagesCorps(true)}</div></div>` : "") + fichePatronModale();
+  const v = vueCreateur() ? (()=>{ const h=vueJoueurDuCreateur(); S.derniereVueCreateur=h; return `${h}<div id="moteur" hidden>${VUES[S.ecran]()}</div>`; }) : VUES[S.ecran]; app.innerHTML = v() + (S.overlay==="reglages" ? `<div class="voile" data-action="fermer-reglages" data-fond="1"><div class="panneau modale" role="dialog" aria-modal="true" aria-label="Réglages"><div class="ligne" style="margin-bottom:.4rem"><h2 style="font-size:1.6rem">Réglages</h2><span class="espace"></span><button class="btn" data-action="fermer-reglages">Fermer</button></div>${reglagesCorps(true)}</div></div>` : "") + fichePatronModale();
   S.carte=false;
+  { const E=S.ecran==="joueur"?S.etatJ:null, cle=[S.ecran, S.etape, E&&E.partie, E&&E.manche&&E.manche.id, E&&E.phase, E&&E.tour, E&&E.question&&E.question.enonce, E&&E.voteEq&&E.voteEq.titre, E&&E.choixMenu&&E.choixMenu.ci, E&&E.action&&E.action.titre].join("|");
+    if(cle!==S.cleEcranVu){ S.cleEcranVu=cle; scrollTo(0,0); } }
   if(APRES[S.ecran]) APRES[S.ecran]();
   const h=$("#app h1, #app h2"); if(h && S.ecran!=="accueil"){ h.setAttribute("tabindex","-1"); }
   majConsole();
@@ -5471,7 +5659,8 @@ VUES.accueil = () => `
       <p class="sous-titre">Le condiment qui pimente tes maths</p>
       ${partieEnCours()?`<div style="margin-top:1.6rem"><button class="btn gros moutarde" data-action="reprendre">Reprendre la partie : ${esc(S.partie.equipes[0].patron.nom)} contre ${esc(S.partie.equipes[1].patron.nom)}</button></div>`:""}
       <div class="comptoir">
-        <button class="btn cornichon principal" data-action="aller" data-cible="assistant">${fuseeSVG()}<strong>Nouvelle partie</strong><span>Deux équipes, cinq manches, un Bocal infernal.</span></button>
+        <button class="btn cornichon principal" data-action="nouvelle-partie">${fuseeSVG()}<span class="principal-txt"><strong>Nouvelle partie</strong><span>Deux équipes, cinq manches, un Bocal infernal.</span></span></button>
+        <button class="btn principal principal-salle" data-action="creer-salle"><span class="ico-principal" aria-hidden="true">🌐</span><span class="principal-txt"><strong>Créer une salle</strong><span>Jouer à plusieurs, chacun sur son téléphone, même à distance.</span></span></button>
         <button class="btn carte-acc" data-action="aller" data-cible="solo"><span class="ico-acc" aria-hidden="true">🎯</span><strong>Entraînement</strong><span>Rejouer une manche, seul, à l’infini.</span></button>
         <button class="btn carte-acc" data-action="aller" data-cible="palmares"><span class="ico-acc" aria-hidden="true">🏆</span><strong>Palmarès</strong><span>Tes parties contre les bots et tes records.</span></button>
         <button class="btn carte-acc" data-action="aller" data-cible="snack"><span class="ico-acc" aria-hidden="true">🛸</span><strong>Le snack</strong><span>La station de la classe, qui grandit à chaque partie.</span></button>
@@ -5507,23 +5696,25 @@ VUES.assistant = () => {
   }
   if(e===2){
     const ch=CHAPITRES[c.niveau]||[];
-    corps = `<div class="ligne"><h3>Chapitres au menu</h3><span class="espace"></span>
-      <button class="btn discret" data-action="chap-tout">Tout</button><button class="btn discret" data-action="chap-rien">Rien</button></div>
-      <p class="doux">${c.chapitres.length} chapitre${c.chapitres.length>1?"s":""} sur ${ch.length}. Les questions ne viendront que de ces chapitres.</p>
+    corps = `<h3>Chapitres au menu</h3><p class="doux">Les questions ne viendront que des chapitres cochés.</p>
+      <p class="as-compte"><strong>${c.chapitres.length} / ${ch.length}</strong> chapitre${c.chapitres.length>1?"s":""} <span class="as-liens"><button class="lien" data-action="chap-tout">Tout cocher</button> · <button class="lien" data-action="chap-rien">Tout décocher</button></span></p>
       <div class="ligne">${ch.map(([id,nom])=>`<button class="puce ${c.chapitres.includes(id)?"on":""}" data-action="chap" data-id="${id}" aria-pressed="${c.chapitres.includes(id)}">${nom}</button>`).join("")}</div>`;
   }
   if(e===3){
     corps = `<h3>Quel format ?</h3>
       <div class="grille formats">${Object.entries(FORMATS).map(([id,f])=>`<button class="choix-carte" data-action="format" data-id="${id}" aria-pressed="${c.format===id}"><strong>${f.nom}</strong><span>${f.duree}</span></button>`).join("")}</div>
-      <h3 style="margin-top:1.4rem">Manches jouées</h3>
-      <p class="doux">${c.format==="mesure"?"Coche les manches que tu veux jouer, dans l’ordre du jeu.":"Choisis « Sur mesure » pour composer ta propre partie."}</p>
-      <div class="grille" style="grid-template-columns:repeat(auto-fit,minmax(210px,1fr))">${MANCHES.map(m=>`<button class="choix-carte" data-action="manche" data-id="${m.id}" aria-pressed="${c.manches.includes(m.id)}" ${c.format==="mesure"?"":"disabled"}><strong>${m.nom}</strong><span>${m.desc}</span></button>`).join("")}</div>`;
+      ${c.format!=="mesure"?`<p class="doux as-note">Les cinq manches, dans l’ordre du jeu. Choisis « Sur mesure » pour composer ta propre partie.</p>`:`<h3 style="margin-top:1.4rem">Manches jouées</h3>
+      <p class="doux">Coche les manches que tu veux jouer, dans l’ordre du jeu.</p>`}
+      ${c.format!=="mesure"?"":`<div class="grille" style="grid-template-columns:repeat(auto-fit,minmax(210px,1fr))">${MANCHES.map(m=>`<button class="choix-carte" data-action="manche" data-id="${m.id}" aria-pressed="${c.manches.includes(m.id)}" ${c.format==="mesure"?"":"disabled"}><strong>${m.nom}</strong><span>${m.desc}</span></button>`).join("")}</div>`}`;
   }
   if(e===4){
     const inter=(cle,titre,desc)=>`<div class="interrupteur"><div><strong>${titre}</strong><br><span class="doux">${desc}</span></div>
       <button class="bascule" role="switch" aria-checked="${c[cle]}" aria-label="${titre}" data-action="bascule" data-cle="${cle}"></button></div>`;
     const classes=Object.keys(Stock.lire("classes",{}));
-    corps = `<h3>Qui joue ?</h3>
+    corps = (enSalle() ? `<h3>🌐 Ta salle</h3>
+      <div class="champ"><label for="pseudoLocal">Ton pseudo</label><input id="pseudoLocal" value="${esc(c.pseudoLocal||"")}" placeholder="Créateur" data-champ="pseudoLocal" maxlength="20" autocomplete="off"></div>
+      ${panneauSalle()}
+      ${panneauBots()}` : `<h3>Qui joue ?</h3>
       <div class="grille formats">
         <button class="choix-carte" data-action="reponses" data-id="local" aria-pressed="${c.reponses==="local"}"><strong>🎮 Je joue ici</strong><span>Toi contre des bots, directement sur cet écran. Sans bot choisi, un adversaire est ajouté d’office.</span></button>
         <button class="choix-carte" data-action="reponses" data-id="tablettes" aria-pressed="${c.reponses==="tablettes"}"><strong>📱 Les joueurs se connectent</strong><span>Chacun scanne le QR code avec son téléphone ou sa tablette. Bots facultatifs pour compléter les équipes.</span></button>
@@ -5535,7 +5726,7 @@ VUES.assistant = () => {
             <input id="classe" list="classes" value="${esc(c.classe)}" placeholder="Par exemple 5eB" data-champ="classe" autocomplete="off">
             <datalist id="classes">${classes.map(n=>`<option value="${esc(n)}">`).join("")}</datalist>
             <span class="doux">Si tu la remplis, les livraisons gagnées iront au snack de cette classe.</span></div>`}
-      ${panneauBots()}
+      ${panneauBots()}`) + `
       <h3 style="margin-top:1.4rem">Options</h3>
       <div class="panneau" style="box-shadow:none;padding:.4rem 1.1rem">
         ${inter("jokers","Jokers","Deux jokers par équipe, tirés au sort.")}
@@ -5553,9 +5744,9 @@ VUES.assistant = () => {
   return `<div class="wrap">${barreRetour("Nouvelle partie")}
     <div class="panneau">${fil}${corps}
       <div class="navassistant">
-        <button class="btn" data-action="etape" data-sens="-1" ${e===1?"disabled":""}>Étape précédente</button>
-        ${e<4 ? `<button class="btn moutarde" data-action="etape" data-sens="1" ${peutSuivre?"":"disabled"}>Étape suivante</button>`
-              : `<button class="btn gros ketchup" data-action="tirer">Tirer les patrons</button>`}
+        <button class="btn" data-action="etape" data-sens="-1" ${e===1?"disabled":""}>← Précédent</button>
+        ${e<4 ? `<button class="btn moutarde" data-action="etape" data-sens="1" ${peutSuivre?"":"disabled"}>Suivant →</button>`
+              : `<button class="btn ketchup" data-action="tirer">🎲 Tirer les patrons</button>`}
       </div></div></div>`;
 };
 
@@ -5578,7 +5769,7 @@ const PROFILS_BOT={
   humain:     {nom:"Comme un humain", ico:"🙂", p:.65, buzz:[350,1100], reflexion:[1500,3000], mem:[5,8], desc:"Tombe dans les pièges classiques"},
   gaffeur:    {nom:"Gaffeur",     ico:"🙃", p:.2,  buzz:[50,350],   reflexion:[700,1200],  mem:[1,4],  desc:"Se trompe presque toujours, avec aplomb"}};
 const PRENOMS_BOT=["Lina","Tom","Zoé","Ilyes","Inès","Hugo","Maël","Jade","Noah","Lou","Sacha","Nina","Rayan","Léa","Gabin","Mia","Adam","Rose","Eden","Kenza","Malo","Iris","Nolan","Alba"];
-const modeBots=()=>!!(S.partie ? (S.partie.bots && Object.keys(S.partie.bots).length) : (S.config.bots||[]).length);
+const modeBots=()=>enSalle() || !!(S.partie ? (S.partie.bots && Object.keys(S.partie.bots).length) : (S.config.bots||[]).length);
 // noms des bots de la partie : un prénom par bot, tiré au début de chaque partie
 // équipes avec bots : les humains d’abord, répartis un sur deux (deux humains ne jouent jamais ensemble si l’on peut l’éviter),
 // puis chaque bot rejoint l’équipe la moins nombreuse ; à effectif égal, au hasard
@@ -5599,7 +5790,8 @@ function justesse(nom, eq){ const pr=profilDe(nom); if(!pr) return 0; if(pr.p>=1
   if(typeof bonusActif==="function" && bonusActif(eq)) p+=.05; return Math.max(.03,Math.min(1,p)); }
 // choix d’un bot dans un QCM : juste selon sa justesse ; sinon un piège (comme un humain) ou n’importe quoi (gaffeur)
 function choixBot(nom, eq, choix){ const iBon=choix.findIndex(c=>c.ok); if(Math.random()<justesse(nom,eq)) return iBon;
-  const pieges=choix.map((c,k)=>k).filter(k=>!choix[k].ok && !choix[k].farfelue), farf=choix.map((c,k)=>k).filter(k=>choix[k].farfelue);
+  const el=(S.partie.q&&S.partie.q.choix===choix&&S.partie.q.elimines)||[];
+  const pieges=choix.map((c,k)=>k).filter(k=>!choix[k].ok && !choix[k].farfelue && !el.includes(k)), farf=choix.map((c,k)=>k).filter(k=>choix[k].farfelue && !el.includes(k));
   const pr=S.partie.bots[nom]; if(pr==="gaffeur" && farf.length && Math.random()<.35) return hasard(farf);
   return pieges.length ? hasard(pieges) : choix.map((c,k)=>k).filter(k=>k!==iBon)[0]; }
 // réflexe d’une équipe : son bot le plus rapide, un peu plus vif quand ils sont plusieurs (gain plafonné)
@@ -5618,7 +5810,7 @@ function botParle(nom, texte){ toast(`${nom} : ${texte}`); }
 const Bots={ cle:null, t:[],
   annuler(){ this.t.forEach(clearTimeout); this.t=[]; },
   plus(ms, f){ const P=S.partie, cle=this.cle; this.t.push(setTimeout(()=>{ if(S.partie!==P || this.cle!==cle || S.ecran!=="jeu") return; f(); }, ms)); },
-  tick(){ const P=S.partie; if(!modeBots() || !P || S.ecran!=="jeu" || !P.bots) return;
+  tick(){ const P=S.partie; if(P && enSalle() && !P.bots) P.bots={}; if(!modeBots() || !P || S.ecran!=="jeu" || !P.bots) return;
     if(S.fichePatron!=null){ this.annuler(); this.cle=null; return; }   // fiche du patron ouverte : tout le monde attend
     const m=mancheCourante(); if(!m) return;
     const q=P.q||{}, Bg=P.burger, M=P.menus;
@@ -5638,6 +5830,7 @@ const Bots={ cle:null, t:[],
       return; }
     if(m.id==="nuggets" && q.choix && q.repondu==null){ const nom=repondant(P.equipes[P.tour]);
       if(estBot(nom)) this.plus(reflexion(nom),()=>{ const k=choixBot(nom,P.tour,q.choix); botParle(nom,`je dis ${"ABCD"[k]} !`); ACTIONS.choix({k}); }); return; }
+    if(m.id==="menus" && enSalle() && humainsDe(P.tour).length) return;   // en salle : vote de l’équipe (voir voteEquipe)
     if(m.id==="menus" && q.enonce && !q.revele && q.choix){ const nom=repondant(P.equipes[P.tour]);
       if(estBot(nom)) this.plus(reflexion(nom)*1.5,()=>{ const k=choixBot(nom,P.tour,q.choix); botParle(nom,`« ${texteNu(q.choix[k].html)} »`); ACTIONS["menu-choix"]({k}); }); return; }
     if(m.id==="menus" && q.enonce && !q.revele){ const nom=repondant(P.equipes[P.tour]);
@@ -5685,7 +5878,7 @@ function nouvellePartie(){
   setTimeout(()=>{ if(enTablettes() && S.partie){ S.partie.idJ=Date.now(); repartirTablettes(S.partie); rendre(); envoyerEtatJ(true); } },0);
 
   const c=S.config, duo=tirerPatrons(), [ma,mb]=repartir();
-  const jok=()=>c.jokers? melange(JOKERS).slice(0,2).map(j=>({...j,utilise:false})) : [];
+  const jok=()=>c.jokers? melange(jokersPossibles()).slice(0,2).map(j=>({...j,utilise:false})) : [];
   S.partie = {
     equipes:[
       {patron:duo[0].p, coul:duo[0].coul, membres:ma, rot:0, score:0, bonus:0, jokers:jok(), cote:"moitié gauche de la salle"},
@@ -5703,7 +5896,7 @@ VUES.tirage = () => {
       <div class="tete" style="background:${eq.coul}"><div class="avatar">${initiales(eq.patron.nom)}</div><h3 id="nomp${i}">${esc(eq.patron.nom)}</h3></div>
       <div class="corps"><p class="doux" id="discp${i}">${eq.patron.disc}</p><p id="biop${i}">${rl?"…":esc(bioPatron(eq.patron))}</p>
         <span class="domaine" id="domp${i}">Bonus : ${esc(domaine(eq.patron))}</span>
-        ${rl?"":`<p style="margin-top:.8rem"><strong>${eq.membres.length} joueurs</strong>${S.config.modeEleves==="anonyme"?` · ${eq.cote}`:""}</p>
+        ${rl?"":`<p style="margin-top:.8rem"><strong>${eq.membres.length} joueur${eq.membres.length>1?"s":""}</strong>${S.config.modeEleves==="anonyme"&&S.config.reponses!=="local"?` · ${eq.cote}`:""}</p>
         <div class="membres">${eq.membres.map(m=>`<span>${esc(m)}</span>`).join("")}</div>`}
       </div></article>`;
   return `<div class="wrap">${barreRetour("Ce soir au comptoir","assistant")}
@@ -5725,14 +5918,15 @@ APRES.tirage = () => {
 };
 
 /* ---------- Sas de transition ---------- */
-function sas(titre, sous, ensuite){
+function sas(titre, sous, ensuite, muet){
+  if(!muet && enSalle() && LienJ.role==="ecran" && S.partie) LienJ.envoyer({t:"sas", titre, sous});
   if(matchMedia("(prefers-reduced-motion: reduce)").matches){ ensuite(); return; }
   const d=document.createElement("div"); d.className="sas"; d.setAttribute("aria-hidden","true");
   d.innerHTML=`<div class="porte g"></div><div class="porte d"></div><div class="hublot"><div><div class="sas-sous">${esc(sous)}</div><div class="sas-titre">${esc(titre)}</div></div></div>`;
-  document.body.appendChild(d); son("whoosh");
+  document.body.appendChild(d); if(!muet) son("whoosh");   // chez un joueur de salle, les sons arrivent déjà de l’hôte
   requestAnimationFrame(()=>requestAnimationFrame(()=>d.classList.add("ferme")));
-  setTimeout(()=>{ son("clang"); ensuite(); },480);
-  setTimeout(()=>{ d.classList.add("ouvre"); d.classList.remove("ferme"); son("whoosh"); },1450);
+  setTimeout(()=>{ if(!muet) son("clang"); ensuite(); },480);
+  setTimeout(()=>{ d.classList.add("ouvre"); d.classList.remove("ferme"); if(!muet) son("whoosh"); },1450);
   setTimeout(()=>d.remove(),2000);
 }
 function versManche(){
@@ -5805,13 +5999,15 @@ function barreProf(m){
 function tiroirProf(m){
   const P=S.partie, [A,B]=P.equipes, enDuel=m.id==="addition", eq=P.equipes[P.tour];
   const finLabel = m.id==="menus"&&P.menus&&P.menus.tourJoue===0?"Menu de l’équipe suivante":m.id==="menus"?"Révéler les menus":P.idx<P.manches.length-1?"Manche suivante":"Terminer la partie";
-  return `<div class="tiroir" role="region" aria-label="Outils du prof">
-    <div class="ligne">
-      ${S.config.mauvaiseFoi?S.partie.equipes.map((eq,i)=>`<span class="mf"><span class="doux">Mauvaise foi · ${esc(eq.patron.nom)}</span>
-        <button class="btn moutarde" data-action="mauvaisefoi" data-eq="${i}" data-s="1">+1</button><button class="btn ketchup" data-action="mauvaisefoi" data-eq="${i}" data-s="-1">−1</button></span>`).join(""):""}
-      <button class="btn" data-action="chrono">${chronoT?"Figer le chrono":chronoFige?"Reprendre le chrono":"Lancer le chrono"}</button>
+  // sans arbitre (« Je joue ici », bots) : pas de mauvaise foi, personne pour juger
+  const mf = S.config.mauvaiseFoi && !modeBots();
+  return `<div class="tiroir" role="region" aria-label="Outils">
+    ${mf?`<div class="tiroir-mf">${S.partie.equipes.map((eq,i)=>`<div class="mf-ligne" style="--c:${eq.coul}"><span class="mf-nom">😈 ${esc(eq.patron.nom)}</span>
+        <button class="btn ketchup mf-btn" data-action="mauvaisefoi" data-eq="${i}" data-s="-1" aria-label="Retirer un point à ${esc(eq.patron.nom)}">−1</button><button class="btn moutarde mf-btn" data-action="mauvaisefoi" data-eq="${i}" data-s="1" aria-label="Donner un point à ${esc(eq.patron.nom)}">+1</button></div>`).join("")}</div>`:""}
+    <div class="tiroir-actions">
+      <button class="btn" data-action="chrono">${chronoT?"⏸ Figer le chrono":chronoFige?"▶ Reprendre le chrono":"▶ Lancer le chrono"}</button>
+      <button class="btn ketchup" data-action="fin-manche">⏭ ${finLabel}</button>
     </div>
-    <div class="ligne"><button class="btn ketchup" data-action="fin-manche">${finLabel}</button></div>
     <p class="raccourcis" style="margin:0">Raccourcis : <kbd>Espace</kbd> passer la question, <kbd>C</kbd> chrono${enDuel?", <kbd>Q</kbd> et <kbd>M</kbd> buzzers":m.id==="nuggets"?", <kbd>A</kbd> à <kbd>D</kbd> réponses":m.id==="selpoivre"?", <kbd>Q</kbd> et <kbd>M</kbd> buzzers, puis <kbd>1</kbd>, <kbd>2</kbd> ou <kbd>3</kbd> pour répondre":""}.</p>
   </div>`;
 }
@@ -5823,9 +6019,9 @@ const JARGON=["Sous les hypothèses usuelles de l’arithmétique élémentaire,
 const hashQ=t=>{ const x=String(t).replace(/<[^>]+>/g,"").replace(/\s+/g," ").trim().toLowerCase(); let h=5381; for(let i=0;i<x.length;i++) h=((h<<5)+h+x.charCodeAt(i))|0; return (h>>>0).toString(36); };
 // « Je joue ici » : la mémoire suit le joueur (son pseudo) ; en classe, elle suit la classe
 function cleHistorique(){ return S.config.reponses==="local" ? "joueur:"+(String(S.config.pseudoLocal||"").trim()||"Toi") : S.config.classe; }
-function memoireQuestions(classe){
-  const nom=(classe||"").trim(), tout=Stock.lire("historique",{}), passe=new Set(nom?(tout[nom]||[]):[]), partie=new Set();
-  return { has:e=>{ const h=hashQ(e); return partie.has(h)||passe.has(h); },
+function memoireQuestions(classe, deja){
+  const nom=(classe||"").trim(), tout=Stock.lire("historique",{}), passe=new Set(nom?(tout[nom]||[]):[]), partie=new Set(deja||[]);
+  return { exporter:()=>[...partie], has:e=>{ const h=hashQ(e); return partie.has(h)||passe.has(h); },
     add:e=>{ const h=hashQ(e); if(partie.has(h)) return; partie.add(h); if(!nom) return;
       const t=Stock.lire("historique",{}); const l=t[nom]||[]; l.push(h); t[nom]=l.slice(-6000); Stock.ecrire("historique",t); } };
 }
@@ -5901,7 +6097,7 @@ function sceneIntroSP(){
 function fichePatronModale(){ const P=S.partie, i=S.fichePatron; if(i==null || !P || !P.equipes[i]) return ""; const eq=P.equipes[i], pa=eq.patron;
   const lycee=["2de","1re","Tle","Exp","CL"].includes(S.config.niveau);
   return `<div class="voile" data-action="fermer-patron" data-fond="1"><div class="panneau modale fiche-patron" role="dialog" aria-label="Patron ${esc(pa.nom)}" style="--c:${eq.coul}">
-    <p class="doux" style="margin:0">Le patron de ${i===P.equipes.findIndex(e=>e.membres.some(n=>!estBot(n)))?"ton équipe":"l’équipe adverse"}</p>
+    <p class="doux" style="margin:0">${S.config.reponses==="local" ? `Le patron de ${i===P.equipes.findIndex(e=>e.membres.some(n=>!estBot(n)))?"ton équipe":"l’équipe adverse"}` : `Le patron de l’équipe ${i===0?"de gauche":"de droite"}`}</p>
     <h2>${esc(pa.nom)}</h2><p class="doux">${esc(pa.disc||"")}</p>
     <p><strong>✨ Bonus ${esc(domaine(pa))}</strong> : sur une question de ce domaine, l’équipe gagne 5 secondes et ses points comptent ×1,2. En contrepartie, un menu choisi dans ce domaine est servi un cran plus technique.</p>
     <p>${esc((lycee&&pa.bioLycee)||pa.bio||"")}</p>
@@ -5929,7 +6125,7 @@ function commandesBots(m, q, eq, pts){ const P=S.partie;
   if(q.choix){ const fini=q.revele;
     if(!fini && estBot(nom)) return attente(nom);
     if(!fini && P.tablettes && jidDe(nom)) return `<p class="doux">📱 ${esc(nom)} répond sur son appareil…</p>${q.choix.map((c,k)=>`<span class="prop-muette">${"ABCD"[k]}. ${c.html}</span>`).join("")}`;
-    return `<div class="choix">${q.choix.map((c,k)=>`<button class="btn choix-btn ${fini?(c.ok?"juste":k===q.choisiMenu?"faux":"eteint"):""}" data-action="menu-choix" data-k="${k}" ${fini?"disabled":""}><span class="lettre">${"ABCD"[k]}</span><span>${c.html}</span></button>`).join("")}</div>`; }
+    return `<div class="choix">${q.choix.map((c,k)=>{ const el=(q.elimines||[]).includes(k); return `<button class="btn choix-btn ${fini?(c.ok?"juste":k===q.choisiMenu?"faux":"eteint"):el?"eteint":""}" data-action="menu-choix" data-k="${k}" ${fini||el?"disabled":""}><span class="lettre">${"ABCD"[k]}</span><span>${c.html}</span></button>`; }).join("")}</div>`; }
   if(estBot(nom)) return q.revele ? "" : attente(nom);
   // Carte du chef, en attendant les QCM du lot 2 : on vérifie soi-même
   return q.revele
@@ -5961,7 +6157,7 @@ function sceneQuestion(m){
     const rep=q.repondu;
     corps=`<p class="question">${q.enonce}</p>`;
     commandes=`<div class="choix">${q.choix.map((c,k)=>{ const elim = q.elimines && q.elimines.includes(k);
-      const cl = rep==null ? (elim?"faux":"") : c.ok ? "juste" : k===rep ? "faux" : "eteint";
+      const cl = rep==null ? (elim?((q.emballees||[]).includes(k)?"eteint emballee":"faux"):"") : c.ok ? "juste" : k===rep ? "faux" : "eteint";
       return `<button class="btn choix-btn ${cl}" data-action="choix" data-k="${k}" ${rep!=null||elim||(modeBots()&&estBot(repondant(eq)))?"disabled":""}>${q.distrib?`<span class="nb-votes">${q.distrib[k]}</span>`:""}<span class="lettre">${"ABCD"[k]}</span><span>${c.html}</span></button>`; }).join("")}</div>`;
     if(rep!=null){ const bonne=q.choix[q.bonne], choisi=rep>=0?q.choix[rep]:null;
       commandes+=`<div class="explication">${choisi && choisi.ok ? `<strong>Bien vu !</strong>`
@@ -6109,7 +6305,9 @@ function lancerBurger(){
 }
 function rouletteCandidat(){
   const P=S.partie, Bg=P.burger, eq=P.equipes[Bg.equipe];
-  const pool = modeBots() && humainsDe(Bg.equipe).length ? humainsDe(Bg.equipe) : eq.membres;
+  let pool = modeBots() && humainsDe(Bg.equipe).length ? humainsDe(Bg.equipe) : eq.membres;
+  if(enSalle() && humainsDe(Bg.equipe).length){ const nb=n=>{ const j=Object.values(S.joueurs).find(x=>x.nom===n); return (j&&j.st&&j.st.buzz)||0; };
+    const max=Math.max(...pool.map(nb)); pool=pool.filter(n=>nb(n)===max); }
   const choix=hasard(pool); let n=0; const tours=matchMedia("(prefers-reduced-motion: reduce)").matches?1:18;
   const t=setInterval(()=>{ n++; son("pioche"); const el=$("#candidat"); if(el) el.textContent = n<tours?hasard(eq.membres):choix;
     if(n>=tours){ clearInterval(t); Bg.candidat=choix; son("gong"); rendre(); } },90);
@@ -6171,6 +6369,7 @@ function enregistrerPalmares(){ const P=S.partie; if(!P || S.config.reponses!=="
     if(bocal!=null && apres.meilleurBocal>avant.meilleurBocal) msg.push(`meilleur Bocal infernal (${apres.meilleurBocal}/10)`); }
   if(partie.gagne && partie.adversaires.includes("infaillible") && !avant.battuInfaillible) msg.push("premier infaillible battu 🎯");
   P.recordsPalmares=msg; }
+function ajouterAuPalmares(pseudo, partie){ const T=Stock.lire("palmares",{}), J=T[pseudo]||{parties:[]}; J.parties.unshift(partie); J.parties=J.parties.slice(0,300); T[pseudo]=J; Stock.ecrire("palmares",T); }
 function statsPalmares(J){ const L=(J&&J.parties)||[], g=L.filter(x=>x.gagne);
   let serie=0, meilleure=0; L.slice().reverse().forEach(x=>{ serie=x.gagne?serie+1:0; meilleure=Math.max(meilleure,serie); });
   let enCours=0; for(const x of L){ if(x.gagne) enCours++; else break; }
@@ -6181,10 +6380,10 @@ function statsPalmares(J){ const L=(J&&J.parties)||[], g=L.filter(x=>x.gagne);
     battuInfaillible:g.some(x=>(x.adversaires||[]).includes("infaillible")) }; }
 function enregistrerPartie(){
   enregistrerPalmares();
-  const P=S.partie; const nom=S.config.classe.trim();
+  const P=S.partie; const nom=enSalle() ? "" : S.config.classe.trim();
   const Bg=P.burger, n=Bg?Bg.res.filter(Boolean).length:0;
   let liv=Math.max(0,Math.round(P.equipes[0].score+P.equipes[1].score)) + (n===10?80:n>=5?30:0);
-  P.livraisons=liv; sonSeul("victoire", 2900); if(!nom) return liv;
+  P.livraisons=liv; sonSeul("victoire", 500); if(!nom) return liv;
   const classes=Stock.lire("classes",{}); const c=classes[nom]||{livraisons:0,parties:0,honneur:[]};
   c.livraisons+=liv; c.parties++;
   if(n===10 && Bg.candidat){ c.honneur.unshift({nom: S.config.modeEleves==="anonyme"? P.equipes[Bg.equipe].patron.nom : Bg.candidat, date:new Date().toLocaleDateString("fr-FR")}); c.honneur=c.honneur.slice(0,20); }
@@ -6195,7 +6394,7 @@ VUES.palmares = () => { const T=Stock.lire("palmares",{}), noms=Object.keys(T);
   if(!S.palmaresNom || !T[S.palmaresNom]) S.palmaresNom = (T[String(S.config.pseudoLocal||"").trim()||"Toi"] ? (String(S.config.pseudoLocal||"").trim()||"Toi") : noms[0]) || null;
   const J=S.palmaresNom?T[S.palmaresNom]:null, st=statsPalmares(J), nb=x=>String(x).replace(".",",");
   const NIV=Object.fromEntries(NIVEAUX.map(n=>[n.id,n.nom])), ICO=Object.fromEntries(Object.entries(PROFILS_BOT).map(([k,v])=>[k,v.ico]));
-  const corps = !J ? `<div class="panneau" style="text-align:center"><h3>Pas encore de partie</h3><p>Joue une partie « 🎮 Je joue ici » contre des bots : elle s’inscrira ici, avec tes records.</p><button class="btn moutarde" data-action="aller" data-cible="assistant">Nouvelle partie</button></div>`
+  const corps = !J ? `<div class="panneau" style="text-align:center"><h3>Pas encore de partie</h3><p>Joue une partie « 🎮 Je joue ici » contre des bots : elle s’inscrira ici, avec tes records.</p><button class="btn moutarde" data-action="nouvelle-partie">Nouvelle partie</button></div>`
   : `${noms.length>1?`<div class="solo-puces" style="margin:.6rem 0">${noms.map(n=>`<button class="puce ${n===S.palmaresNom?"on":""}" data-action="palmares-nom" data-n="${esc(n)}">${esc(n)}</button>`).join("")}</div>`:""}
     <div class="palm-grille">
       <div class="palm-case"><strong>${st.parties}</strong><span>parties</span></div>
@@ -6209,10 +6408,11 @@ VUES.palmares = () => { const T=Stock.lire("palmares",{}), noms=Object.keys(T);
     </div>
     <h3>Dernières parties</h3>
     <div class="palm-liste">${J.parties.slice(0,15).map(x=>`<div class="palm-ligne ${x.gagne?"g":x.nul?"n":"p"}"><span>${x.gagne?"✅":x.nul?"🤝":"❌"} <strong>${nb(x.pour)} – ${nb(x.contre)}</strong></span>
-      <span>${esc(NIV[x.niveau]||x.niveau||"")}</span><span>contre ${(x.adversaires||[]).map(a=>ICO[a]||"🤖").join(" ")||"—"}${(x.coequipiers||[]).length?` · avec ${(x.coequipiers).map(a=>ICO[a]||"🤖").join(" ")}`:""}</span>
+      <span>${esc(NIV[x.niveau]||x.niveau||"")}</span><span>contre ${x.salle?`🌐 ${esc(x.salle)} `:""}${(x.adversaires||[]).map(a=>ICO[a]||"🤖").join(" ")||(x.salle?"":"—")}${(x.coequipiers||[]).length?` · avec ${(x.coequipiers).map(a=>ICO[a]||"🤖").join(" ")}`:""}</span>
       <span>${x.bocal!=null?`🫙 ${x.bocal}/10`:""}</span><span class="doux">${new Date(x.date).toLocaleDateString("fr-FR")}</span></div>`).join("")}</div>
     <p style="margin-top:1rem"><button class="btn discret" data-action="palmares-oublier">Oublier les questions posées</button> <button class="btn discret" data-action="palmares-effacer">Effacer le palmarès de ${esc(S.palmaresNom)}</button></p>`;
-  return `<div class="wrap">${barreRetour("Palmarès")}<p class="doux">Tes parties « Je joue ici » contre les bots, et tes records. Tout reste sur cet appareil.</p>${corps}</div>`; };
+  const retour = S.retourPalmares ? `<div class="barre-titre"><button class="btn" data-action="palmares-retour">← Retour</button><h1>Palmarès</h1></div>` : barreRetour("Palmarès");
+  return `<div class="wrap">${retour}<p class="doux">Tes parties « Je joue ici » contre les bots, et tes records. Tout reste sur cet appareil.</p>${corps}</div>`; };
 
 /* ---------- Le snack de la classe ---------- */
 VUES.snack = () => {
@@ -6223,7 +6423,7 @@ VUES.snack = () => {
   if(!c){
     corps=`<div class="panneau" style="text-align:center">${fuseeSVG("").replace('<svg','<svg style="width:160px"')}
       <h3>Aucun snack ouvert pour l’instant</h3><p>Lance une partie en indiquant le nom de la classe : sa station spatiale apparaîtra ici.</p>
-      <button class="btn moutarde" data-action="aller" data-cible="assistant">Nouvelle partie</button>
+      <button class="btn moutarde" data-action="nouvelle-partie">Nouvelle partie</button>
       <button class="btn" data-action="importer">Importer une sauvegarde</button></div>`;
   } else {
     const debloques=MODULES.filter(m=>c.livraisons>=m.seuil), prochain=MODULES.find(m=>c.livraisons<m.seuil);
@@ -6254,15 +6454,22 @@ VUES.snack = () => {
 
 /* ---------- Les patrons ---------- */
 VUES.vivier = () => {
-  const disc=["Toutes",...new Set(PATRONS.map(p=>p.disc))], f=S.vivierFiltre;
+  const disc=["Toutes",...new Set(PATRONS.map(p=>p.disc))], f=S.vivierFiltre||"Toutes";
   const liste=PATRONS.filter(p=>f==="Toutes"||p.disc===f);
   const niv = S.vivierNiveau || (estLycee(S.config.niveau)?"lycee":"college");
+  const nb=d=>d==="Toutes"?PATRONS.length:PATRONS.filter(p=>p.disc===d).length;
   return `<div class="wrap">${barreRetour("Les patrons")}
-    <div class="ligne filtres">${[["college","Version collège"],["lycee","Version lycée"]].map(([v,n])=>`<button class="puce ${niv===v?"on":""}" data-action="vivier-niveau" data-v="${v}" aria-pressed="${niv===v}">${n}</button>`).join("")}</div>
-    <div class="ligne filtres">${disc.map(d=>`<button class="puce ${d===f?"on":""}" data-action="filtre" data-d="${esc(d)}" aria-pressed="${d===f}">${d}</button>`).join("")}</div>
-    <div class="grille vivier">${liste.map(p=>`<article class="fiche"><div class="tete" style="background:${COULEURS[p.id%COULEURS.length]}"><div class="avatar">${initiales(p.nom)}</div><h3>${esc(p.nom)}</h3></div>
-      <div class="corps"><p>${esc(niv==="lycee"?p.bioLycee:p.bio)}</p><span class="domaine">Bonus : ${esc(niv==="lycee"?p.domTle:p.dom)}</span></div></article>`).join("")}</div></div>`;
+    <p class="doux viv-intro">${PATRONS.length} savants. Chaque équipe en reçoit un au tirage : sur les questions de son domaine, elle gagne 5 secondes et ses points comptent ×1,2.</p>
+    <div class="viv-barre">
+      <div class="viv-seg" role="group" aria-label="Version des histoires">${[["college","Collège"],["lycee","Lycée"]].map(([v,n])=>`<button class="${niv===v?"on":""}" data-action="vivier-niveau" data-v="${v}" aria-pressed="${niv===v}">${n}</button>`).join("")}</div>
+    </div>
+    <div class="viv-filtres" role="group" aria-label="Disciplines">${disc.map(d=>`<button class="puce ${d===f?"on":""}" data-action="filtre" data-d="${esc(d)}" aria-pressed="${d===f}">${d} <span class="viv-nb">${nb(d)}</span></button>`).join("")}</div>
+    <div class="viv-liste">${liste.map(p=>{ const c=COULEURS[p.id%COULEURS.length]; return `<article class="viv-fiche" style="--c:${c}">
+      <div class="viv-tete"><span class="viv-avatar">${initiales(p.nom)}</span><div><h3>${esc(p.nom)}</h3><span class="viv-disc">${esc(p.disc)}</span></div></div>
+      <p>${esc(niv==="lycee"?p.bioLycee:p.bio)}</p>
+      <span class="viv-bonus">✨ Bonus ${esc(niv==="lycee"?p.domTle:p.dom)}</span></article>`; }).join("")}</div></div>`;
 };
+
 
 /* ---------- Réglages ---------- */
 /* ---------- Règles du jeu ---------- */
@@ -6392,11 +6599,11 @@ function reglagesCorps(enPartie){ return `
       <button class="bascule" role="switch" aria-checked="${!!REGLAGES.telecommande}" aria-label="Télécommande" data-action="telecommande-on"></button></div>
     ${REGLAGES.telecommande?`<div class="interrupteur"><div><strong>Code de la salle : ${esc(REGLAGES.salle||"")}</strong><br><span class="doux">${relaisEnLigne()?"":etatRelais()+" "}${S.distantConnecte?"📱 Télécommande connectée":"Télécommande en attente"}</span></div>
       <div class="ligne"><button class="btn" data-action="qr">Afficher le QR code</button><button class="btn discret" data-action="nouvelle-salle">Nouveau code</button></div></div>`:""}
-    <div class="interrupteur"><div><strong>📲 Salle des joueurs : ${esc(REGLAGES.salleJ||S.salleJ||"")}</strong><br><span class="doux">En cas de problème, un nouveau code coupe toutes les tablettes : elles rescannent le QR code et retrouvent leur équipe.</span></div>
-      <button class="btn discret" data-action="nouvelle-salle-joueurs">Nouveau code joueurs</button></div>
-    ${relaisEnLigne() ? `<div class="interrupteur"><div><strong>Relais en ligne</strong><br><span class="doux">Version en ligne : la télécommande et les tablettes passent automatiquement par le relais du site. Rien à régler.</span></div>${etatRelais()}</div>`
-    : `<div class="interrupteur"><div><strong>Relais de la télécommande</strong><br><span class="doux">Adresse du serveur relais (wss://…), à régler sur le tableau et sur la télécommande. Vide : même appareil seulement.</span></div>
-      <input id="relais" class="champ" type="url" inputmode="url" placeholder="wss://…" value="${esc(REGLAGES.relais||"")}" style="max-width:260px"></div>`}
+    <div class="interrupteur"><div><strong>📲 Salle des joueurs : ${esc(REGLAGES.salleJ||S.salleJ||"")}</strong><br><span class="doux">Si les tablettes n’arrivent plus à se connecter : nouveau code, puis on rescanne le QR code.</span></div>
+      <button class="btn discret" data-action="nouvelle-salle-joueurs">Nouveau code</button></div>
+    <div class="interrupteur"><div><strong>📡 Relais</strong>${!relaisEnLigne() && S.relaisEdit?`<br><span class="doux">Adresse du serveur relais (wss://…). Vide : même appareil seulement.</span>`:""}</div>
+      <div class="ligne">${relaisEnLigne() || REGLAGES.relais ? etatRelais() : `<span class="badge">Même appareil seulement</span>`}${relaisEnLigne()?"":`<button class="lien" data-action="relais-modifier">${S.relaisEdit?"Fermer":"Modifier"}</button>`}</div></div>
+    ${!relaisEnLigne() && S.relaisEdit ? `<div class="interrupteur"><input id="relais" class="champ" type="url" inputmode="url" placeholder="wss://…" value="${esc(REGLAGES.relais||"")}" style="width:100%"></div>` : ""}
     <div class="interrupteur"><div><strong>Thème</strong><br><span class="doux">Automatique suit le réglage de l’appareil.</span></div>
       <div class="ligne">${[["auto","Automatique"],["light","Station de jour"],["dark","Nuit orbitale"]].map(([v,n])=>`<button class="puce ${REGLAGES.theme===v?"on":""}" data-action="theme" data-v="${v}" aria-pressed="${REGLAGES.theme===v}">${n}</button>`).join("")}</div></div>
     <div class="interrupteur"><div><strong>Sons</strong><br><span class="doux">Cloche, friteuse, tic-tac, gong.</span></div>
@@ -6407,13 +6614,7 @@ function reglagesCorps(enPartie){ return `
       <input type="range" min="0" max="1" step=".05" value="${REGLAGES.volMusique}" data-action="vol-musique" aria-label="Volume de la musique" style="width:180px"></div>
     <div class="interrupteur"><div><strong>Volume des sons</strong></div>
       <input type="range" min="0" max="1" step=".05" value="${REGLAGES.volume}" data-action="volume" aria-label="Volume" style="width:180px"></div>
-    <div class="interrupteur"><div><strong>Tester les sons</strong></div>
-      <div class="ligne">${["cloche","friteuse","buzz","gong","fiesta","rire"].map(s=>`<button class="btn discret" data-action="test-son" data-s="${s}">${s[0].toUpperCase()+s.slice(1)}</button>`).join("")}</div></div>
-    <details class="sons-perso"><summary><strong>🎧 Sons enregistrés</strong> <span class="doux">(facultatif : remplace les sons de synthèse)</span></summary>
-      <p class="doux">Importe un fichier audio (mp3, ogg, wav) pour chaque effet : il reste dans ce navigateur. Tu peux aussi déposer les fichiers dans un dossier <code>sons/</code> à côté de pickles.html, avec les noms indiqués. Les sons de Pixabay et de Free-loops restent soumis à leurs propres licences.</p>
-      ${SONS_SLOTS.map(([id,nom,f,src],k)=>`${k===0?`<h4>Effets sonores</h4>`:id==="m-comptoir"?`<h4>Musiques d’ambiance <span class="doux">(jouées en boucle, à la place des thèmes de synthèse ; ▶ en fait écouter 8 secondes)</span></h4>`:""}<div class="interrupteur"><div><strong>${nom}</strong><br><span class="doux">${SonsFichiers.buf[id]?"✅ "+SonsFichiers.src[id]:"Son de synthèse"} · ${esc(src)} · <code>sons/${f}</code></span></div>
-        <div class="ligne"><button class="btn discret" data-action="test-son" data-s="${id}">▶</button><button class="btn discret" data-action="importer-son" data-s="${id}">📁 Importer</button>${SonsFichiers.src[id]==="importé"?`<button class="btn discret" data-action="retirer-son" data-s="${id}">✖</button>`:""}</div></div>`).join("")}
-    </details>
+
     <div class="interrupteur"><div><strong>Chrono par défaut</strong></div>
       <div class="ligne">${[10,20,30].map(s=>`<button class="puce ${REGLAGES.chrono===s?"on":""}" data-action="reg-chrono" data-val="${s}" aria-pressed="${REGLAGES.chrono===s}">${s} s</button>`).join("")}</div></div>
     ${enPartie?"":`<div class="interrupteur"><div><strong>Tout effacer</strong><br><span class="doux">Snacks, tableau d’honneur, records et réglages de cet appareil.</span></div>
@@ -6567,7 +6768,7 @@ function creerLien(){ return { salle:null, role:null, bc:null, ws:null, onMsg:nu
     this.bc=null; this.ws=null; this.wsOk=false; },
   envoyer(m){ m.de=this.role; m.id=m.id||(Date.now().toString(36)+Math.random().toString(36).slice(2,8)); try{ this.bc&&this.bc.postMessage(m); }catch(e){} try{ if(this.ws&&this.ws.readyState===1) this.ws.send(JSON.stringify(m)); }catch(e){} },
   vus:new Set(), vusOrdre:[],
-  recevoir(m){ if(!m || m.de===this.role) return;
+  recevoir(m){ if(!m || (m.de===this.role && m.t!=="hote-actif")) return;
     if(m.id){ if(this.vus.has(m.id)) return; this.vus.add(m.id); this.vusOrdre.push(m.id); if(this.vusOrdre.length>300) this.vus.delete(this.vusOrdre.shift()); }
     this.onMsg&&this.onMsg(m); } }; }
 // Deux salles distinctes : les élèves ne reçoivent jamais ce qui part vers la télécommande (les réponses !)
@@ -6783,11 +6984,21 @@ function demarrerJoueur(code, prm={}){
   S.pseudo = prm.pseudo!=null ? prm.pseudo : Stock.lire("pseudo",""); S.inscrit=false; S.revele=Stock.lire("revele:"+S.jid,null); S.monVote=null;
   if(prm.auto || (!prm.id && Stock.lire("inscritJ",false))){ S.inscrit=true; setTimeout(()=>envoyerJ("rejoindre",{pseudo:S.pseudo}),50); }
   LienJ.ouvrir(code,"joueur");
-  LienJ.onMsg=m=>{ if(m.de!=="ecran" || m.t!=="etatJ") return;
+  LienJ.onMsg=m=>{
+    if(m.de==="ecran" && m.t==="alerte"){ toast(m.texte); return; }
+    if(m.de==="ecran" && m.t==="son"){ son(m.nom); return; }
+    if(m.de==="ecran" && m.t==="confettis"){ confettis(m.n, true); return; }
+    if(m.de==="ecran" && m.t==="sas"){ sas(m.titre, m.sous, ()=>{}, true); return; }
+    if(m.de==="ecran" && m.t==="son-seul"){ sonSeul(m.nom); return; }
+    if(m.de==="ecran" && m.t==="passation" && m.pour===S.jid && LienJ.role==="joueur"){ reprendreSalle(m.etat, S.jid); return; }
+    if(m.de==="ecran" && m.t==="sauvegarde"){ if(m.pour===S.jid){ S.sauvegarde=m.etat; S.sauvegardeT=Date.now(); } else S.sauvegarde=null; S.contactJ=Date.now(); return; }
+    if(m.de==="ecran" && m.t==="hote-actif"){ S.contactJ=Date.now(); return; }
+    if(m.de!=="ecran" || m.t!=="etatJ") return;
     if(m.etat && m.etat.exclu){ if(m.etat.exclu===S.jid){ S.exclu=true; S.etatJ=null; rendre(); } return; }
     if(S.exclu){ if(!(m.etat && m.etat.affect && m.etat.affect[S.jid])) return; S.exclu=false; }   // réintégré : de retour dans la liste des joueurs
     const avant=S.etatJ; S.etatJ=m.etat; S.contactJ=Date.now();
-    if(!avant || !avant.question || !m.etat.question || avant.question.enonce!==m.etat.question.enonce) S.monVote=null;
+    if(m.etat && m.etat.salle && !S.sonsSalle){ S.sonsSalle=true; SonsFichiers.charger().then(()=>Musique.maj()); Musique.maj(); }
+    if(!avant || !avant.question || !m.etat.question || avant.question.enonce!==m.etat.question.enonce || avant.tour!==m.etat.tour || (avant.question.num!==m.etat.question.num)) S.monVote=null;
     if(document.activeElement && document.activeElement.matches("#app input")) return;
     // on ne redessine que si l’écran change vraiment : un doigt posé sur un bouton ne doit jamais le voir disparaître
     const h=VUES.joueur(); if(h!==S.dernierHtmlJ){ S.dernierHtmlJ=h; rendre(); } };
@@ -6795,20 +7006,26 @@ function demarrerJoueur(code, prm={}){
   const ping=()=>{ if(S.ecran!=="joueur" || S.pingTok!==tok) return; if(S.inscrit) LienJ.envoyer({t: !S.etatJ||Date.now()-(S.contactJ||0)>8000?"rejoindre":"bonjour", jid:S.jid, pseudo:S.pseudo}); setTimeout(ping,4000); };
   ping();
 }
-const envoyerJ=(t,extra)=>{ if(navigator.vibrate && !S.simu) try{ navigator.vibrate(30); }catch(e){} LienJ.envoyer({t, jid:S.jid, ...extra}); };
+const envoyerJ=(t,extra)=>{ if(navigator.vibrate && !S.simu) try{ navigator.vibrate(30); }catch(e){}
+  if(LienJ.role==="ecran" && enSalle()){ const f=LienJ.onMsg; if(f) setTimeout(()=>f({de:"joueur", t, jid:jidHote(), ...extra}),0); return; }
+  LienJ.envoyer({t, jid:S.jid, ...extra}); };
 VUES.joueur = () => {
   const E=S.etatJ, moi=E && E.affect && E.affect[S.jid];
   if(S.exclu) return `<div class="jr jr-centre"><p class="jr-grand">🚪 Tu as été retiré de la partie.</p><p class="jr-petit">Vois avec ton professeur : s’il te réintègre, tu reviendras ici tout seul.</p></div>`;
-  if(!S.inscrit) return `<div class="jr jr-centre"><div class="jr-logo">🥒</div><h1 class="jr-titre">Pi-ckles</h1>
-    <label class="jr-champ">Salle<input id="salleJ" class="jr-code" maxlength="6" value="${esc(S.salleJ||"")}" placeholder="CODE" autocomplete="off" autocapitalize="characters"></label>
-    <label class="jr-champ">Ton pseudo<input id="pseudo" maxlength="16" value="${esc(S.pseudo)}" placeholder="Laisse vide pour rester anonyme" autocomplete="off"></label>
-    <p class="jr-petit">Ton pseudo s’affichera au tableau. Choisis-le correct : le prof peut l’effacer.</p>
-    <button class="btn moutarde jr-gros" data-action="j-rejoindre">Rejoindre la partie</button>
-    <button class="btn discret" data-action="j-quitter-jeu"><svg class="ico-quitter" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M6.3 6.8a8 8 0 1 0 11.4 0" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>Quitter Pi-ckles</button></div>`;
+  if(!S.inscrit) return `<div class="jr jr-rejoindre">
+    <div class="jr-rj-tete"><span class="jr-rj-logo" aria-hidden="true">🥒</span><h1>Pi-ckles</h1><p class="jr-petit">Rejoins une partie avec le code affiché par l’organisateur.</p></div>
+    <div class="jr-rj-champs">
+      <label class="jr-champ">Code de la salle<input id="salleJ" class="jr-code" maxlength="6" value="${esc(S.salleJ||"")}" placeholder="CODE" autocomplete="off" autocapitalize="characters" inputmode="text"></label>
+      <label class="jr-champ">Ton pseudo<input id="pseudo" maxlength="16" value="${esc(S.pseudo)}" placeholder="Laisse vide pour rester anonyme" autocomplete="off" enterkeyhint="go"></label>
+      <p class="jr-petit">Visible des autres joueurs : choisis-le correct.</p>
+    </div>
+    <button class="btn moutarde jr-gros jr-rj-go" data-action="j-rejoindre">Rejoindre la partie →</button>
+    <p class="jr-rj-liens"><button class="lien" data-action="j-accueil">🏠 Écran d’accueil</button> · <button class="lien" data-action="j-quitter-jeu">Quitter Pi-ckles</button></p></div>`;
   if(!E){ const long = Date.now()-(S.debutConnexion||(S.debutConnexion=Date.now()))>6000;
     if(!long) setTimeout(()=>{ if(S.ecran==="joueur" && !S.etatJ){ S.dernierHtmlJ=null; rendre(); } },6200);
     return `<div class="jr jr-centre"><p class="jr-grand">Connexion au tableau…</p><p class="jr-petit">Salle ${esc(S.salleJ)}</p>
       ${long?`<p class="jr-petit">⚠️ Le tableau ne répond pas. Vérifie le code affiché au tableau, et que Pi-ckles y est bien ouvert.</p>`:""}
+      <button class="btn" data-action="j-accueil">🏠 Retour à l’accueil</button>
       <button class="btn" data-action="j-changer-salle">✏️ Changer de salle</button>
       <button class="btn discret" data-action="j-quitter-jeu"><svg class="ico-quitter" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M6.3 6.8a8 8 0 1 0 11.4 0" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>Quitter Pi-ckles</button></div>`; }
   // fin de partie : le bilan, puis retour au lobby
@@ -6822,7 +7039,9 @@ VUES.joueur = () => {
       <div class="jr-scores-fin">${F.equipes.map((x,i)=>`<div style="--c:${x.coul}" class="${i===F.gagnant&&!F.egalite?"gagnant":""}"><span>${esc(x.patron)}</span><strong>${String(x.score).replace(".",",")}</strong></div>`).join("")}</div>
       <div class="jr-stats"><p class="jr-petit">Tes statistiques</p>${lignes.length?lignes.map(l=>`<p>${l}</p>`).join(""):`<p>Tu as surtout encouragé ton équipe 😄</p>`}</div>
       ${E.snack?`<button class="btn jr-gros" data-action="j-snack">🛸 Voir notre snack</button>`:""}
-      <button class="btn moutarde jr-gros" data-action="j-lobby">Retour au lobby</button></div></div>`;
+      ${E.salle?`${(enregistrerPalmaresSalle(E, moi), "")}<button class="btn jr-gros" data-action="j-palmares">🏆 Mon palmarès</button>
+        ${S.jid===E.salle.createurJid?`<button class="btn moutarde jr-gros" data-action="salle-rejouer">🔁 Rejouer, mêmes réglages</button><button class="btn jr-gros" data-action="salle-relancer">🔄 Relancer une partie</button><button class="btn jr-gros" data-action="salle-quitter">🚪 Quitter la salle</button>`:`<button class="btn jr-gros" data-action="j-accueil">🚪 Quitter la salle</button><p class="jr-petit">${esc(E.salle.createur)} peut relancer une partie dans la même salle.</p>`}`
+        :`<button class="btn moutarde jr-gros" data-action="j-lobby">Retour au lobby</button>`}</div></div>`;
   }
   if(S.voirSnack && E.snack){ const K=E.snack;
     return `<div class="jr"><div class="jr-bandeau"><span>🛸 Le snack des ${esc(K.classe)}</span><button class="jr-quitter" data-action="j-snack" aria-label="Fermer">✖</button></div>
@@ -6831,38 +7050,82 @@ VUES.joueur = () => {
       <div class="jr-station">${K.modules.map(x=>`<div class="${x.ok?"":"verrou"}"><span>${x.ico}</span>${esc(x.nom)}</div>`).join("")}</div>
       <p class="jr-petit">Tableau d’honneur du Grand Bocal</p>${K.honneur.length?`<ol>${K.honneur.map(h=>`<li>${esc(h.nom)}, le ${esc(h.date)}</li>`).join("")}</ol>`:`<p class="jr-petit">Personne encore… à toi de jouer ?</p>`}</div></div>`; }
   const eqInfo = moi && moi.eq!=null && E.equipes ? E.equipes[moi.eq] : null;
-  const bandeau = `<div class="jr-bandeau" style="--c:${eqInfo?eqInfo.coul:"#888"}"><span>${esc(moi?moi.nom:S.pseudo||"…")}</span>${E.equipes?`<span>${E.equipes.map(x=>`${esc(x.patron.split(" ").slice(-1)[0])} <strong>${String(x.score).replace(".",",")}</strong>`).join(" · ")}</span>`:""}${E.snack?`<button class="jr-quitter" data-action="j-snack" aria-label="Le snack de la classe">🛸</button>`:""}<button class="jr-quitter" data-action="j-quitter" aria-label="Quitter la salle">🚪</button></div>`;
+  let bandeau = `<div class="jr-bandeau" style="--c:${eqInfo?eqInfo.coul:"#888"}"><span>${esc(moi?moi.nom:S.pseudo||"…")}</span>${E.equipes?`<span class="jr-patrons">${E.equipes.map((x,i)=>`<button class="jr-pat" data-action="j-fiche" data-eq="${i}" aria-label="Voir le patron ${esc(x.patron)} et son bonus">${esc(x.patron.split(" ").slice(-1)[0])} <strong>${String(x.score).replace(".",",")}</strong></button>`).join(" · ")}</span>`:""}${E.snack?`<button class="jr-quitter" data-action="j-snack" aria-label="Le snack de la classe">🛸</button>`:""}${E.salle&&E.chrono!=null?`<span class="jr-chrono-bandeau">⏱ ${E.chrono}</span>`:""}${E.salle&&S.jid===E.salle.createurJid?`<button class="jr-quitter" data-action="salle-joueurs" aria-label="Gérer les joueurs" title="Gérer les joueurs">👥</button><button class="jr-quitter" data-action="salle-arreter" aria-label="Arrêter la partie" title="Arrêter la partie (retour aux réglages)">🛑</button><button class="jr-quitter" data-action="salle-quitter" aria-label="Quitter la salle" title="Quitter la salle (un autre joueur prend la main)">🚪</button>`:`<button class="jr-quitter" data-action="j-quitter" aria-label="Quitter la salle">🚪</button>`}</div>`;
+  if(E.equipes && !E.salle) bandeau += ficheSalle(E, moi ? moi.eq : null);
+  // multijoueur : en haut, l’habillage habituel (plaques des patrons, manche, chrono) ; en bas, la barre des actions
+  if(E.salle && E.equipes && E.partie){ const createur = S.jid===E.salle.createurJid, mon = moi ? moi.eq : null;
+    const plaque=(x,i)=>`<div data-action="j-fiche" data-eq="${i}" role="button" aria-label="Voir le patron ${esc(x.patron)} et son bonus" class="equipe ${i?"droite":""} ${E.manche && E.phase==="jeu" && E.tour===i && ["nuggets","menus"].includes(E.manche.id)?"tour":""} ${mon===i?"jr-mienne":""}">
+      <span class="pastille" style="background:${x.coul}"></span>
+      <div><div class="nom">${esc(x.patron)}</div>${mon===i?`<div class="info">Ton équipe</div>`:""}</div>
+      <div class="score">${String(x.score).replace(".",",")}</div></div>`;
+    const tot=E.chronoTotal||20, pc=E.chrono!=null?Math.max(0,Math.min(1,E.chrono/tot)):0;
+    const centre=`<div class="centre"><div class="manche">${E.manche?esc(E.manche.nom):"Pi-ckles"}</div>${E.chrono!=null?`<div class="jr-chrono-rond" style="--p:${pc}"><span class="jr-chrono-bandeau">${E.chrono}</span></div>`:""}</div>`;
+    const barre=`<nav class="barre-prof jr-barre" aria-label="Actions"><span class="jr-barre-nom">${esc(moi?moi.nom:S.pseudo||"")}${createur?" 👑":""}</span>
+      ${createur?`<button class="ico-btn" data-action="salle-joueurs"><span class="ico" aria-hidden="true">👥</span><span class="txt">Joueurs</span></button>`:""}
+      <button class="ico-btn" data-action="j-palmares"><span class="ico" aria-hidden="true">🏆</span><span class="txt">Palmarès</span></button>
+      <button class="ico-btn ${REGLAGES.musique?"":"coupe"}" data-action="musique" aria-label="Musique ${REGLAGES.musique?"activée":"coupée"}"><span class="ico" aria-hidden="true">${REGLAGES.musique?"🎵":"🔇"}</span><span class="txt">Musique</span></button>
+      <button class="ico-btn ${REGLAGES.sons?"":"coupe"}" data-action="sons" aria-label="Sons ${REGLAGES.sons?"activés":"coupés"}"><span class="ico" aria-hidden="true">${REGLAGES.sons?"🔔":"🔕"}</span><span class="txt">Sons</span></button>
+      ${createur?`<button class="ico-btn" data-action="salle-sauter"><span class="ico" aria-hidden="true">⏭</span><span class="txt">Manche suivante</span></button>`:""}
+      ${createur?`<button class="ico-btn" data-action="salle-arreter"><span class="ico" aria-hidden="true">🛑</span><span class="txt">Arrêter</span></button>`:""}
+      <button class="ico-btn" data-action="${createur?"salle-quitter":"j-quitter"}"><span class="ico" aria-hidden="true">🚪</span><span class="txt">Quitter</span></button></nav>`;
+    bandeau = `<header class="tableau jr-entete">${plaque(E.equipes[0],0)}${centre}${plaque(E.equipes[1],1)}</header>${barre}${ficheSalle(E, mon)}`; }
+  if(E.salle && !E.partie) return `<div class="jr">${bandeau}<div class="jr-centre salle-attente">
+      <p class="jr-petit">🌐 Salle <strong>${esc(E.salle.code)}</strong> · créée par ${esc(E.salle.createur)}</p>
+      <p class="jr-grand">Bienvenue ${esc(moi?moi.nom:S.pseudo||"")} !</p>
+      <div class="salle-liste">${E.salle.joueurs.map((n,i)=>`<span class="salle-joueur ${i===0?"moi":""}">${i===0?"👑 ":""}${esc(n)}</span>`).join("")}</div>
+      <div class="salle-options"><strong>La partie</strong><span>${esc(E.salle.options)}</span></div>
+      <p class="jr-petit">⏳ ${esc(E.salle.createur)} règle la partie et la lancera bientôt…</p>
+      <button class="btn" data-action="j-palmares">🏆 Mon palmarès</button></div></div>`;
   if(!E.partie || !E.equipes || !moi || moi.eq==null || E.fin) return `<div class="jr">${bandeau}<div class="jr-centre"><div class="jr-logo flotte">🥒</div><p class="jr-grand">Bienvenue ${esc(moi?moi.nom:"")} !</p><p class="jr-petit">${E.fin?"La prochaine partie arrive…":"Attends le tirage des équipes…"}</p>${E.snack?`<button class="btn jr-gros" data-action="j-snack">🛸 Voir le snack de la classe</button>`:""}</div></div>`;
   // révélation du patron : interactive
   if(S.revele!==E.idPartie) return `<div class="jr">${bandeau}<div class="jr-centre"><p class="jr-petit">Ton équipe est tirée au sort !</p>
     <button class="jr-carte-dos" data-action="j-reveler">🥒<span>Touche pour découvrir ton patron</span></button></div></div>`;
   const m=E.manche, monEq=moi.eq, adv=E.equipes[1-monEq];
   let corps="";
+  if(E.salle && S.jid===E.salle.createurJid && S.voirJoueursSalle) return `<div class="jr">${bandeau}${listeJoueursSalle()}</div>`;
   const A=E.action && E.action.pour===S.jid ? E.action : null;
   if(A){ return `<div class="jr">${bandeau}<p class="jr-question">${A.quoi==="bocal"?"🫙 ":""}${A.titre}</p>
       <div class="jr-choix ${A.quoi==="bocal"?"":"jr-une-colonne"}">${A.choix.map((c,k)=>`<button class="jr-rep" data-action="j-qcm" data-quoi="${A.quoi}" data-k="${k}"><span class="jr-lettre">${"ABCD"[k]}</span><span>${c}</span></button>`).join("")}</div>
-      <p class="jr-petit">${A.quoi==="add"?"Tu as buzzé : à toi de répondre !":A.quoi==="menu"?"Tiré au sort : c’est toi qui réponds.":"Retrouve la réponse, dans l’ordre."}</p></div>`; }
-  if(m && m.id==="menus" && E.choixMenu){ const C=E.choixMenu, mon=(C.mesVotes||{})[S.jid];
+      <p class="jr-petit">${A.quoi==="add"||A.quoi==="sp"?"Tu as buzzé : à toi de répondre !":A.quoi==="menu"?"Tiré au sort : c’est toi qui réponds.":"Retrouve la réponse, dans l’ordre."}</p></div>`; }
+  if(m && m.id==="menus" && E.salle && (E.menusCartes || E.choixMenu)) corps=cartesMenusJoueur(E.menusCartes, E.menusCartes?null:E.choixMenu, monEq);
+  else if(m && m.id==="menus" && E.choixMenu){ const C=E.choixMenu, mon=(C.mesVotes||{})[S.jid];
     corps = C.ci!==monEq ? `<div class="jr-attente"><p class="jr-grand">⏳ ${esc(C.equipe)} choisit son menu</p></div>`
-      : `<p class="jr-question">Quel menu voulez-vous ?</p><p class="jr-petit">Débattez à l’oral, puis votez. Si tout le monde est d’accord, le menu est servi.</p>
+      : `<p class="jr-question">Quel menu voulez-vous ?</p><p class="jr-petit">${E.salle?"Votez : si toute l’équipe est d’accord, le menu est servi (sinon, au bout de 20 s, le plus voté).":"Débattez à l’oral, puis votez. Si tout le monde est d’accord, le menu est servi."}</p>
         <div class="jr-choix jr-menus">${C.liste.filter(x=>x.libre).map(x=>`<button class="jr-rep ${mon===x.i?"mien":""}" data-action="j-vote-menu" data-i="${x.i}"><span class="jr-lettre">${x.pompeux?"🎩":"📜"}</span><span>${esc(x.pompeux?x.titre.slice(0,90)+(x.titre.length>90?"…":""):x.titre)}</span>${C.votes[x.i]?`<em>${C.votes[x.i]}</em>`:""}</button>`).join("")}</div>
         <p class="jr-petit">${C.nb} / ${C.attendus} ont voté.</p>`; }
+  else if(E.salle && !m){ const createur = S.jid===E.salle.createurJid && S.ecran==="tirage";
+    corps=`<div class="jr-centre"><div class="jr-patron" style="--c:${eqInfo.coul}"><span>Ton patron</span><strong>${esc(eqInfo.patron)}</strong></div>
+      <p class="jr-grand">${E.salle.depart!=null?`La partie commence dans ${E.salle.depart}…`:"En attente que tout le monde retourne sa carte…"}</p>
+      ${createur?`<button class="btn" data-action="retirer">Retirer au sort</button>`:""}</div>`; }
+  else if(E.salle && E.menusCartes && E.phase!=="titre") corps=cartesMenusJoueur(E.menusCartes, null, monEq);
+  else if(E.salle && E.phase!=="jeu") corps=`<div class="jr-centre jr-presentation"><p class="jr-petit">Prochaine manche</p><p class="jr-titre-manche">${esc(m.nom)}</p><p>${esc(m.regle||"")}</p>
+      <div class="jr-patron petit" style="--c:${eqInfo.coul}"><span>Ton patron</span><strong>${esc(eqInfo.patron)}</strong></div></div>`;
   else if(!m || E.phase!=="jeu") corps=`<div class="jr-centre"><div class="jr-patron" style="--c:${eqInfo.coul}"><span>Ton patron</span><strong>${esc(eqInfo.patron)}</strong></div>
       <p class="jr-petit">${m?"Prochaine manche : "+esc(m.nom):"Pause au comptoir"}</p></div>`;
   else if(m.id==="nuggets"){
     const q=E.question;
-    if(E.tour!==monEq) corps=`<div class="jr-attente"><p class="jr-grand">⏳ En attente du tour de</p><p class="jr-patron-nom" style="color:${adv.coul}">${esc(adv.patron)}</p></div>`;
+    if(E.tour!==monEq && E.salle && q) corps=`<div class="jr-tour" style="--c:${adv.coul}">⏳ Au tour de <strong>${esc(adv.patron)}</strong></div><div class="jr-pas-mon-tour"><p class="jr-question">${q.enonce}</p>
+        <div class="jr-choix">${q.choix.map((c,k)=>`<button class="jr-rep ${q.bonne!=null?(q.bonne===k?"juste":"eteint"):(q.emballees||[]).includes(k)?"emballee":(q.elimines||[]).includes(k)?"elimine":""}" disabled><span class="jr-lettre">${"ABCD"[k]}</span><span>${c}</span>${q.distrib?`<em>${q.distrib[k]||0}</em>`:""}</button>`).join("")}</div>
+        <p class="jr-petit">${q.repondu!=null?(q.repondu===q.bonne?"✅ Bonne réponse pour eux.":"❌ Raté pour eux."):"Ils votent…"}</p></div>`;
+    else if(E.tour!==monEq) corps=`<div class="jr-attente"><p class="jr-grand">⏳ En attente du tour de</p><p class="jr-patron-nom" style="color:${adv.coul}">${esc(adv.patron)}</p></div>`;
     else if(q){ const ferme=!E.votesOuverts || q.repondu!=null;
-      corps=`<p class="jr-question">${q.enonce}</p>${E.chrono!=null?`<p class="jr-chrono">⏱️ ${E.chrono} s</p>`:""}
+      corps=`${E.salle?`<div class="jr-tour a-nous" style="--c:${eqInfo.coul}">🎯 À ton équipe : <strong>${esc(eqInfo.patron)}</strong></div>`:""}<p class="jr-question">${q.enonce}</p>${E.chrono!=null&&!E.salle?`<p class="jr-chrono">⏱️ ${E.chrono} s</p>`:""}
         <div class="jr-choix">${q.choix.map((c,k)=>{ const elim=q.elimines.includes(k), mien=S.monVote===k, bon=q.bonne===k;
-          return `<button class="jr-rep ${mien?"mien":""} ${q.bonne!=null?(bon?"juste":mien?"faux":"eteint"):""}" data-action="j-vote" data-k="${k}" ${ferme||elim?"disabled":""}><span class="jr-lettre">${"ABCD"[k]}</span><span>${c}</span>${q.distrib?`<em>${q.distrib[k]}</em>`:""}</button>`; }).join("")}</div>
+          const emb=(q.emballees||[]).includes(k);
+          return `<button class="jr-rep ${mien?"mien":""} ${q.bonne!=null?(bon?"juste":mien?"faux":"eteint"):elim?(emb?"emballee":"elimine"):""}" data-action="j-vote" data-k="${k}" ${ferme||elim?"disabled":""}><span class="jr-lettre">${"ABCD"[k]}</span><span>${c}</span>${q.distrib?`<em>${q.distrib[k]}</em>`:""}</button>`; }).join("")}</div>
         <p class="jr-petit">${ferme?(q.repondu!=null?"Vote clos.":"Vote clos."):S.monVote!=null?`Ton vote est enregistré, tu peux encore changer d’avis. ${E.nbVotes} / ${E.nbEquipe} ont voté.`:`Concertez-vous, puis vote ! ${E.nbVotes} / ${E.nbEquipe} ont voté.`}</p>`; }
   }
   else if(m.id==="selpoivre" || m.id==="addition"){
     const aMoi = E.buzzNom && moi && E.buzzNom===moi.nom;
-    corps = E.buzzNom ? `<div class="jr-centre"><p class="jr-grand">${aMoi?"🔔 C’est toi ! Réponds à voix haute.":`🔔 ${esc(E.buzzNom)} a la main`}</p></div>`
+    const enTete = E.affirmation ? `<p class="jr-petit">${esc(E.affirmation.sel)} ou ${esc(E.affirmation.poivre)} ? Ou les deux ?</p><p class="jr-question">${E.affirmation.texte}</p>`
+      : E.questionAdd ? `<p class="jr-question">${E.questionAdd}</p>` : "";
+    corps = enTete + (E.buzzNom ? `<div class="jr-centre"><p class="jr-grand">${aMoi?"🔔 C’est toi ! Réponds à voix haute.":`🔔 ${esc(E.buzzNom)} a la main`}</p></div>`
       : `<div class="jr-centre"><button class="jr-buzzer" style="--c:${eqInfo.coul}" data-action="j-buzz" ${E.buzzOuvert?"":"disabled"}>BUZZ</button>
-         <p class="jr-petit">${E.buzzOuvert?"Le plus rapide parle !":E.patience?"Lis la question… le buzzer arrive !":"Attends la prochaine question…"}</p></div>`;
+         <p class="jr-petit">${E.buzzOuvert?"Le plus rapide parle !":E.patience?"Lis la question… le buzzer arrive !":"Attends la prochaine question…"}</p></div>`);
+  }
+  else if(m.id==="menus" && E.salle){
+    corps = E.menusCartes ? cartesMenusJoueur(E.menusCartes, null, monEq)
+      : `<div class="jr-centre"><p class="jr-grand">📜 ${E.tour===monEq?"Ton équipe":esc(adv.patron)} va être servie…</p><p class="jr-petit">La question arrive, avec ses quatre propositions.</p></div>`;
   }
   else if(m.id==="menus"){
     const elu=(E.designes||[])[0];
@@ -6870,6 +7133,18 @@ VUES.joueur = () => {
     else corps=`<div class="jr-centre">${elu===moi.nom?`<p class="jr-grand">🎲 C’est toi qui réponds !</p><p class="jr-petit">Écoute la question au tableau. Ton équipe peut t’aider… discrètement.</p>`
       :`<p class="jr-petit">🎲 Tiré au sort pour répondre :</p><p class="jr-grand">${esc(elu||"…")}</p><p class="jr-petit">Aide-le si tu peux… discrètement.</p>`}</div>`;
   }
+  else if(m.id==="burger" && E.salle && E.bocal && E.bocal.candidat){ const B=E.bocal, cand=B.candidat===moi.nom;
+    if(B.etape==="questions") corps=`<div class="jr-centre"><p class="jr-petit">${cand?"🫙 Mémorise bien !":`🫙 ${esc(B.candidat)} affronte le Bocal`} · question ${B.k+1} / 10</p><p class="jr-question jr-bocal-q">${esc(B.question||"…")}</p>
+      ${!cand && B.reponse?`<p class="jr-bocal-attendu">Réponse : <strong>${esc(B.reponse)}</strong></p>`:""}
+      ${cand?`<button class="btn moutarde" data-action="j-bocal-suivante">${B.k<9?"Question suivante ▶":"Passer aux réponses ▶"}</button>`:""}
+      <div class="cases" aria-hidden="true">${Array.from({length:10},(_,i)=>`<div class="case" style="${i<=B.k?"":"opacity:.35"}">${i+1}</div>`).join("")}</div></div>`;
+    else if(B.etape==="reponses") corps=`<div class="jr-centre"><p class="jr-petit">🫙 ${cand?"À toi : les dix réponses, dans l’ordre":`${esc(B.candidat)} donne les réponses, dans l’ordre`}</p>
+      ${!cand && B.enCours?`<p class="jr-bocal-attendu">Réponse n° ${B.res.length+1} attendue : <strong>${esc(B.enCours.r)}</strong><br><span class="jr-petit">${esc(B.enCours.q)}</span></p>`:""}
+      <div class="jr-bocal-res">${Array.from({length:10},(_,i)=>{ const r=B.res[i]; return `<div class="${r===true?"juste":r===false?"faux":i===B.res.length?"prochaine":""}"><span>${i+1}</span>${r===false&&B.dits&&B.dits[i]?`${esc(B.dits[i])} ✗ <small>(${esc(B.attendus[i]||"")})</small>`:r!=null?esc(B.attendus[i]||""):"…"}${r===true?" ✓":""}</div>`; }).join("")}</div></div>`;
+    else if(B.etape==="fin"){ const n=B.res.filter(Boolean).length;
+      corps=`<div class="jr-centre"><p class="jr-grand">${n===10?"🏆 Grand Bocal !":n>=5?"⚡ Petit Bocal !":"😈 Bocal raté…"}</p><p class="jr-petit">${cand?"Tu as":esc(B.candidat)+" a"} retrouvé ${n} réponse${n>1?"s":""} sur 10.</p>
+      <div class="jr-bocal-res">${B.res.map((r,i)=>`<div class="${r?"juste":"faux"}"><span>${i+1}</span>${!r&&B.dits&&B.dits[i]?`${esc(B.dits[i])} ✗ <small>(${esc(B.attendus[i]||"")})</small>`:esc(B.attendus[i]||"")}${r?" ✓":""}</div>`).join("")}</div></div>`; }
+    else corps=`<div class="jr-centre"><p class="jr-grand">🫙 ${cand?"C’est toi le candidat !":esc(B.candidat)+" affronte le Bocal infernal"}</p></div>`; }
   else if(m.id==="burger"){
     const cand = E.candidat && moi && E.candidat===moi.nom;
     corps=`<div class="jr-centre">${cand?`<p class="jr-grand">🫙 C’est toi le candidat !</p><p class="jr-petit">Écoute bien les dix questions…</p>`:`<p class="jr-grand">🤫 Chut…</p><p class="jr-petit">${E.candidat?esc(E.candidat)+" affronte le Bocal infernal.":"Tirage du candidat…"}</p>`}</div>`;
@@ -6883,6 +7158,14 @@ VUES.joueur = () => {
       ${dejaVote?`<span class="jr-petit">${D.oui} oui / ${D.besoin}</span>`:`<span class="jr-oui-non"><button class="btn cornichon" data-action="j-joker-vote" data-oui="1">👍</button><button class="btn ketchup" data-action="j-joker-vote" data-oui="0">👎</button></span>`}</div>`; }
   else if(aLaMain && mesJokers.some(x=>!x.utilise) && !D)
     jokers=`<div class="jr-jokers">${mesJokers.filter(x=>!x.utilise).map(x=>`<button class="jr-joker" data-action="j-joker" data-k="${x.k}" title="${esc(x.nom)}">${x.ico}<span>${esc(x.nom)}</span></button>`).join("")}</div>`;
+  // salle : vote de l’équipe (Carte du chef, rebond du Ketchup)
+  if(E.voteEq && m){ const V=E.voteEq, mien=(V.mesVotes||{})[S.jid], equipeV=E.equipes[V.eq];
+    const titre=V.quoi==="sp"?`<p class="jr-petit">Rebond : ${V.eq===monEq?"à ton équipe de répondre":"l’autre équipe répond"}</p>`:"";
+    if(V.eq===monEq) return `<div class="jr">${bandeau}${V.quoi==="menu"?jokers:""}${titre}<p class="jr-question">${V.titre}</p>
+      <div class="jr-choix jr-une-colonne">${V.choix.map((c,k)=>`<button class="jr-rep ${mien===k?"mien":""} ${(V.elimines||[]).includes(k)?"emballee":""}" data-action="j-vote-eq" data-k="${k}" ${(V.elimines||[]).includes(k)?"disabled":""}><span class="jr-lettre">${"ABCD"[k]}</span><span>${c}</span></button>`).join("")}</div>
+      <p class="jr-petit">${mien!=null?"Ton vote est enregistré, tu peux encore changer d’avis.":"Concertez-vous, puis vote !"} ${V.nb} / ${V.attendus} ont voté · ⏱ ${V.reste} s</p></div>`;
+    return `<div class="jr">${bandeau}<div class="jr-tour" style="--c:${equipeV.coul}">⏳ ${esc(equipeV.patron)} vote</div>${titre}<div class="jr-pas-mon-tour"><p class="jr-question">${V.titre}</p>
+      <div class="jr-choix jr-une-colonne">${V.choix.map((c,k)=>`<button class="jr-rep" disabled><span class="jr-lettre">${"ABCD"[k]}</span><span>${c}</span></button>`).join("")}</div></div></div>`; }
   const suite = E.continuer ? `<button class="btn moutarde jr-gros jr-continuer" data-action="j-continuer">${esc(E.continuer)} ▶</button>` : "";
   return `<div class="jr">${bandeau}${jokers}${corps}${suite}</div>`;
 };
@@ -6935,25 +7218,31 @@ function chargerQR(cb){ if(window.QRCode) return cb(); const s=document.createEl
    PANNEAU JOUEUR : les élèves sur tablette
    ===================================================================== */
 S.joueurs = {};            // id -> {pseudo, nom, eq, vu}
-const enTablettes = () => S.config.reponses==="tablettes";
+const enSalle = () => S.config.reponses==="salle";
+const enTablettes = () => S.config.reponses==="tablettes" || enSalle();
 const urlJoueur = () => location.href.split("#")[0]+"#joueur-"+S.salleJ+((REGLAGES.relais||"").trim()?"&relais="+encodeURIComponent(REGLAGES.relais.trim()):"");
 function ouvrirSalleJoueurs(){
   if(LienJ.role==="ecran" && S.salleJ) return;
   // code fixe : un tableau rechargé garde la même salle, les tablettes se reconnectent seules
   if(!REGLAGES.salleJ || REGLAGES.salleJ===REGLAGES.salle){ do{ REGLAGES.salleJ=codeSalle(); }while(REGLAGES.salleJ===REGLAGES.salle); Stock.ecrire("reglages",REGLAGES); }
   S.salleJ=REGLAGES.salleJ; LienJ.ouvrir(S.salleJ,"ecran");
-  LienJ.onMsg=m=>{ if(m.de!=="joueur" || !m.jid) return;
+  LienJ.onMsg=m=>{
+    if(m.t==="hote-actif"){ if(enSalle() && S.partie && m.jid!==jidHote() && (m.epoque||0)>(S.epoque||0)){ fermerSalle(); toast("Tu as perdu la connexion : un autre joueur a repris la partie."); } return; }
+    if(m.de!=="joueur" || !m.jid) return;
     if(S.exclus.has(m.jid)){ LienJ.envoyer({t:"etatJ", etat:{exclu:m.jid}}); return; }
     // un élève réintégré (ou oublié après un rechargement du tableau) qui se manifeste est réinscrit tout seul
     if(m.t==="rejoindre" || (m.t==="bonjour" && !S.joueurs[m.jid])) inscrireJoueur(m.jid, m.pseudo);
     const j=S.joueurs[m.jid]; if(!j) return; j.vu=Date.now();
+    if(m.t==="revele"){ j.revele=m.idp; verifierDepartSalle(); }
     if(m.t==="vote") voteJoueur(j, m.jid, +m.k);
     if(m.t==="buzz") buzzJoueur(j);
     if(m.t==="joker") demanderJoker(j, m.jid, +m.k);
     if(m.t==="vote-menu") voteMenu(m.jid, +m.i);
-    if(m.t==="qcm"){ const A=actionJoueur(); if(A && A.pour===m.jid && A.quoi===m.quoi){ if(m.quoi==="add") ACTIONS["add-choix"]({k:+m.k}); if(m.quoi==="menu") ACTIONS["menu-choix"]({k:+m.k}); if(m.quoi==="bocal") ACTIONS["bocal-choix"]({i:+m.k}); } }
+    if(m.t==="qcm"){ const A=actionJoueur(); if(A && A.pour===m.jid && A.quoi===m.quoi){ if(m.quoi==="add") ACTIONS["add-choix"]({k:+m.k}); if(m.quoi==="menu") ACTIONS["menu-choix"]({k:+m.k}); if(m.quoi==="bocal") ACTIONS["bocal-choix"]({i:+m.k}); if(m.quoi==="sp") ACTIONS.sp({v:["sel","poivre","deux"][+m.k]}); } }
+    if(m.t==="vote-eq") voteEquipe(m.jid, j, +m.k);
+    if(m.t==="bocal-suivante" && enSalle() && S.partie && S.partie.burger && S.partie.burger.candidat===j.nom) ACTIONS["burger-suivante"]();
     if(m.t==="continuer" && modeBots()){ const b=boutonLancement(); if(b) b.click(); }
-    if(m.t==="quitter"){ const P=S.partie; if(P && j.eq!=null){ const mb=P.equipes[j.eq].membres, i=mb.indexOf(j.nom); if(i>=0) mb.splice(i,1); if(!mb.length) mb.push("Siège 1"); }
+    if(m.t==="quitter"){ const P=S.partie; if(P && j.eq!=null && enSalle()) (S.anciensEq=S.anciensEq||{})[j.nom]=j.eq; if(P && j.eq!=null){ const mb=P.equipes[j.eq].membres, i=mb.indexOf(j.nom); if(i>=0) mb.splice(i,1); if(!mb.length) mb.push("Siège 1"); }
       delete S.joueurs[m.jid]; toast(`${j.nom} a quitté la salle.`); rendre(); envoyerEtatJ(true); return; }
     if(m.t==="joker-vote") voteJoker(j, m.jid, !!m.oui);
     if(m.t==="rejoindre"||m.t==="bonjour") envoyerEtatJ(true);
@@ -6973,8 +7262,10 @@ function inscrireJoueur(jid, pseudo){
   const j=S.joueurs[jid];
   if(neuf || (!j.bloque && pseudo!=null && pseudo!==j.pseudo)){ const ancien=j.nom; j.pseudo=pseudo||""; j.nom=nomUnique(pseudo, jid);
     const P=S.partie; if(P && j.eq!=null){ const mb=P.equipes[j.eq].membres, i=mb.indexOf(ancien); if(i>=0) mb[i]=j.nom; } }
-  // arrivée en cours de partie : dans l’équipe la moins nombreuse
+  // arrivée en cours de partie : dans l’équipe la moins nombreuse (en salle : on retrouve son ancienne équipe)
   const P=S.partie;
+  if(P && enSalle() && j.eq==null && S.anciensEq && S.anciensEq[j.nom]!=null){ j.eq=S.anciensEq[j.nom]; delete S.anciensEq[j.nom]; j.revele=P.idJ;
+    const mb=P.equipes[j.eq].membres; if(mb.length===1 && /^Siège/.test(mb[0])) mb.length=0; if(!mb.includes(j.nom)) mb.push(j.nom); toast(`${j.nom} est de retour !`); }
   if(P && P.tablettes && j.eq==null){ const n=[0,1].map(e=>Object.values(S.joueurs).filter(x=>x.eq===e).length); j.eq = n[0]<=n[1]?0:1;
     const mb=P.equipes[j.eq].membres; if(mb.length===1 && /^Siège/.test(mb[0])) mb.length=0; mb.push(j.nom); }
   rendre();
@@ -7025,7 +7316,9 @@ function buzzJoueur(j){
   const P=S.partie, m=P && mancheCourante(); if(!m || P.phase!=="jeu" || S.verrou) return;
   if(Date.now() < (P.buzzDes||0)) return;   // trop tôt : la question vient d’apparaître
   if(m.id==="selpoivre"){ if(P.buzz!=null || !P.q || P.q.repondu!=null) return;
-    P.equipes[j.eq].forceRep=j.nom; P.buzzNom=j.nom; ACTIONS.buzz({eq:j.eq}); if(j.st) j.st.buzz++; envoyerEtatJ(true); envoyerEtat(true); }
+    P.equipes[j.eq].forceRep=j.nom; P.buzzNom=j.nom; ACTIONS.buzz({eq:j.eq});
+    if(P.buzz==null){ P.buzzNom=null; return; }   // buzz refusé (lecture en cours) : rien ne change
+    if(j.st) j.st.buzz++; envoyerEtatJ(true); envoyerEtat(true); }
   if(m.id==="addition"){ if(P.buzzAdd!=null || !P.q || P.q.revele) return;
     P.buzzAdd=j.eq; P.buzzNom=j.nom; P.equipes[j.eq].forceRep=j.nom; son("buzz"); arreterChrono(); chronoFige=true; if(j.st) j.st.buzz++;
     const el=$("#eq"+j.eq); if(el){ el.classList.add("buzz"); setTimeout(()=>el.classList.remove("buzz"),900); } rendre(); envoyerEtatJ(true); envoyerEtat(true); }
@@ -7128,7 +7421,53 @@ function qcmMenu(reponse, chaps, titre, enonce){ const bonne=String(reponse), nu
   if(faux.length<3) melange(poolReponses(chaps||[], titre)).forEach(ajoute);
   const choix=melange([{html:bonne, ok:true}, ...faux.slice(0,3).map(f=>({html:f, ok:false}))]);
   return {choix, bonne:choix.findIndex(c=>c.ok)}; }
-function preparerQuestionBots(){ const P=S.partie; if(P){ P.lectureQ=null; P.buzzParBot=null;
+/* ---------- Salle : vote d’équipe (Carte du chef, rebond du Ketchup) et délai de réponse après un buzz ---------- */
+const VALEURS_SP=["sel","poivre","deux"];
+function preparerVoteEquipe(){ const P=S.partie, m=P&&mancheCourante(), q=P&&P.q; if(!enSalle() || !m || !q || S.ecran!=="jeu" || P.phase!=="jeu" || S.verrou) return;
+  let V=null;
+  if(m.id==="menus" && q.choix && !q.revele && q.repondu==null && humainsDe(P.tour).length) V={quoi:"menu", eq:P.tour, titre:q.enonce, choix:q.choix.map(c=>c.html), bonne:q.choix.findIndex(c=>c.ok), q};
+  if(P.voteEq && P.voteEq.q===q && P.voteEq.quoi==="menu" && !P.voteEq.clos) P.voteEq.elimines=q.elimines||[];
+  if(m.id==="selpoivre" && P.rebond && P.buzz!=null && q.repondu==null && humainsDe(P.buzz).length && P.duelSP) V={quoi:"sp", eq:P.buzz, titre:q.texte, choix:[P.duelSP.sel,P.duelSP.poivre,"Les deux"].map(esc), bonne:VALEURS_SP.indexOf(q.rep), q};
+  if(!V){ return; } if(P.voteEq && P.voteEq.q===q && P.voteEq.quoi===V.quoi) return;
+  V.votes={}; V.fin=Date.now()+(chronoT?Math.max(5,chronoReste):12)*1000; P.voteEq=V;
+  botsDe(V.eq).forEach((nom,i)=>setTimeout(()=>{ if(P.voteEq!==V || V.clos) return; V.votes["bot:"+nom]=choixBot(nom,V.eq,V.choix.map((h,k)=>({html:h, ok:k===V.bonne}))); verifierVoteEquipe(); }, 1200+i*500+Math.random()*1500));
+  envoyerEtatJ(true); }
+function voteEquipe(jid, j, k){ const P=S.partie, V=P&&P.voteEq; if(!V || V.clos || j.eq!==V.eq) return; V.votes[jid]=k; envoyerEtatJ(true); verifierVoteEquipe(); }
+function verifierVoteEquipe(){ const P=S.partie, V=P&&P.voteEq; if(!V || V.clos) return;
+  const humains=joueursActifs(V.eq).map(([id])=>id), bots=botsDe(V.eq);
+  const tous=humains.every(id=>V.votes[id]!=null) && bots.every(b=>V.votes["bot:"+b]!=null);
+  if(!tous && Date.now()<V.fin) return;
+  V.clos=true; const vals=Object.values(V.votes), faux=vals.filter(k=>k!==V.bonne);
+  const ok = vals.length>0 && faux.length<=vals.length/4;
+  let k=V.bonne; if(!ok){ const c={}; faux.forEach(x=>c[x]=(c[x]||0)+1); k=+(Object.entries(c).sort((a,b)=>b[1]-a[1])[0]||[(V.bonne+1)%V.choix.length])[0]; }
+  toast(ok?"L’équipe est d’accord : réponse validée !":vals.length?"Trop de votes à côté : réponse non validée.":"Personne n’a voté à temps.");
+  if(V.quoi==="menu") ACTIONS["menu-choix"]({k}); else ACTIONS.sp({v:VALEURS_SP[k]}); envoyerEtatJ(true); }
+// délai de réponse de celui qui a buzzé (temps restant du chrono, 10 s si le chrono est arrêté)
+function surveillerReponseBuzz(){ const P=S.partie, m=P&&mancheCourante(), q=P&&P.q; if(!enSalle() || !m || !q || P.phase!=="jeu" || S.verrou) return;
+  const attend = (m.id==="selpoivre" && P.buzz!=null && !P.rebond && q.repondu==null && P.buzzNom && !estBot(P.buzzNom))
+              || (m.id==="addition" && P.buzzAdd!=null && !q.revele && P.buzzNom && !estBot(P.buzzNom));
+  if(!attend){ P.repLimite=null; return; }
+  if(!P.repLimite) P.repLimite={q, fin:Date.now()+(chronoT?Math.max(5,chronoReste):10)*1000};
+  if(P.repLimite.q===q && Date.now()>P.repLimite.fin){ P.repLimite=null; toast(`Temps écoulé pour ${P.buzzNom} !`);
+    if(m.id==="selpoivre") ACTIONS.sp({v:VALEURS_SP.find(v=>v!==q.rep)}); else if(q.choix) ACTIONS["add-choix"]({k:q.choix.findIndex(c=>!c.ok)}); } }
+setInterval(()=>{ if(!enSalle() || LienJ.role!=="ecran" || !S.partie) return;
+  const moi=S.joueurs[jidHote()]; if(moi) moi.vu=Date.now();   // le créateur est toujours « connecté »
+  if(S.ecran==="tirage") verifierDepartSalle();   // au cas où la dernière carte a été retournée pendant le tirage au sort
+  preparerVoteEquipe(); verifierVoteEquipe(); surveillerReponseBuzz(); choixMenuSalle();
+  // l’écran du créateur se met à jour dès que son état de joueur change (votes, buzz, actions…)
+  if(vueCreateur() && !S.palmaresFenetre && vueJoueurDuCreateur()!==S.derniereVueCreateur) rendre(); },400);
+// salle : le menu est servi dès que l’équipe est unanime, sinon au bout de 20 s (le plus voté, ou un menu au hasard)
+function choixMenuSalle(){ const P=S.partie, R=menusVoteResume(); if(!R || S.verrou) return; const M=P.menus;
+  if(P.choixMenuPour!==R.ci){ P.choixMenuPour=R.ci; P.choixMenuDebut=Date.now(); }
+  if(!humainsDe(R.ci).length) return;   // une équipe de bots choisit seule
+  const libres=R.liste.filter(x=>x.libre).map(x=>x.i), votes=Object.entries(P.votesMenu||{}).filter(([,i])=>libres.includes(i));
+  const ids=joueursActifs(R.ci).map(([id])=>id), tous=ids.length && ids.every(id=>(P.votesMenu||{})[id]!=null), memes=new Set(ids.map(id=>(P.votesMenu||{})[id])).size===1;
+  let i=null;
+  if(tous && memes && libres.includes(P.votesMenu[ids[0]])) i=P.votesMenu[ids[0]];
+  else if(Date.now()-P.choixMenuDebut>20000){ const c={}; votes.forEach(([,x])=>c[x]=(c[x]||0)+1); const top=Object.entries(c).sort((a,b)=>b[1]-a[1])[0]; i=top?+top[0]:hasard(libres); }
+  if(i==null) return; toast(tous&&memes?"Choix unanime : menu servi !":"Temps écoulé : le menu le plus voté est servi.");
+  P.votesMenu={}; P.choixMenuPour=null; ACTIONS["prendre-menu"]({i}); envoyerEtatJ(true); }
+function preparerQuestionBots(){ const P=S.partie; if(P){ P.lectureQ=null; P.buzzParBot=null; if(enSalle()){ P.buzzNom=null; P.voteEq=null; P.repLimite=null; }
   if(modeBots()){ P.buzzAdd=null; P.buzzNom=null;
     // la question n’est créée qu’après cet appel : on attend la fin de nouvelleQuestion()
     setTimeout(()=>{ const m=mancheCourante(), q=P.q;
@@ -7158,40 +7497,193 @@ function jidDe(nom){ return nom ? Object.keys(S.joueurs).find(id=>S.joueurs[id].
 // sans arbitre, en mode tablettes : la question à laquelle un joueur précis doit répondre sur son appareil
 function actionJoueur(){ const P=S.partie, m=P&&mancheCourante(); if(!P || !m || !P.tablettes || !modeBots() || S.ecran!=="jeu" || P.phase!=="jeu") return null; const q=P.q||{};
   if(m.id==="addition" && P.buzzAdd!=null && !q.revele && q.choix && P.buzzNom && !estBot(P.buzzNom)){ const j=jidDe(P.buzzNom); if(j) return {pour:j, quoi:"add", titre:q.enonce, choix:q.choix.map(c=>c.html)}; }
-  if(m.id==="menus" && q.choix && !q.revele){ const nom=repondant(P.equipes[P.tour]), j=!estBot(nom)&&jidDe(nom); if(j) return {pour:j, quoi:"menu", titre:q.enonce, choix:q.choix.map(c=>c.html)}; }
+  if(m.id==="selpoivre" && enSalle() && P.buzz!=null && !P.rebond && q.repondu==null && P.buzzNom && !estBot(P.buzzNom) && P.duelSP){ const j=jidDe(P.buzzNom);
+    if(j) return {pour:j, quoi:"sp", titre:q.texte, choix:[P.duelSP.sel, P.duelSP.poivre, "Les deux"].map(esc)}; }
+  if(m.id==="menus" && q.choix && !q.revele && !enSalle()){ const nom=repondant(P.equipes[P.tour]), j=!estBot(nom)&&jidDe(nom); if(j) return {pour:j, quoi:"menu", titre:q.enonce, choix:q.choix.map(c=>c.html)}; }
   const Bg=P.burger; if(m.id==="burger" && Bg && Bg.etape==="reponses" && !estBot(Bg.candidat) && Bg.res.length<10 && !Bg.res.includes(false)){ const j=jidDe(Bg.candidat), k=Bg.res.length;
     if(j) return {pour:j, quoi:"bocal", titre:`Réponse n° ${k+1} : laquelle était-ce ?`, choix:propositionsBocal(Bg,k).map(esc)}; }
   return null; }
 // les écrans de lancement : le bouton que les joueurs peuvent déclencher depuis leur appareil
-const NAV_LANCEMENT=["C’est parti","Première affirmation","Affirmation suivante","Servir","Jouer les menus","Entrer dans la pénombre","Tirer au sort","Poser les dix questions","Voir le bilan","Manche suivante","Continuer","Ouvrir le comptoir"];
-function boutonLancement(){ return [...document.querySelectorAll("#app button")].find(x=>!x.disabled && NAV_LANCEMENT.some(t=>x.textContent.includes(t))) || null; }
+const NAV_LANCEMENT=["On continue","C’est parti","Première affirmation","Affirmation suivante","Servir","Jouer les menus","Entrer dans la pénombre","Tirer au sort","Poser les dix questions","Voir le bilan","Manche suivante","Continuer","Ouvrir le comptoir"];
+function boutonLancement(){ return [...document.querySelectorAll(vueCreateur()?"#moteur button":"#app button")].find(x=>!x.disabled && NAV_LANCEMENT.some(t=>x.textContent.includes(t))) || null; }
 function etatJoueurs(){
   const P=S.partie, m=P && mancheCourante(), q=P && P.q;
-  const base={ ecran:S.ecran, partie: !!P, idPartie: P && P.idJ, snack: snackResume((S.config.classe||"").trim()),
+  const base={ ecran:S.ecran, partie: !!P, idPartie: P && P.idJ, snack: enSalle() ? null : snackResume((S.config.classe||"").trim()),
+    theme: enSalle() ? Musique.mode() : undefined,
+    salle: enSalle() ? { createur:pseudoSalle(), code:S.salleJ, joueurs:[pseudoSalle(), ...Object.entries(S.joueurs).filter(([id])=>id!==jidHote()).map(([,j])=>j.nom)], depart: S.partie && S.partie.departA ? Math.max(0,Math.ceil((S.partie.departA-Date.now())/1000)) : null, createurJid:jidHote(), options:resumeOptionsSalle(), etape:S.ecran==="assistant"?S.etape:null } : null,
     affect: Object.fromEntries(Object.entries(S.joueurs).map(([id,j])=>[id,{eq:j.eq, nom:j.nom}])) };
   if(!P) return base;
   if(S.ecran==="fin" || (S.ecran==="jeu" && P.idx>=P.manches.length)){ const [A,B]=P.equipes; const g = P.gagnant!=null ? P.gagnant : (A.score>=B.score?0:1); const Bg=P.burger, n=Bg?Bg.res.filter(Boolean).length:0;
-    return {...base, fin:{ gagnant:g, egalite: P.gagnant==null && A.score===B.score,
+    return {...base, fin:{ gagnant:g, egalite: P.gagnant==null && A.score===B.score, niveau:S.config.niveau,
       equipes:P.equipes.map(x=>({patron:x.patron.nom, coul:x.coul, score:Math.round(x.score*10)/10})),
       bocal: Bg ? {candidat:Bg.candidat, bonnes:n} : null,
       stats:Object.fromEntries(Object.entries(S.joueurs).map(([id,j])=>[id,j.st||{}])) }}; }
   const e=P.equipes.map(x=>({patron:x.patron.nom, coul:x.coul, score:Math.round(x.score*10)/10}));
   const D=P.demandeJoker;
-  const btnL = modeBots() ? boutonLancement() : null;
+  const btnL = modeBots() && !enSalle() ? boutonLancement() : null;
   const st={...base, action:actionJoueur(), continuer: btnL ? btnL.textContent.replace(/\s+/g," ").trim().slice(0,40) : null, jokers:P.equipes.map(x=>x.jokers.map((jk,k)=>({k, ico:jk.ico, nom:jk.nom, utilise:jk.utilise}))),
     demande: D ? {eq:D.eq, k:D.k, par:D.par, ico:P.equipes[D.eq].jokers[D.k].ico, nom:P.equipes[D.eq].jokers[D.k].nom, oui:D.oui.size, non:D.non.size, besoin:besoinJoker(D), votants:[...D.oui,...D.non]} : null,
-    equipes:e, manche: S.ecran==="jeu"&&m?{id:m.id, nom:m.nom}:null, phase:S.ecran==="jeu"?P.phase:"attente", tour:P.tour, chrono: chronoT?chronoReste:null, verrou:!!S.verrou};
+    equipes:e, manche: S.ecran==="jeu"&&m?{id:m.id, nom:m.nom, regle:REGLE_MANCHE[m.id]}:null, phase:S.ecran==="jeu"?P.phase:"attente", tour:P.tour, chrono: chronoT?chronoReste:null, chronoTotal:chronoTotal, verrou:!!S.verrou};
   { const R=menusVoteResume(); if(R) st.choixMenu={...R, mesVotes:P.votesMenu||{}}; }
+  // les menus se retournent : on les montre à chaque joueur (avant le vote)
+  if(enSalle() && S.ecran==="jeu" && m && m.id==="menus" && P.menus && !(P.menus.choix||[]).some(Boolean) && (P.menus.retournes<P.menus.liste.length || Date.now()-(S.dernierRetour||0)<2500))
+    st.menusCartes={ retournes:P.menus.retournes, flip:P.menus.flip, liste:P.menus.liste.map(x=>({titre:x.titre, pompeux:!!x.pompeux})) };
   if(S.ecran!=="jeu" || !m || P.phase!=="jeu") return st;
-  if(m.id==="nuggets" && q && q.choix){ st.question={enonce:q.enonce, choix:q.choix.map(c=>c.html), elimines:q.elimines||[], repondu:q.repondu, bonne: q.repondu!=null? q.bonne : null, distrib:q.distrib||null};
+  if(m.id==="nuggets" && q && q.choix){ st.question={num:P.question, enonce:q.enonce, choix:q.choix.map(c=>c.html), elimines:q.elimines||[], emballees:q.emballees||[], repondu:q.repondu, bonne: q.repondu!=null? q.bonne : null, distrib:q.distrib||null};
     st.votesOuverts=!!P.votesOuverts; st.nbVotes=Object.keys(P.votes||{}).length; st.nbEquipe=joueursActifs(P.tour).length; st.votes=P.votes||{}; }
   const patience = Date.now() < (P.buzzDes||0); st.patience=patience;
-  if(m.id==="selpoivre"){ st.buzzOuvert = !patience && P.buzz==null && q && q.repondu==null && !S.verrou; st.buzzNom=P.buzz!=null ? repondant(P.equipes[P.buzz]) : null; st.buzzEq=P.buzz; }
-  if(m.id==="addition"){ st.buzzOuvert = !patience && P.buzzAdd==null && q && !q.revele && !S.verrou && P.gagnant==null; st.buzzNom=P.buzzNom; st.buzzEq=P.buzzAdd; }
+  if(enSalle() && P.voteEq && !P.voteEq.clos && P.phase==="jeu"){ const V=P.voteEq; st.voteEq={quoi:V.quoi, eq:V.eq, titre:V.titre, choix:V.choix, mesVotes:V.votes, nb:Object.keys(V.votes).length,
+    elimines:V.elimines||[], attendus:joueursActifs(V.eq).length+botsDe(V.eq).length, reste:Math.max(0,Math.ceil((V.fin-Date.now())/1000))}; }
+  if(enSalle() && m.id==="burger" && P.burger){ const Bg=P.burger; st.bocal={etape:Bg.etape, candidat:Bg.candidat, k:Bg.q, question: Bg.etape==="questions" && Bg.questions[Bg.q] ? Bg.questions[Bg.q].q : null,
+    res:Bg.res, attendus:Bg.questions.slice(0,Bg.res.length).map(x=>x.r), dits:Bg.dits||[],
+    reponse: Bg.etape==="questions" && Bg.questions[Bg.q] ? Bg.questions[Bg.q].r : null,
+    enCours: Bg.etape==="reponses" && Bg.res.length<10 && !Bg.res.includes(false) ? Bg.questions[Bg.res.length] : null,
+    props: Bg.etape==="reponses" && Bg.res.length<10 ? propositionsBocal(Bg, Bg.res.length) : null}; }
+  if(enSalle() && m.id==="selpoivre" && q && P.duelSP) st.affirmation={texte:q.texte, sel:P.duelSP.sel, poivre:P.duelSP.poivre};
+  if(enSalle() && m.id==="addition" && q) st.questionAdd=q.enonce;
+  if(enSalle() && m.id==="nuggets" && q && q.choix && !st.question) st.question={num:P.question, enonce:q.enonce, choix:q.choix.map(c=>c.html), elimines:q.elimines||[], emballees:q.emballees||[], repondu:q.repondu, bonne:q.repondu!=null?q.bonne:null, distrib:q.distrib||null};
+  const lecture = modeBots() && enLecture();   // le buzzer s’allume en même temps pour tout le monde, après la lecture
+  if(m.id==="selpoivre"){ st.buzzOuvert = !patience && !lecture && P.buzz==null && q && q.repondu==null && !S.verrou; st.buzzNom=P.buzz!=null ? (enSalle() ? (P.rebond ? P.equipes[P.buzz].patron.nom : P.buzzParBot||P.buzzNom||repondant(P.equipes[P.buzz])) : repondant(P.equipes[P.buzz])) : null; st.buzzEq=P.buzz; if(lecture) st.patience=true; }
+  if(m.id==="addition"){ st.buzzOuvert = !patience && !lecture && P.buzzAdd==null && q && !q.revele && !S.verrou && P.gagnant==null; st.buzzNom=P.buzzNom||P.buzzParBot; st.buzzEq=P.buzzAdd; if(lecture) st.patience=true; }
   if(m.id==="menus"){ st.designes=P.designes; }
   if(m.id==="burger" && P.burger){ st.candidat=P.burger.candidat; st.burgerEq=P.burger.equipe; st.burgerEtape=P.burger.etape; }
   return st;
 }
+function resumeOptionsSalle(){ const c=S.config, niv=(NIVEAUX.find(n=>n.id===c.niveau)||{}).nom||c.niveau||"";
+  const tous=CHAPITRES[c.niveau]||[], ch=(c.chapitres||[]).map(id=>(tous.find(x=>x[0]===id)||[])[1]).filter(Boolean);
+  const chap = !ch.length ? "aucun chapitre" : ch.length===tous.length ? "tous les chapitres" : ch.length<=3 ? ch.join(", ") : `${ch.length} chapitres`;
+  const fmt={complete:"Partie complète", express:"Partie express", mesure:"Partie sur mesure"}[c.format] || "";
+  const nb=(c.bots||[]).length;
+  return [niv, chap, fmt, nb?`${nb} bot${nb>1?"s":""}`:"sans bot"].filter(Boolean).join(" · "); }
+const pseudoSalle=()=>String(S.config.pseudoLocal||"").trim()||"Créateur";
+const JID_CREATEUR_INITIAL="createur";
+const jidHote=()=>S.jidHote||JID_CREATEUR_INITIAL;
+// fin (ou arrêt) d’une partie en salle : on revient aux réglages, avec les mêmes joueurs
+function listeJoueursSalle(){ const L=Object.entries(S.joueurs).filter(([id])=>id!==jidHote()), X=[...S.exclus];
+  return `<div class="jr-centre salle-gestion"><p class="jr-grand">👥 Joueurs de la salle</p>
+    ${L.map(([id,j])=>`<div class="salle-ligne"><span>${esc(j.nom)}${j.eq!=null&&S.partie?` · ${esc(S.partie.equipes[j.eq].patron.nom)}`:""}</span><button class="btn mini-btn ketchup" data-action="salle-retirer" data-jid="${esc(id)}">Exclure</button></div>`).join("")||`<p class="jr-petit">Personne d’autre pour l’instant.</p>`}
+    ${X.length?`<p class="jr-petit">Exclus</p>${X.map(id=>`<div class="salle-ligne"><span>${esc((S.nomsExclus||{})[id]||"Joueur")}</span><button class="btn mini-btn" data-action="reintegrer" data-jid="${esc(id)}">Réintégrer</button></div>`).join("")}`:""}
+    <button class="btn moutarde" data-action="salle-joueurs">Retour au jeu</button></div>`; }
+// chaque joueur garde la partie dans son palmarès, sur son appareil (une seule fois par partie)
+function enregistrerPalmaresSalle(E, moi){ const F=E.fin; if(!F || !moi || moi.eq==null) return; const cle=String(E.idPartie||F.equipes.map(x=>x.score).join("-"));
+  if(S.palmaresSalleFait===cle) return; S.palmaresSalleFait=cle;
+  const eq=F.equipes[moi.eq], adv=F.equipes[1-moi.eq];
+  const adversaires=Object.values(E.affect||{}).filter(a=>a.eq===1-moi.eq).map(a=>a.nom);
+  ajouterAuPalmares(moi.nom, { date:Date.now(), niveau:F.niveau||"", pour:eq.score, contre:adv.score, gagne:eq.score>adv.score, nul:eq.score===adv.score,
+    bocal: F.bocal && F.bocal.candidat===moi.nom ? F.bocal.bonnes : null, adversaires:[], coequipiers:[], patron:eq.patron, salle: adversaires.join(", ")||"bots" }); }
+/* ---------- Passation : le créateur quitte, la partie continue chez un joueur tiré au sort ---------- */
+function exporterSalle(){ const P=S.partie;
+  const partie=JSON.parse(JSON.stringify(P,(k,v)=> v instanceof Set ? {__set:[...v]} : (k==="vus" || typeof v==="function") ? undefined : v));
+  return { epoque:(S.epoque||0)+1, config:S.config, partie, vus:P.vus&&P.vus.exporter?P.vus.exporter():[], joueurs:S.joueurs, exclus:[...S.exclus], nomsExclus:S.nomsExclus||{}, anciensEq:S.anciensEq||{},
+    ecran:S.ecran, etape:S.etape, chrono:{actif:!!chronoT, reste:chronoReste, total:chronoTotal, fige:chronoFige}, verrou:!!S.verrou, salle:S.salleJ, ancienNom:pseudoSalle(), ancienJid:jidHote() }; }
+function reviver(k,v){ return v && typeof v==="object" && Array.isArray(v.__set) ? new Set(v.__set) : v; }
+function reprendreSalle(E, monJid){
+  const e=JSON.parse(JSON.stringify(E), reviver), P=e.partie, moi=e.joueurs[monJid]; if(!P || !moi) return;
+  // l’ancien créateur quitte son équipe
+  const anc=e.joueurs[e.ancienJid]; if(anc && anc.eq!=null){ const mb=P.equipes[anc.eq].membres, i=mb.indexOf(anc.nom); if(i>=0) mb.splice(i,1); if(!mb.length) mb.push("Siège 1"); }
+  delete e.joueurs[e.ancienJid];
+  Object.assign(S.config, e.config, {pseudoLocal:moi.nom, reponses:"salle"});
+  S.joueurs=e.joueurs; S.exclus=new Set(e.exclus); S.nomsExclus=e.nomsExclus; S.anciensEq=e.anciensEq;
+  P.vus=memoireQuestions(cleHistorique(), e.vus); if(P.burger) P.burger.t=null;
+  S.partie=P; S.jidHote=monJid; S.epoque=e.epoque||1; S.successeur=null; S.etape=e.etape; S.salleJ=e.salle; REGLAGES.salleJ=e.salle;
+  LienJ.fermer(); LienJ.role=null; ouvrirSalleJoueurs();
+  S.ecran=e.ecran; Bots.cle=null; lancementVu={cle:null,t:0};
+  if(e.chrono.actif) demarrerChrono(e.chrono.reste, e.chrono.total); chronoFige=e.chrono.fige;
+  const m=mancheCourante(), Bg=P.burger; if(m && m.id==="burger" && Bg && Bg.etape==="questions" && !Bg.fige){ Bg.ecoule=Math.max(0,Date.now()-(Bg.debut||Date.now())); deroulerQuestions(true); }
+  S.verrou=false; if(e.verrou) setTimeout(()=>{ if(S.partie===P && P.phase==="jeu"){ avancer(); rendre(); } },1500);
+  SonsFichiers.charger().then(()=>Musique.maj()); Musique.maj();
+  toast("👑 Tu prends la main : la partie continue chez toi."); rendre(); envoyerEtatJ(true); }
+// toutes les 3 s, l’hôte envoie l’état de la partie à un successeur tiré au sort (prêt à reprendre si l’hôte disparaît)
+// et signale qu’il est actif (un ancien hôte qui revient laisse alors la main)
+setInterval(()=>{ if(!enSalle() || LienJ.role!=="ecran" || !S.partie) return;
+  LienJ.envoyer({t:"hote-actif", jid:jidHote(), epoque:S.epoque||0});
+  const vivants=Object.entries(S.joueurs).filter(([id,j])=>id!==jidHote() && Date.now()-(j.vu||0)<15000).map(([id])=>id);
+  if(!vivants.length) return; if(!vivants.includes(S.successeur)) S.successeur=vivants[Math.floor(Math.random()*vivants.length)];
+  LienJ.envoyer({t:"sauvegarde", pour:S.successeur, etat:exporterSalle()}); },3000);
+// côté joueur : si l’hôte se tait plus de 7 s et qu’on est son successeur, on reprend la partie
+setInterval(()=>{ if(S.ecran!=="joueur" || LienJ.role!=="joueur" || !S.sauvegarde) return;
+  const silence=Date.now()-(S.contactJ||0), frais=Date.now()-(S.sauvegardeT||0)<15000, enLigne=!LienJ.ws || LienJ.wsOk;
+  if(silence>7000 && frais && enLigne){ const E=S.sauvegarde; S.sauvegarde=null;
+    LienJ.envoyer({t:"alerte", texte:`👑 ${E.ancienNom} a perdu la connexion : ${((E.joueurs||{})[S.jid]||{}).nom||"un joueur"} prend la main.`});
+    reprendreSalle(E, S.jid); } },1000);
+function quitterSalleCreateur(){ const P=S.partie;
+  const humains=Object.entries(S.joueurs).filter(([id,j])=>id!==jidHote() && Date.now()-(j.vu||0)<20000);
+  if(!P || !humains.length){ if(!confirm(P?"Personne ne peut reprendre la partie : elle s’arrête. Quitter la salle ?":"Fermer la salle ?")) return; fermerSalle(); return; }
+  if(!confirm("Quitter la salle ? La partie continue chez un joueur tiré au sort.")) return;
+  const [jid,j]=humains[Math.floor(Math.random()*humains.length)];
+  LienJ.envoyer({t:"alerte", texte:`👑 ${pseudoSalle()} a quitté la salle : ${j.nom} prend la main.`});
+  LienJ.envoyer({t:"passation", pour:jid, etat:exporterSalle()});
+  setTimeout(()=>{ fermerSalle(); toast(`${j.nom} a repris la main. Tu as quitté la salle.`); },700); }
+function fermerSalle(){ arreterChrono(); S.verrou=false; LienJ.fermer(); LienJ.role=null; S.partie=null; S.joueurs={}; S.jidHote=null; S.revele=null;
+  S.config.reponses=S.reponsesAvantSalle||"local"; aller("accueil"); }
+function retourSalle(){ S.partie=null; S.revele=null; S.vuFin=null; Object.values(S.joueurs).forEach(j=>{ j.eq=null; j.revele=null; }); delete S.joueurs[jidHote()];
+  S.anciensEq={}; S.etape=4; aller("assistant"); envoyerEtatJ(true); }
+// l’état « joueur » de cet appareil : reçu du créateur, ou calculé ici si c’est le créateur
+const etatJLocal=()=>(LienJ.role==="ecran" && enSalle() && S.partie) ? etatJoueurs() : S.etatJ;
+// l’appareil du créateur fait tourner la partie ET joue : il affiche l’écran d’un joueur
+const vueCreateur=()=>enSalle() && !!S.partie && ["tirage","jeu","fin"].includes(S.ecran);
+// salle : toucher la plaque d’une équipe montre la fiche de son patron (sans figer la partie, qui continue pour les autres)
+function ficheSalle(E, mon){ const i=S.ficheJ; if(i==null || !E.equipes[i]) return ""; const x=E.equipes[i], pa=PATRONS.find(p=>p.nom===x.patron); if(!pa) return "";
+  const lycee=["2de","1re","Tle","Exp","CL"].includes(E.niveau||"");
+  return `<div class="voile" data-action="j-fiche-fermer" data-fond="1"><div class="panneau modale fiche-patron" role="dialog" aria-label="Patron ${esc(pa.nom)}" style="--c:${x.coul}">
+    <p class="doux" style="margin:0">Le patron de ${i===mon?"ton équipe":"l’équipe adverse"}</p><h2>${esc(pa.nom)}</h2><p class="doux">${esc(pa.disc||"")}</p>
+    <p><strong>✨ Bonus ${esc(domaine(pa))}</strong> : sur une question de ce domaine, l’équipe qui a la main gagne 5 secondes et ses points comptent ×1,2. En contrepartie, un menu choisi dans ce domaine est servi un cran plus technique.</p>
+    <p>${esc((lycee&&pa.bioLycee)||pa.bio||"")}</p>
+    ${x.membres?`<p class="doux">Équipe : ${x.membres.map(esc).join(", ")}</p>`:""}
+    <button class="btn moutarde" data-action="j-fiche-fermer">Fermer</button></div></div>`; }
+// salle : les mêmes cartes que sur le tableau (dos à cloche, retournement, menu pompeux qui défile) ;
+// pendant le choix, toucher une carte vote pour ce menu
+function cartesMenusJoueur(C, choix, monEq){
+  const carte=(x,i)=>{
+    if(C && i>=C.retournes) return `<div class="menu-wrap"><div class="menu-carte dos ${i===C.retournes?"suivante":""}" aria-label="Carte face cachée">${clocheSVG()}<span class="dos-num">${i+1}</span></div></div>`;
+    const vient = C && C.flip===i, peutVoter = choix && choix.ci===monEq && x.libre, mien = choix && (choix.mesVotes||{})[S.jid]===i, n = choix && choix.votes[i];
+    const corps = `${x.pompeux?`<div class="defile"><p>${esc(x.titre)}</p></div>`:`<h3>${esc(x.titre)}</h3>`}${choix && !x.libre?`<p class="qui">Déjà pris</p>`:""}${n?`<span class="votes-menu">🗳️ ${n}</span>`:""}`;
+    const cl = `menu-carte ${choix && !x.libre?"pris":""} ${vient?"retourne":""} ${x.pompeux&&vient?"apparition-pompeuse":""} ${mien?"mien":""}`;
+    return `<div class="menu-wrap">${peutVoter?`<button class="${cl}" data-action="j-vote-menu" data-i="${i}">${corps}</button>`:`<div class="${cl}">${corps}</div>`}</div>`; };
+  const liste = choix ? choix.liste : C.liste;
+  const titre = C ? "Le chef dévoile sa carte…" : choix.ci===monEq ? "Quel menu voulez-vous ?" : `${esc(choix.equipe)} choisit son menu`;
+  const aide = C ? "" : choix.ci===monEq ? "Touchez un menu pour voter : si toute l’équipe est d’accord, il est servi (sinon, au bout de 20 s, le plus voté)." : "";
+  return `<p class="jr-question">${titre}</p>${aide?`<p class="jr-petit">${aide}</p>`:""}<div class="menus jr-menus-cartes">${liste.map(carte).join("")}</div>
+    ${choix && choix.ci===monEq?`<p class="jr-petit">${choix.nb} / ${choix.attendus} ont voté.</p>`:""}`; }
+function vueJoueurDuCreateur(){ const jid=S.jid, et=S.etatJ, ins=S.inscrit, ps=S.pseudo, ex=S.exclu; S.jid=jidHote(); S.etatJ=etatJoueurs();
+  // comme chez les autres joueurs : une nouvelle question efface le vote précédent
+  { const Q=S.etatJ.question, cle=Q ? Q.num+"|"+Q.enonce+"|"+S.etatJ.tour : null; if(cle!==S.cleVoteCreateur){ S.cleVoteCreateur=cle; S.monVote=null; } } S.inscrit=true; S.pseudo=pseudoSalle(); S.exclu=false; let h="";
+  try{ h=VUES.joueur(); } finally { S.jid=jid; S.etatJ=et; S.inscrit=ins; S.pseudo=ps; S.exclu=ex; } return h; }
+function panneauSalle(){ ouvrirSalleJoueurs(); const url=urlJoueur(), liste=Object.entries(S.joueurs).filter(([id])=>id!==jidHote());
+  setTimeout(()=>{ const el=$("#qrJoueurs"); if(!el || el.dataset.fait===url) return; el.dataset.fait=url; el.innerHTML="";
+    chargerQR(()=>{ try{ new QRCode(el,{text:url,width:200,height:200,colorDark:"#1A2050",colorLight:"#FFF8EA"}); }catch(e){} }); },30);
+  return `<div class="panneau salle-panneau"><div id="qrJoueurs" class="qr"></div>
+    <div><p class="code-salle-geant">${esc(S.salleJ)}</p>
+      <p class="doux">Les autres joueurs entrent ce code (ou scannent le QR code) depuis « Je suis joueur : rejoindre ».</p>
+      <p><strong>${liste.length+1}</strong> joueur${liste.length?"s":""} dans la salle</p>
+      <div class="salle-liste"><span class="salle-joueur moi">👑 ${esc(pseudoSalle())}</span>${liste.map(([id,j])=>`<span class="salle-joueur">${esc(j.nom)}<button class="lien" data-action="salle-retirer" data-jid="${esc(id)}" aria-label="Exclure ${esc(j.nom)}">✕</button></span>`).join("")}</div>
+      ${S.exclus.size?`<p class="doux">Exclus : ${[...S.exclus].map(id=>`${esc((S.nomsExclus||{})[id]||"Joueur")} <button class="lien" data-action="reintegrer" data-jid="${esc(id)}">réintégrer</button>`).join(" · ")}</p>`:""}</div></div>`; }
+// quand tous les joueurs ont retourné leur carte : 5 s de compte à rebours, puis la partie s’ouvre toute seule
+const DELAIS_LANCEMENT=[["On continue",3500],["C’est parti",4500],["Première affirmation",2500],["Affirmation suivante",2500],["Servir",2500],["Jouer les menus",2500],["Entrer dans la pénombre",3500],["Tirer au sort",2000],["Poser les dix questions",3000],["Voir le bilan",4000],["Manche suivante",3000],["Continuer",3000]];
+let lancementVu={cle:null, t:0};
+setInterval(()=>{ if(!vueCreateur() || S.ecran!=="jeu" || S.verrou) return;
+  const carte=document.querySelector("#moteur [data-action=retourner-menu]");   // les menus se retournent un à un, chez tout le monde
+  if(carte){ if(Date.now()-(S.dernierRetour||0)>1500){ S.dernierRetour=Date.now(); carte.click(); envoyerEtatJ(true); } return; }
+  const b=boutonLancement(); if(!b){ lancementVu={cle:null,t:0}; return; }
+  const txt=b.textContent.replace(/\s+/g," ").trim(), cle=txt+"|"+(S.partie&&S.partie.idx)+"|"+(S.partie&&S.partie.phase);
+  if(lancementVu.cle!==cle){ lancementVu={cle, t:Date.now()}; return; }
+  const d=(DELAIS_LANCEMENT.find(([t])=>txt.includes(t))||[0,3000])[1];
+  if(Date.now()-lancementVu.t>=d){ lancementVu={cle:null,t:0}; b.click(); } },400);
+// le chrono et le compte à rebours avancent aussi chez les joueurs
+setInterval(()=>{ if(enSalle() && S.partie && LienJ.role==="ecran"){ envoyerEtatJ(); if(vueCreateur()) majChronoCreateur(); } },1000);
+function majChronoCreateur(){ const el=document.querySelector("#app .jr-chrono-bandeau"); if(!el || !chronoT) return;
+  if(el.parentElement.classList.contains("jr-chrono-rond")){ el.textContent=chronoReste; el.parentElement.style.setProperty("--p", Math.max(0,Math.min(1,chronoReste/(chronoTotal||20)))); }
+  else el.textContent="⏱ "+chronoReste; }
+function verifierDepartSalle(){ const P=S.partie; if(!enSalle() || !P || S.ecran!=="tirage" || P.departA || P.roulette) return;
+  const ids=Object.keys(S.joueurs); if(!ids.length || !ids.every(id=>S.joueurs[id].revele===P.idJ)) return;
+  P.departA=Date.now()+5000; rendre(); envoyerEtatJ(true);
+  const tic=setInterval(()=>{ if(S.partie!==P || S.ecran!=="tirage"){ clearInterval(tic); return; }
+    if(Date.now()>=P.departA){ clearInterval(tic); ACTIONS.ouvrir(); return; } envoyerEtatJ(true); rendre(); },500); }
+const REGLE_MANCHE={ nuggets:"QCM à tour de rôle : votez la bonne réponse avec votre équipe.",
+  selpoivre:"Une affirmation, deux catégories : buzzez, puis choisissez l’une, l’autre ou les deux.",
+  menus:"Choisissez un menu en équipe, puis votez la réponse à chaque question.",
+  addition:"Des curiosités au buzzer : 3 points la bonne réponse, 3 points pour l’adversaire sinon.",
+  burger:"Dix questions à retenir, puis les dix réponses dans l’ordre, sans se tromper." };
 function panneauJoueursAssistant(){
   ouvrirSalleJoueurs();
   const url=urlJoueur(), liste=Object.values(S.joueurs);
@@ -7337,6 +7829,7 @@ function secondeChance(eq){ const J=S.partie.jokerActif; if(!J || J.id!=="frites
   J.servi=true; son("friteuse"); toast("🍟 Supplément frites : seconde chance !"); if(!chronoT && chronoReste>0) reprendreChrono(chronoReste); return true; }
 function bandeauJoker(){ const J=S.partie.jokerActif, nom=esc(S.partie.equipes[J.eq].patron.nom);
   if(J.id==="piquante") return `🌶️ Sauce piquante pour ${nom} : points doublés, chrono express !`;
+  if(J.id==="doggy") return `🥡 Doggy bag pour ${nom} : deux mauvaises réponses emballées`;
   if(J.id==="frites") return J.servi?`🍟 Supplément frites déjà englouti`:`🍟 Supplément frites pour ${nom} : seconde chance en cas d’erreur`;
   if(J.id==="enfant") return S.partie.consultation>0?`🧃 Menu enfant : ${nom} se concerte… <strong id="consult">${S.partie.consultation}</strong> s`:`🧃 Menu enfant consommé : place à la réponse !`;
   return ""; }
@@ -7358,6 +7851,8 @@ function lancerJoker(){
       if(P.consultation<=0){ clearInterval(consultT); consultT=null; son("cloche"); rendre(); reprendreChrono(J.reste); } },1000);
     return;
   }
+  if(J.id==="doggy"){ const q=P.q, mauvaises=melange(q.choix.map((c,k)=>k).filter(k=>!q.choix[k].ok && !(q.elimines||[]).includes(k)));
+    q.elimines=(q.elimines||[]).concat(mauvaises.slice(0,2)); q.emballees=(q.emballees||[]).concat(mauvaises.slice(0,2)); son("whoosh"); rendre(); reprendreChrono(J.reste); envoyerEtatJ(true); return; }
   // sauce piquante : le temps restant est divisé par deux ; supplément frites : il reprend tel quel
   rendre(); reprendreChrono(J.id==="piquante" ? Math.ceil(J.reste/2) : J.reste);
 }
@@ -7415,6 +7910,17 @@ const ACTIONS = {
   format:(d)=>{ S.config.format=d.id; if(FORMATS[d.id].manches) S.config.manches=FORMATS[d.id].manches.slice(); rendre(); },
   manche:(d)=>{ const c=S.config.manches, i=c.indexOf(d.id); i>=0?c.splice(i,1):c.push(d.id); S.config.manches=MANCHES.map(m=>m.id).filter(id=>c.includes(id)); rendre(); },
   eleves:(d)=>{ S.config.modeEleves=d.id; rendre(); },
+  "salle-arreter":()=>{ if(!confirm("Arrêter la partie pour tout le monde et revenir aux réglages de la salle ?")) return; arreterChrono(); S.verrou=false; retourSalle(); toast("Partie arrêtée : retour à la salle."); },
+  "salle-relancer":()=>{ retourSalle(); },
+  "salle-quitter":()=>{ quitterSalleCreateur(); },
+  "salle-rejouer":()=>{ if(!enSalle()) return; S.vuFin=null; S.revele=null; S.anciensEq={}; Object.values(S.joueurs).forEach(j=>{ j.eq=null; j.revele=null; }); nouvellePartie(); aller("tirage"); envoyerEtatJ(true); },
+  "salle-joueurs":()=>{ S.voirJoueursSalle=!S.voirJoueursSalle; rendre(); },
+  "j-palmares":()=>{ S.retourPalmares=S.ecran; S.palmaresNom=null; aller("palmares"); },
+  "palmares-retour":()=>{ const r=S.retourPalmares||"accueil"; S.retourPalmares=null; aller(r); },
+  "creer-salle":()=>{ if(!enSalle()) S.reponsesAvantSalle=S.config.reponses; S.config.reponses="salle"; ouvrirSalleJoueurs(); S.etape=1; aller("assistant"); },
+  "nouvelle-partie":()=>{ if(enSalle()) S.config.reponses=S.reponsesAvantSalle||"local"; S.etape=1; aller("assistant"); },
+  "salle-retirer":(d)=>{ const j=S.joueurs[d.jid]; if(j && confirm(`Exclure ${j.nom} de la salle ?`)) ACTIONS.exclure({jid:d.jid}); },
+  "relais-modifier":()=>{ S.relaisEdit=!S.relaisEdit; rendre(); },
   "eb-ajout":()=>{ const L=S.config.bots||(S.config.bots=[]); if(L.length<30) L.push({profil:"humain"}); rendre(); },
   "eb-retirer":(d)=>{ (S.config.bots||[]).splice(+d.k,1); rendre(); },
   "eb-profil":(d)=>{ S.config.bots[+d.k].profil=d.p; rendre(); },
@@ -7422,9 +7928,9 @@ const ACTIONS = {
   bascule:(d)=>{ S.config[d.cle]=!S.config[d.cle]; rendre(); },
   "chrono-duree":(d)=>{ S.config.chrono=+d.val; rendre(); },
   etape:(d)=>{ S.etape=Math.min(4,Math.max(1,S.etape+ +d.sens)); S.anim=+d.sens; son("pioche"); rendre(); },
-  tirer:()=>{ if(S.config.reponses==="tablettes" && !Object.keys(S.joueurs).length){ toast("Personne n’est connecté : fais scanner le QR code, ou choisis « Je joue ici »."); return; }
+  tirer:()=>{ if(enSalle()){ inscrireJoueur(jidHote(), pseudoSalle()); S.revele=null; } if(S.config.reponses==="tablettes" && !Object.keys(S.joueurs).length){ toast("Personne n’est connecté : fais scanner le QR code, ou choisis « Je joue ici »."); return; }
     nouvellePartie(); aller("tirage"); },
-  retirer:()=>{ nouvellePartie(); rendre(); },
+  retirer:()=>{ nouvellePartie(); if(enSalle()){ S.revele=null; Object.values(S.joueurs).forEach(j=>j.revele=null); } rendre(); envoyerEtatJ(true); },
   ouvrir:()=>{ S.partie.demarree=true; const m=mancheCourante(); sas(m?m.nom:"", `Manche 1 sur ${S.partie.manches.length}`, ()=>aller("jeu",0)); },
   menu:()=>{ S.tiroir=false; S.overlay=null; aller("accueil"); },
   reprendre:()=>{ const P=S.partie; aller("jeu"); chronoAuto();
@@ -7434,7 +7940,7 @@ const ACTIONS = {
   "ouvrir-reglages":()=>{ S.overlay="reglages"; rendre(); },
   "fermer-reglages":(d,e)=>{ if(d.fond && e && e.target.closest(".modale")) return; S.overlay=null; rendre(); },
   tiroir:()=>{ S.tiroir=!S.tiroir; rendre(); },
-  musique:()=>{ REGLAGES.musique=!REGLAGES.musique; Stock.ecrire("reglages",REGLAGES); Musique.maj(); rendre(); },
+  musique:()=>{ REGLAGES.musique=!REGLAGES.musique; Stock.ecrire("reglages",REGLAGES); Musique.maj(); S.dernierHtmlJ=null; rendre(); },
   demarrer:()=>{ const P=S.partie, m=mancheCourante();
     if(m.id==="menus"){ preparerMenus(); P.phase="choixMenu"; }
     else if(m.id==="burger"){ lancerBurger(); P.phase="jeu"; document.body.classList.add("lumiere-basse"); rendre(); rouletteCandidat(); return; }
@@ -7463,7 +7969,7 @@ const ACTIONS = {
     if(code!==S.salleJ){ if(!S.simu) location.hash="#joueur-"+code; LienJ.fermer(); demarrerJoueur(code, S.simu?{id:S.jid}:{}); const e2=$("#pseudo"); if(e2) e2.value=ps; }
     if(!S.simu) Stock.ecrire("inscritJ",true);
     const el=$("#pseudo")||{value:ps}; S.pseudo=(el?el.value:"").trim().slice(0,16); if(!S.simu) Stock.ecrire("pseudo",S.pseudo); S.inscrit=true; envoyerJ("rejoindre",{pseudo:S.pseudo}); rendre(); },
-  "j-reveler":()=>{ if(!S.etatJ) return; S.revele=S.etatJ.idPartie; Stock.ecrire("revele:"+S.jid,S.revele); rendre(); const c=$(".jr-patron"); if(c) c.classList.add("apparait"); },
+  "j-reveler":()=>{ const E=etatJLocal(); if(!E) return; S.revele=E.idPartie; if(S.jid) Stock.ecrire("revele:"+S.jid,S.revele); if(E.salle) envoyerJ("revele",{idp:E.idPartie}); rendre(); const c=$(".jr-patron"); if(c) c.classList.add("apparait"); },
   "j-vote":(d)=>{ S.monVote=+d.k; envoyerJ("vote",{k:+d.k}); rendre(); },
   "j-joker":(d)=>{ if(confirm("Proposer ce joker à ton équipe ?")) envoyerJ("joker",{k:+d.k}); },
   "j-joker-vote":(d)=>{ envoyerJ("joker-vote",{oui:d.oui==="1"}); },
@@ -7472,11 +7978,21 @@ const ACTIONS = {
   "j-snack":()=>{ S.voirSnack=!S.voirSnack; S.dernierHtmlJ=null; rendre(); },
   "j-quitter-jeu":()=>{ if(!confirm("Quitter Pi-ckles ?")) return; if(S.inscrit) envoyerJ("quitter"); LienJ.fermer(); Stock.ecrire("modeJoueur",false); Stock.ecrire("inscritJ",false);
     S.inscrit=false; S.ecran="quitte"; history.replaceState(null,"",location.pathname+location.search); rendre(); try{ window.close(); }catch(e){} },
+  // revenir à l’écran titre du jeu (sans fermer l’onglet)
+  "j-accueil":()=>{ if(S.inscrit) envoyerJ("quitter"); LienJ.fermer(); LienJ.role=null; Stock.ecrire("modeJoueur",false); Stock.ecrire("inscritJ",false);
+    S.inscrit=false; S.etatJ=null; S.monVote=null; S.dernierHtmlJ=null; S.sonsSalle=false; history.replaceState(null,"",location.pathname+location.search);
+    SonsFichiers.charger(); aller("accueil"); Musique.maj && Musique.maj(); },
   "j-quitter":()=>{ if(!confirm("Quitter la salle ?")) return; envoyerJ("quitter"); if(!S.simu) Stock.ecrire("inscritJ",false); S.inscrit=false; S.etatJ=null; S.monVote=null; S.dernierHtmlJ=null; rendre(); },
-  "j-lobby":()=>{ if(S.etatJ) S.vuFin=S.etatJ.idPartie||"fin"; rendre(); },
+  "j-lobby":()=>{ const E=etatJLocal(); if(E) S.vuFin=E.idPartie||"fin"; rendre(); },
   "j-vote-menu":(d)=>{ envoyerJ("vote-menu",{i:+d.i}); const E=S.etatJ; if(E && E.choixMenu){ E.choixMenu.mesVotes={...(E.choixMenu.mesVotes||{}), [S.jid]:+d.i}; } S.dernierHtmlJ=null; rendre(); },
   "j-qcm":(d)=>{ envoyerJ("qcm",{quoi:d.quoi, k:+d.k}); if(S.etatJ) S.etatJ.action=null; S.dernierHtmlJ=null; rendre(); },
   "j-continuer":()=>{ envoyerJ("continuer"); if(S.etatJ) S.etatJ.continuer=null; S.dernierHtmlJ=null; rendre(); },
+  "salle-sauter":()=>{ const P=S.partie, m=P&&mancheCourante(); if(!enSalle() || !m || S.ecran!=="jeu") return;
+    if(!confirm(`Passer directement à la manche suivante ? (${m.nom} s’arrête ici)`)) return; S.verrou=false; P.voteEq=null; ACTIONS["fin-manche"](); envoyerEtatJ(true); },
+  "j-fiche":(d)=>{ S.ficheJ=+d.eq; S.dernierHtmlJ=null; rendre(); },
+  "j-fiche-fermer":(d,e)=>{ if(d.fond && e && e.target && e.target.closest && e.target.closest(".modale")) return; S.ficheJ=null; S.dernierHtmlJ=null; rendre(); },
+  "j-bocal-suivante":()=>{ envoyerJ("bocal-suivante",{n:Date.now()}); },
+  "j-vote-eq":(d)=>{ envoyerJ("vote-eq",{k:+d.k}); const E=etatJLocal(); if(E && E.voteEq){ E.voteEq.mesVotes={...(E.voteEq.mesVotes||{}), [S.jid||jidHote()]:+d.k}; } S.dernierHtmlJ=null; rendre(); },
   "j-buzz":()=>{ envoyerJ("buzz"); const b=$(".jr-buzzer"); if(b) b.classList.add("appuye"); },
   "qr-joueurs":()=>{ S.qrJoueurs=!S.qrJoueurs; rendre(); },
   renommer:(d)=>{ const j=S.joueurs[d.jid]; if(!j || !d.nom) return; const ancien=j.nom; j.bloque=true; j.pseudo=d.nom; j.nom=nomUnique(d.nom, d.jid);
@@ -7490,7 +8006,7 @@ const ACTIONS = {
     LienJ.fermer(); S.salleJ=null; ouvrirSalleJoueurs(); if(S.ecran==="jeu") S.qrJoueurs=true; toast(`Nouveau code de la salle des joueurs : ${S.salleJ}. Les tablettes doivent rescanner le QR code.`); rendre(); },
   anonymiser:(d)=>{ const j=S.joueurs[d.jid]; if(!j) return; const n="Joueur "+(Object.keys(S.joueurs).indexOf(d.jid)+1); const P=S.partie;
     if(P && j.eq!=null){ const mb=P.equipes[j.eq].membres, i=mb.indexOf(j.nom); if(i>=0) mb[i]=n; } j.pseudo=""; j.nom=n; j.bloque=true; rendre(); envoyerEtatJ(true); },
-  champ:(d)=>{ if(d.cle==="pseudoLocal"){ S.config.pseudoLocal=String(d.v).slice(0,20); return; } if(!["classe","nbEleves"].includes(d.cle)) return; S.config[d.cle] = d.cle==="nbEleves" ? Math.max(1,Math.min(40,+d.v||1)) : String(d.v).slice(0,40); rendre(); },
+  champ:(d)=>{ if(d.cle==="pseudoLocal"){ S.config.pseudoLocal=String(d.v).slice(0,20); if(enSalle()) envoyerEtatJ(true); return; } if(!["classe","nbEleves"].includes(d.cle)) return; S.config[d.cle] = d.cle==="nbEleves" ? Math.max(1,Math.min(40,+d.v||1)) : String(d.v).slice(0,40); rendre(); },
   points:(d)=>{ const i=+d.eq, n=+d.n; if(!S.partie || !(i===0||i===1) || !n) return; ajouterPoints(i,n); son(n>0?"cloche":"friteuse"); rendre(); },
   envoi:(d)=>{ const {action, nom, ...data}=d; Lien.envoyer({t:"action", nom, data}); },
   qr:()=>{ S.qrOuvert=!S.qrOuvert; rendre(); },
@@ -7521,6 +8037,8 @@ const ACTIONS = {
     if(!m || P.phase!=="jeu" || !P.q || S.verrou){ toast("Un joker se joue pendant une question."); return; }
     if(P.jokerActif){ toast("Un joker est déjà en jeu sur cette question."); return; }
     if(["nuggets","menus"].includes(m.id) && P.tour!==+d.eq){ toast(`Ce n’est pas au tour de ${eq.patron.nom}.`); return; }
+    if(j.id==="doggy"){ const q=P.q; if(!["nuggets","menus"].includes(m.id) || !q.choix || q.revele || q.repondu!=null){ toast("Le Doggy bag se joue sur une question à choix, aux Amuse-bouches ou à la Carte du chef."); return; }
+      if(!q.choix.some((c,k)=>!c.ok && !(q.elimines||[]).includes(k))){ toast("Plus rien à emballer : il ne reste que la bonne réponse."); return; } }
     const resteAvant = chronoT ? chronoReste : chronoReste || dureeChrono();
     j.utilise=true; P.jokerActif={id:j.id, eq:+d.eq, nom:j.nom, ico:j.ico, reste:resteAvant}; arreterChrono();
     animerJoker(j, eq, ()=>lancerJoker()); },
@@ -7535,7 +8053,7 @@ const ACTIONS = {
     if(!ok && secondeChance(P.tour)){ q.elimines=(q.elimines||[]).concat(+d.k); rendre(); return; }
     q.repondu=+d.k; if(ok){ ajouterPoints(P.tour,ptsJoker(P.tour,ptsBonus(P.tour,1))); son("cloche"); } else son("friteuse"); apresReponse(m, ok); },
   // le prof refuse un buzz parti avant la fin de la lecture : la main est rendue, on relit, on rebuzze
-  "menu-choix":(d)=>{ const P=S.partie, q=P&&P.q, m=P&&mancheCourante(); if(!q || !q.choix || q.revele || !m || m.id!=="menus") return; q.choisiMenu=+d.k; ACTIONS[q.choix[+d.k].ok?"juste":"faux"]({eq:P.tour}); },
+  "menu-choix":(d)=>{ const P=S.partie, q=P&&P.q, m=P&&mancheCourante(); if(!q || !q.choix || q.revele || !m || m.id!=="menus" || (q.elimines||[]).includes(+d.k)) return; q.choisiMenu=+d.k; ACTIONS[q.choix[+d.k].ok?"juste":"faux"]({eq:P.tour}); },
   "palmares-nom":(d)=>{ S.palmaresNom=d.n; rendre(); },
   "palmares-oublier":()=>{ if(!S.palmaresNom || !confirm(`Oublier les questions déjà posées à ${S.palmaresNom} ? Elles pourront revenir dans les prochaines parties.`)) return; const t=Stock.lire("historique",{}); delete t["joueur:"+S.palmaresNom]; Stock.ecrire("historique",t); toast("Toutes les questions reviennent en jeu."); rendre(); },
   "palmares-effacer":()=>{ const T=Stock.lire("palmares",{}); if(!S.palmaresNom || !confirm(`Effacer toutes les parties de ${S.palmaresNom} ?`)) return; delete T[S.palmaresNom]; Stock.ecrire("palmares",T); S.palmaresNom=null; rendre(); },
@@ -7598,7 +8116,7 @@ const ACTIONS = {
   "burger-suivante":()=>{ if(S.partie.burger.etape==="questions") questionBurgerSuivante(); },
   "burger-go":()=>{ const Bg=S.partie.burger; Bg.etape="questions"; Bg.q=0; deroulerQuestions(); },
   "bocal-choix":(d)=>{ const Bg=S.partie&&S.partie.burger; if(!Bg || Bg.etape!=="reponses") return; const k=Bg.res.length, r=(Bg.choixRep||{})[k]; if(!r) return;
-    ACTIONS["burger-rep"]({v: r[+d.i]===Bg.questions[k].r ? "1":"0"}); },
+    (Bg.dits=Bg.dits||[])[k]=r[+d.i]; ACTIONS["burger-rep"]({v: r[+d.i]===Bg.questions[k].r ? "1":"0"}); },
   "burger-rep":(d)=>{ const Bg=S.partie.burger; if(Bg.etape!=="reponses" || Bg.res.length>=10 || Bg.res.includes(false)) return; const v=d.v==="1"; Bg.res.push(v); son(v?"cloche":"friteuse");
     if(v && Bg.res.length===5){ setTimeout(()=>son("tonnerre"),250); document.body.classList.add("eclair"); setTimeout(()=>document.body.classList.remove("eclair"),700); }
     if(!v || Bg.res.length===10){ setTimeout(()=>{ Bg.etape="fin"; const n=Bg.res.filter(Boolean).length; document.body.classList.toggle("lumiere-basse", n<5);
@@ -7618,7 +8136,7 @@ const ACTIONS = {
   filtre:(d)=>{ S.vivierFiltre=d.d; rendre(); },
   "vivier-niveau":(d)=>{ S.vivierNiveau=d.v; rendre(); },
   theme:(d)=>{ REGLAGES.theme=d.v; Stock.ecrire("reglages",REGLAGES); appliquerTheme(); rendre(); },
-  sons:()=>{ REGLAGES.sons=!REGLAGES.sons; Stock.ecrire("reglages",REGLAGES); rendre(); },
+  sons:()=>{ REGLAGES.sons=!REGLAGES.sons; Stock.ecrire("reglages",REGLAGES); S.dernierHtmlJ=null; rendre(); },
   "test-son":(d)=>{ if(!/^m-/.test(d.s)) return son(d.s);
     const b=SonsFichiers.buf[d.s]; if(!b){ toast("Pas encore de fichier : c’est la musique de synthèse qui joue en partie."); return; }
     const a=audio(); if(a.state==="suspended") a.resume(); const src=a.createBufferSource(), g=a.createGain(); src.buffer=b; g.gain.value=REGLAGES.volMusique*.75;
@@ -7654,12 +8172,24 @@ const ACTIONS = {
   chrono:()=>basculerChrono()
 };
 
+/* Confirmations dans l’appli : certaines applis (navigateur intégré d’une messagerie, de l’appli Claude…) bloquent les boîtes de dialogue
+   du navigateur, et « confirm » y répond toujours « non ». On affiche donc notre propre fenêtre : « Oui » relance l’action, confirmée. */
+window.confirm = msg => {
+  if(S.confirme===msg){ S.confirme=null; return true; }
+  const A=S.derniereAction; if(!A) return false;
+  document.querySelector(".confirm-voile")?.remove();
+  const v=document.createElement("div"); v.className="voile confirm-voile";
+  v.innerHTML=`<div class="panneau modale confirm-modale" role="alertdialog" aria-modal="true"><p class="confirm-texte"></p><div class="confirm-boutons"><button class="btn" data-c="non">Annuler</button><button class="btn moutarde" data-c="oui">Oui</button></div></div>`;
+  v.querySelector(".confirm-texte").textContent=msg;
+  v.addEventListener("click",ev=>{ const c=ev.target.closest("[data-c]"); if(!c && ev.target!==v) return; ev.stopPropagation(); v.remove();
+    if(c && c.dataset.c==="oui" && ACTIONS[A.nom]){ S.confirme=msg; S.derniereAction=A; try{ ACTIONS[A.nom](A.data, {target:document.body}); } finally { S.derniereAction=null; S.confirme=null; } } });
+  document.body.appendChild(v); v.querySelector('[data-c="oui"]').focus(); return false; };
 document.addEventListener("click",e=>{
   // « Je joue ici » : toucher une plaque d’équipe (hors jokers) ouvre la fiche du patron
-  if(S.config.reponses==="local" && S.partie && S.ecran==="jeu" && !e.target.closest("[data-action]")){ const pl=e.target.closest("header.tableau .equipe"); if(pl){ ACTIONS["fiche-patron"]({eq:pl.id==="eq1"?1:0}); return; } }
+  if(S.partie && S.ecran==="jeu" && !vueCreateur() && !e.target.closest("[data-action]")){ const pl=e.target.closest("header.tableau .equipe"); if(pl){ ACTIONS["fiche-patron"]({eq:pl.id==="eq1"?1:0}); return; } }
   const b=e.target.closest("[data-action]"); if(!b || b.disabled) return;
   if(b.tagName==="INPUT") return;
-  const f=ACTIONS[b.dataset.action]; if(f) f(b.dataset, e);
+  const f=ACTIONS[b.dataset.action]; S.derniereAction={nom:b.dataset.action, data:{...b.dataset}}; if(f) f(b.dataset, e); S.derniereAction=null;
 });
 document.addEventListener("dblclick",e=>{
   const c=e.target.closest(".menu-carte"); if(!c || S.ecran!=="jeu") return;
