@@ -5486,7 +5486,8 @@ document.addEventListener("pointerdown",()=>{ if(REGLAGES.musique && !Musique.t)
 
 // tablettes et télécommande : silence total (seul le tableau fait du bruit)
 const appareilMuet = () => (S.ecran==="joueur" && !(S.etatJ && S.etatJ.salle)) || S.ecran==="telecommande";
-function son(nom){ if(enSalle() && LienJ.role==="ecran" && S.partie) LienJ.envoyer({t:"son", nom});
+function son(nom){ if(enSalle() && S.ecran==="tirage" && nom==="pioche") return;   // en salle, la roulette des noms est invisible : pas de cliquetis
+  if(enSalle() && LienJ.role==="ecran" && S.partie && nom!=="pioche") LienJ.envoyer({t:"son", nom});
   if(!REGLAGES.sons || appareilMuet()) return; if(Date.now()<(S.soloJusque||0) && nom!==S.soloNom) return;
   const a=audio(); if(a && a.state==="suspended") a.resume(); if(SonsFichiers.jouer(nom)) return; SFX[nom] && SFX[nom](); }
 // joue un son seul : la musique se coupe, les autres effets se taisent, puis tout reprend selon l’écran
@@ -5929,11 +5930,11 @@ VUES.tirage = () => {
 APRES.tirage = () => {
   const P=S.partie; if(!P.roulette) return;
   const reduit=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let n=0; const tours=reduit?1:22;
+  let n=0; const tours=reduit||enSalle()?1:22;   // en salle, chacun découvre son patron en retournant sa carte
   const t=setInterval(()=>{
     n++; son("pioche");
     [0,1].forEach(i=>{ const el=$("#nomp"+i); if(el) el.textContent = n<tours ? hasard(PATRONS).nom : P.equipes[i].patron.nom; });
-    if(n>=tours){ clearInterval(t); P.roulette=false; son("fanfare"); rendre(); }
+    if(n>=tours){ clearInterval(t); P.roulette=false; if(!enSalle()) son("fanfare"); rendre(); }
   }, 70+n*4);
 };
 
@@ -7456,8 +7457,8 @@ function preparerVoteEquipe(){ const P=S.partie, m=P&&mancheCourante(), q=P&&P.q
   envoyerEtatJ(true); }
 function voteEquipe(jid, j, k){ const P=S.partie, V=P&&P.voteEq; if(!V || V.clos || j.eq!==V.eq) return; V.votes[jid]=k; envoyerEtatJ(true); verifierVoteEquipe(); }
 function verifierVoteEquipe(){ const P=S.partie, V=P&&P.voteEq; if(!V || V.clos) return;
-  const humains=joueursActifs(V.eq).map(([id])=>id), bots=botsDe(V.eq);
-  const tous=humains.every(id=>V.votes[id]!=null) && bots.every(b=>V.votes["bot:"+b]!=null);
+  const humains=Object.entries(S.joueurs).filter(([,j])=>j.eq===V.eq).map(([id])=>id), bots=botsDe(V.eq);
+  const tous=(humains.length+bots.length)>0 && humains.every(id=>V.votes[id]!=null) && bots.every(b=>V.votes["bot:"+b]!=null);
   if(!tous && Date.now()<V.fin) return;
   V.clos=true; const vals=Object.values(V.votes), faux=vals.filter(k=>k!==V.bonne);
   const ok = vals.length>0 && faux.length<=vals.length/4;
@@ -7483,7 +7484,7 @@ function choixMenuSalle(){ const P=S.partie, R=menusVoteResume(); if(!R || S.ver
   if(P.choixMenuPour!==R.ci){ P.choixMenuPour=R.ci; P.choixMenuDebut=Date.now(); }
   if(!humainsDe(R.ci).length) return;   // une équipe de bots choisit seule
   const libres=R.liste.filter(x=>x.libre).map(x=>x.i), votes=Object.entries(P.votesMenu||{}).filter(([,i])=>libres.includes(i));
-  const ids=joueursActifs(R.ci).map(([id])=>id), tous=ids.length && ids.every(id=>(P.votesMenu||{})[id]!=null), memes=new Set(ids.map(id=>(P.votesMenu||{})[id])).size===1;
+  const ids=Object.entries(S.joueurs).filter(([,j])=>j.eq===R.ci).map(([id])=>id), tous=ids.length && ids.every(id=>(P.votesMenu||{})[id]!=null), memes=new Set(ids.map(id=>(P.votesMenu||{})[id])).size===1;
   let i=null;
   if(tous && memes && libres.includes(P.votesMenu[ids[0]])) i=P.votesMenu[ids[0]];
   else if(Date.now()-P.choixMenuDebut>20000){ const c={}; votes.forEach(([,x])=>c[x]=(c[x]||0)+1); const top=Object.entries(c).sort((a,b)=>b[1]-a[1])[0]; i=top?+top[0]:hasard(libres); }
@@ -7555,7 +7556,7 @@ function etatJoueurs(){
     st.votesOuverts=!!P.votesOuverts; st.nbVotes=Object.keys(P.votes||{}).length; st.nbEquipe=joueursActifs(P.tour).length; st.votes=P.votes||{}; }
   const patience = Date.now() < (P.buzzDes||0); st.patience=patience;
   if(enSalle() && P.voteEq && !P.voteEq.clos && P.phase==="jeu"){ const V=P.voteEq; st.voteEq={quoi:V.quoi, eq:V.eq, titre:V.titre, choix:V.choix, mesVotes:V.votes, nb:Object.keys(V.votes).length,
-    elimines:V.elimines||[], attendus:joueursActifs(V.eq).length+botsDe(V.eq).length, reste:Math.max(0,Math.ceil((V.fin-Date.now())/1000))}; }
+    elimines:V.elimines||[], attendus:Object.values(S.joueurs).filter(j=>j.eq===V.eq).length+botsDe(V.eq).length, reste:Math.max(0,Math.ceil((V.fin-Date.now())/1000))}; }
   if(enSalle() && m.id==="burger" && P.burger){ const Bg=P.burger; st.bocal={etape:Bg.etape, candidat:Bg.candidat, k:Bg.q, question: Bg.etape==="questions" && Bg.questions[Bg.q] ? Bg.questions[Bg.q].q : null,
     res:Bg.res, attendus:Bg.questions.slice(0,Bg.res.length).map(x=>x.r), dits:Bg.dits||[],
     reponse: Bg.etape==="questions" && Bg.questions[Bg.q] ? Bg.questions[Bg.q].r : null,
