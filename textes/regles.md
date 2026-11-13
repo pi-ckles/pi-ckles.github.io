@@ -39,11 +39,11 @@ Deux catégories qui jouent sur les mots. Une affirmation s’affiche : le premi
 
 ## 📜 La Carte du chef
 
-Quatre menus, retournés un à un, chacun sur un chapitre et avec ses questions à thème. L’équipe qui a le moins de points choisit en premier. Chaque menu se sert en entrées, plats, puis spécialité du chef. Le dernier menu porte un titre interminable : qui l’ose marque ×1,5. Un répondant est désigné à chaque question, chacun son tour. Avec des bots, chaque question propose quatre réponses crédibles, sans réponse farfelue ; en classe, le répondant répond à l’oral et le prof valide.
+Quatre menus, retournés un à un, chacun sur un chapitre et avec ses questions à thème. L’équipe qui a le moins de points choisit en premier. Chaque menu se sert en entrées, plats, puis spécialité du chef. Le dernier menu porte un titre interminable : qui l’ose marque ×1,5. Chaque question propose quatre réponses crédibles, sans réponse farfelue. Seul contre des bots, tu choisis directement ; en classe, toute l’équipe vote sur ses tablettes, comme aux Amuse-bouches (validée si au plus un quart des votes sont faux). Sans tablette, l’équipe se concerte et annonce sa lettre, que le prof clique au tableau. Après une erreur, le prof peut toujours « accorder quand même ».
 
 ## 🧾 La Note salée
 
-Duel au buzzer sur des curiosités scientifiques et de la culture pop (films, séries, art). Après le buzz, on répond (avec des bots, parmi quatre propositions). Bonne réponse : +3 ; mauvaise réponse : +3 pour l’équipe adverse. 20 secondes par question. La première équipe au score cible gagne la partie.
+Duel au buzzer sur des curiosités scientifiques et de la culture pop (films, séries, art). Après le buzz, on répond : seul contre des bots, parmi quatre propositions ; en classe, à l’oral, sans propositions, et le prof valide. Bonne réponse : +3 ; mauvaise réponse : +3 pour l’équipe adverse. 20 secondes par question. La première équipe au score cible gagne la partie.
 
 ## 🫙 Le Bocal infernal
 
