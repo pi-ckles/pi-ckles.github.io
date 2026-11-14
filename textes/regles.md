@@ -47,7 +47,7 @@ Duel au buzzer sur des curiosités scientifiques et de la culture pop (films, s�
 
 ## 🫙 Le Bocal infernal
 
-Un candidat de l’équipe gagnante voit défiler dix questions très faciles, sans répondre, puis donne les dix réponses dans l’ordre, en un seul essai : toute la difficulté est dans la mémoire. Sans arbitre, chaque réponse se choisit parmi quatre réponses de la série : il faut se souvenir de la réponse ET de sa place. Cinq premières justes : Petit Bocal (et coup de tonnerre). Les dix : Grand Bocal.
+Un candidat de l’équipe gagnante voit défiler dix questions très faciles, sans répondre, puis donne les dix réponses dans l’ordre, en un seul essai : toute la difficulté est dans la mémoire. Seul contre des bots ou en salle multijoueur, chaque réponse se choisit parmi quatre réponses de la série : il faut se souvenir de la réponse ET de sa place. En classe, le candidat répond à l’oral et le prof valide chaque réponse. Cinq premières justes : Petit Bocal (et coup de tonnerre). Les dix : Grand Bocal.
 
 ---
 
