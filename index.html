@@ -6340,7 +6340,7 @@ function sceneBurger(){
       <h2 style="font-size:clamp(1.4rem,3vw,2.2rem)">${esc(Bg.candidat)}, à toi : les dix réponses, dans l’ordre</h2>
       ${solo?"":`<p class="doux" style="margin:0">Le candidat tourne le dos au tableau. Réponse ${Math.min(prochaine+1,10)} attendue : <strong>${esc(attendue.r)}</strong> (${esc(attendue.q)})</p>`}
       <div class="cases">${Bg.questions.map((x,i)=>`<div class="case ${Bg.res[i]===true?"juste":Bg.res[i]===false?"faux":""} ${i===prochaine?"prochaine":""}"><span>${i+1}</span>${solo?"":`<span class="filigrane">${esc(x.r)}</span>`}</div>`).join("")}</div>
-      ${modeBots() ? (estBot(Bg.candidat) ? `<p class="bot-reflechit"><strong>${esc(Bg.candidat)}</strong> fouille dans sa mémoire…</p>` : (S.partie.tablettes && jidDe(Bg.candidat)) ? `<p class="doux">📱 ${esc(Bg.candidat)} répond sur son appareil… réponse n° ${prochaine+1}</p>` : choixBocal(Bg, prochaine)) : `<div class="commandes">
+      ${modeBots() && (!qcmClasse() || estBot(Bg.candidat)) ? (estBot(Bg.candidat) ? `<p class="bot-reflechit"><strong>${esc(Bg.candidat)}</strong> fouille dans sa mémoire…</p>` : (S.partie.tablettes && jidDe(Bg.candidat)) ? `<p class="doux">📱 ${esc(Bg.candidat)} répond sur son appareil… réponse n° ${prochaine+1}</p>` : choixBocal(Bg, prochaine)) : `<div class="commandes">
         <button class="btn cornichon gros" data-action="burger-rep" data-v="1">Réponse ${prochaine+1} juste</button>
         <button class="btn ketchup gros" data-action="burger-rep" data-v="0">Faux ou trou</button>
       </div>`}`;
@@ -7607,7 +7607,7 @@ function actionJoueur(){ const P=S.partie, m=P&&mancheCourante(); if(!P || !m ||
   if(m.id==="selpoivre" && enSalle() && P.buzz!=null && !P.rebond && q.repondu==null && P.buzzNom && !estBot(P.buzzNom) && P.duelSP){ const j=jidDe(P.buzzNom);
     if(j) return {pour:j, quoi:"sp", titre:q.texte, choix:[P.duelSP.sel, P.duelSP.poivre, "Les deux"].map(esc)}; }
   if(m.id==="menus" && q.choix && !q.revele && !enSalle() && !qcmClasse()){ const nom=repondant(P.equipes[P.tour]), j=!estBot(nom)&&jidDe(nom); if(j) return {pour:j, quoi:"menu", titre:q.enonce, choix:q.choix.map(c=>c.html)}; }
-  const Bg=P.burger; if(m.id==="burger" && Bg && Bg.etape==="reponses" && !estBot(Bg.candidat) && Bg.res.length<10 && !Bg.res.includes(false) && !bocalEnPause(Bg)){ const j=jidDe(Bg.candidat), k=Bg.res.length;
+  const Bg=P.burger; if(m.id==="burger" && !qcmClasse() && Bg && Bg.etape==="reponses" && !estBot(Bg.candidat) && Bg.res.length<10 && !Bg.res.includes(false) && !bocalEnPause(Bg)){ const j=jidDe(Bg.candidat), k=Bg.res.length;
     if(j) return {pour:j, quoi:"bocal", titre:`Réponse n° ${k+1} : laquelle était-ce ?`, choix:propositionsBocal(Bg,k).map(esc)}; }
   return null; }
 // les écrans de lancement : le bouton que les joueurs peuvent déclencher depuis leur appareil
