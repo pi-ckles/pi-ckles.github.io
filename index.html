@@ -5736,7 +5736,7 @@ VUES.assistant = () => {
   if(e===3){
     corps = `<h3>Quel format ?</h3>
       <div class="grille formats">${Object.entries(FORMATS).map(([id,f])=>`<button class="choix-carte" data-action="format" data-id="${id}" aria-pressed="${c.format===id}"><strong>${f.nom}</strong><span>${f.duree}</span></button>`).join("")}</div>
-      ${c.format!=="mesure"?`<p class="doux as-note">Les cinq manches, dans l’ordre du jeu. Choisis « Sur mesure » pour composer ta propre partie.</p>`:`<h3 style="margin-top:1.4rem">Manches jouées</h3>
+      ${c.format!=="mesure"?`<p class="doux as-note">${(()=>{ const ms=(FORMATS[c.format]&&FORMATS[c.format].manches)||[]; const noms=ms.map(id=>(MANCHES.find(m=>m.id===id)||{}).nom).filter(Boolean); return (ms.length===MANCHES.length?"Les cinq manches":`${noms.length===3?"Trois":noms.length} manches`)+" : "+noms.join(", ").replace(/, ([^,]*)$/," et $1")+"."; })()} Choisis « Sur mesure » pour composer ta propre partie.</p>`:`<h3 style="margin-top:1.4rem">Manches jouées</h3>
       <p class="doux">Coche les manches que tu veux jouer, dans l’ordre du jeu.</p>`}
       ${c.format!=="mesure"?"":`<div class="grille" style="grid-template-columns:repeat(auto-fit,minmax(210px,1fr))">${MANCHES.map(m=>`<button class="choix-carte" data-action="manche" data-id="${m.id}" aria-pressed="${c.manches.includes(m.id)}" ${c.format==="mesure"?"":"disabled"}><strong>${m.nom}</strong><span>${m.desc}</span></button>`).join("")}</div>`}`;
   }
