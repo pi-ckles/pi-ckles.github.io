@@ -723,11 +723,13 @@ button .ico-quitter{display:inline-block!important;width:1.05em!important;height
 /* son équipe : une simple étiquette ; seule l’équipe qui a la main est éclairée */
 .jr-entete .equipe.jr-mienne .nom::after{content:"toi";display:inline-block;margin-left:.35em;padding:0 .4em;border-radius:999px;background:var(--line);color:var(--panel);font-family:var(--f-texte);font-size:.62em;font-weight:800;vertical-align:middle;letter-spacing:.03em}
 .jr-entete .centre{display:flex;flex-direction:column;align-items:center;gap:.25rem}
+@media (max-width:820px){ .jr-entete{grid-template-columns:minmax(0,1fr) minmax(0,1fr)} .jr-entete .centre{flex-direction:row} }
 .jr-chrono-rond{width:3.1rem;height:3.1rem;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--moutarde) calc(var(--p)*360deg), var(--panel2) 0);position:relative}
 .jr-chrono-rond::before{content:"";position:absolute;inset:5px;border-radius:50%;background:var(--panel)}
 .jr-chrono-rond span{position:relative;font-family:var(--f-titre);font-size:1.15rem;font-variant-numeric:tabular-nums;margin:0}
 .jr:has(.jr-barre){padding-bottom:5.5rem}
-.jr-barre{display:flex;align-items:center;gap:.3rem}
+.jr-barre{display:flex;align-items:center;gap:.3rem;max-width:calc(100vw - 1rem)}
+@media (max-width:960px){ .jr-barre-createur .ico-btn .txt{display:none} }
 .jr-barre-nom{font-weight:800;padding:0 .5rem;max-width:8rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
 .jr-bocal-q{font-size:clamp(1.4rem,6vw,2rem)}
@@ -7063,6 +7065,10 @@ function demarrerJoueur(code, prm={}){
     if(m.etat && m.etat.exclu){ if(m.etat.exclu===S.jid){ S.exclu=true; S.etatJ=null; rendre(); } return; }
     if(S.exclu){ if(!(m.etat && m.etat.affect && m.etat.affect[S.jid])) return; S.exclu=false; }   // réintégré : de retour dans la liste des joueurs
     const avant=S.etatJ; S.etatJ=m.etat; S.contactJ=Date.now();
+    // bonus du patron marqué chez l’hôte : le même « ✨ ×1,2 » sur sa plaque, ici aussi
+    const pb=m.etat && m.etat.popBonus; if(pb && avant && (!avant.popBonus || avant.popBonus.n!==pb.n)) setTimeout(()=>{ const el=plaqueVisible(pb.eq); if(!el) return; const r=el.getBoundingClientRect();
+      const b=document.createElement("div"); b.className="pop-bonus"; b.setAttribute("aria-hidden","true"); b.textContent="✨ ×1,2";
+      b.style.left=(r.left+r.width/2)+"px"; b.style.top=(r.bottom-10)+"px"; document.body.appendChild(b); setTimeout(()=>b.remove(),1400); },150);
     if(m.etat && m.etat.salle && !S.sonsSalle){ S.sonsSalle=true; SonsFichiers.charger().then(()=>Musique.maj()); Musique.maj(); }
     if(!avant || !avant.question || !m.etat.question || avant.question.enonce!==m.etat.question.enonce || avant.tour!==m.etat.tour || (avant.question.num!==m.etat.question.num)) S.monVote=null;
     if(document.activeElement && document.activeElement.matches("#app input")) return;
@@ -7128,7 +7134,7 @@ VUES.joueur = () => {
       <div class="score">${String(x.score).replace(".",",")}</div></div>`;
     const tot=E.chronoTotal||20, pc=E.chrono!=null?Math.max(0,Math.min(1,E.chrono/tot)):0;
     const centre=`<div class="centre"><div class="manche">${E.manche?esc(E.manche.nom):"Pi-ckles"}</div>${E.chrono!=null?`<div class="jr-chrono-rond" style="--p:${pc}"><span class="jr-chrono-bandeau">${E.chrono}</span></div>`:""}</div>`;
-    const barre=`<nav class="barre-prof jr-barre" aria-label="Actions"><span class="jr-barre-nom">${esc(moi?moi.nom:S.pseudo||"")}${createur?" 👑":""}</span>
+    const barre=`<nav class="barre-prof jr-barre ${createur?"jr-barre-createur":""}" aria-label="Actions"><span class="jr-barre-nom">${esc(moi?moi.nom:S.pseudo||"")}${createur?" 👑":""}</span>
       ${createur?`<button class="ico-btn" data-action="salle-joueurs"><span class="ico" aria-hidden="true">👥</span><span class="txt">Joueurs</span></button>`:""}
       <button class="ico-btn" data-action="j-palmares"><span class="ico" aria-hidden="true">🏆</span><span class="txt">Palmarès</span></button>
       <button class="ico-btn ${REGLAGES.musique?"":"coupe"}" data-action="musique" aria-label="Musique ${REGLAGES.musique?"activée":"coupée"}"><span class="ico" aria-hidden="true">${REGLAGES.musique?"🎵":"🔇"}</span><span class="txt">Musique</span></button>
@@ -7618,7 +7624,8 @@ function etatJoueurs(){
   const base={ ecran:S.ecran, partie: !!P, idPartie: P && P.idJ, snack: enSalle() ? null : snackResume((S.config.classe||"").trim()),
     theme: enSalle() ? Musique.mode() : undefined,
     salle: enSalle() ? { createur:pseudoSalle(), code:S.salleJ, joueurs:[pseudoSalle(), ...Object.entries(S.joueurs).filter(([id])=>id!==jidHote()).map(([,j])=>j.nom)], depart: S.partie && S.partie.departA ? Math.max(0,Math.ceil((S.partie.departA-Date.now())/1000)) : null, createurJid:jidHote(), options:resumeOptionsSalle(), etape:S.ecran==="assistant"?S.etape:null } : null,
-    affect: Object.fromEntries(Object.entries(S.joueurs).map(([id,j])=>[id,{eq:j.eq, nom:j.nom}])) };
+    affect: Object.fromEntries(Object.entries(S.joueurs).map(([id,j])=>[id,{eq:j.eq, nom:j.nom}])),
+    popBonus: enSalle() && P ? P.popBonus||null : null };
   if(!P) return base;
   if(S.ecran==="fin" || (S.ecran==="jeu" && P.idx>=P.manches.length)){ const [A,B]=P.equipes; const g = P.gagnant!=null ? P.gagnant : (A.score>=B.score?0:1); const Bg=P.burger, n=Bg?Bg.res.filter(Boolean).length:0;
     return {...base, fin:{ gagnant:g, egalite: P.gagnant==null && A.score===B.score, niveau:S.config.niveau,
@@ -7933,8 +7940,11 @@ function bonusVisible(i){ const P=S.partie, m=mancheCourante(); if(!m || !P || P
   return bonusEquipe(i); }
 function bonusChrono(){ const P=S.partie, m=mancheCourante(); return !!(m && P && ["nuggets","menus"].includes(m.id) && bonusEquipe(P.tour)); }
 function ptsBonus(eq, pts){ if(!bonusEquipe(eq)) return pts; effetBonus(eq); return Math.round(pts*1.2*10)/10; }
+// la plaque visible de l’équipe : celle du tableau, ou celle de l’en-tête multijoueur
+function plaqueVisible(eq){ return [...document.querySelectorAll(`#eq${eq}, .jr-entete .equipe[data-eq="${eq}"]`)].find(e=>{ const r=e.getBoundingClientRect(); return r.width>0 && r.height>0; }); }
 function effetBonus(eq){
-  setTimeout(()=>{ const el=$("#eq"+eq); if(!el) return; const r=el.getBoundingClientRect();
+  const P=S.partie; if(P && enSalle()){ P.popBonus={eq, n:((P.popBonus&&P.popBonus.n)||0)+1}; }
+  setTimeout(()=>{ const el=plaqueVisible(eq); if(!el) return; const r=el.getBoundingClientRect();
     const b=document.createElement("div"); b.className="pop-bonus"; b.setAttribute("aria-hidden","true"); b.textContent="✨ ×1,2";
     b.style.left=(r.left+r.width/2)+"px"; b.style.top=(r.bottom-10)+"px"; document.body.appendChild(b); setTimeout(()=>b.remove(),1400); },60);
 }
