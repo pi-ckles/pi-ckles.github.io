@@ -1477,7 +1477,7 @@ const Banque = (()=>{
     const choix=mel(liste);
     return {type:"qcm", enonce, choix, bonne:choix.findIndex(c=>c.ok)};
   }
-  const ouv=(enonce, reponse)=>({type:"ouverte", enonce, reponse});
+  const ouv=(enonce, reponse, faux)=>faux?{type:"ouverte", enonce, reponse, faux}:{type:"ouverte", enonce, reponse};  // faux : mauvaises réponses prévues pour le QCM des menus
   const autour=(v,f=fmt)=>k=>f(v+(k%2?1:-1)*Math.ceil(k/2));
 
   const C={};
@@ -4399,7 +4399,7 @@ const Banque = (()=>{
         if(niv==="facile") (C[c].faciles||[]).forEach(g=>l.push([c,g]));
         else if(niv==="costaud") (C[c].costauds||[]).forEach(g=>l.push([c,g]));
         else { (C[c].ouvertes||[]).forEach(g=>l.push([c,g]));
-          (C[c].nuggets||[]).forEach(g=>l.push([c,()=>{ const q=g(); if(/\bces\b|Lequel|Laquelle/.test(q.enonce)) return null; return ouv(q.enonce, q.choix[q.bonne].html); }])); } }
+          (C[c].nuggets||[]).forEach(g=>l.push([c,()=>{ const q=g(); if(/\bces\b|Lequel|Laquelle/.test(q.enonce)) return null; return {...ouv(q.enonce, q.choix[q.bonne].html), faux:q.choix.filter(c=>!c.ok && !c.farfelue).map(c=>c.html)}; }])); } }
       return l; };
     const essayer=(liste,tolerant)=>{ for(const [c,g] of mel(liste)){ if(!tolerant && ctx.gens.has(g)) continue; chapCourant=c; let q=null; for(let e=0;e<(tolerant?1:8);e++){ const x=g(); if(x && (tolerant || !ctx.enonces.has(x.enonce))){ q=x; break; } } if(!q) continue;
         ctx.gens.add(g); ctx.enonces.add(q.enonce); q.chap=C[c].nom; return q; } return null; };
@@ -4430,7 +4430,7 @@ const Banque = (()=>{
      MENUS À THÈME HORS 5e : six questions racontées dans l’univers du menu
      (clé : titre@préfixe des chapitres, car un même titre peut exister à deux niveaux)
      ===================================================================== */
-  const Qf=(e,r)=>()=>ouv(e,r);
+  const Qf=(e,r,f)=>()=>ouv(e,r,f);  // f : trois mauvaises réponses crédibles, pour le QCM
   const THEMES2={
   // ---------------------------- 6e ----------------------------
   "Menu Banquier@six":T([
@@ -4453,7 +4453,7 @@ const Banque = (()=>{
     ()=>{ const q=4*R(3,8); return ouv(`Le pizzaiolo a ${q} olives et en met les ${fr(3,4)} sur la pizza. Combien d’olives sur la pizza ?`, String(3*q/4)); },
     ()=>{ const a=R(1,9); return ouv(`Le pizzaiolo utilise ${fr(a,10)} de sa pâte. Écris ce nombre en écriture décimale.`, f3(a/10)); }],[
     Qf("Combien de pizzas représentent 10 quarts de pizza ? (écriture décimale)","2,5"),
-    Qf(`Lina mange ${fr(2,8)} d’une pizza, Tom ${fr(1,4)} d’une pizza identique. Qui a mangé le plus ?`,"Autant l’un que l’autre")]),
+    Qf(`Lina mange ${fr(2,8)} d’une pizza, Tom ${fr(1,4)} d’une pizza identique. Qui a mangé le plus ?`,"Autant l’un que l’autre",["Lina","Tom","On ne peut pas comparer"])]),
   "Menu Marché@six":T([
     ()=>{ const p=R(2,6), n=R(2,5); return ouv(`Au marché, ${n} kg de pommes coûtent ${n*p} €. Prix d’un kilo ?`, `${p} €`); },
     ()=>{ const p=R(2,7); return ouv(`Un melon coûte ${p} €. Combien coûtent 4 melons ?`, `${4*p} €`); }],[
@@ -4464,10 +4464,10 @@ const Banque = (()=>{
   "Menu Compas@six":T([
     ()=>{ const r=R(2,9); return ouv(`Le compas est écarté de ${r} cm. Quel est le diamètre du cercle tracé ?`, `${2*r} cm`); },
     ()=>{ const r=R(2,9); return ouv(`On veut un cercle de ${2*r} cm de diamètre. De combien faut-il écarter le compas ?`, `${r} cm`); }],[
-    Qf("Combien de cercles différents peut-on tracer passant par un point A donné ?","Une infinité"),
-    ()=>{ const r=R(2,6); return ouv(`Le compas pique en O et trace un cercle de rayon ${r} cm. Le point M est à ${r} cm de O. Où est M ?`, "Sur le cercle"); }],[
-    Qf("Comment tracer la médiatrice de [AB] avec le compas ?","Deux arcs de même rayon centrés en A et en B, puis on relie leurs points d’intersection"),
-    Qf("Deux cercles de centres A et B ont pour rayons 4 cm et 3 cm, avec AB = 7 cm. Combien de points communs ?","Un seul")]),
+    Qf("Combien de cercles différents peut-on tracer passant par un point A donné ?","Une infinité",["Un seul", "Deux", "Aucun"]),
+    ()=>{ const r=R(2,6); return ouv(`Le compas pique en O et trace un cercle de rayon ${r} cm. Le point M est à ${r} cm de O. Où est M ?`, "Sur le cercle", ["À l’intérieur du cercle","À l’extérieur du cercle","Au centre du cercle"]); }],[
+    Qf("Comment tracer la médiatrice de [AB] avec le compas ?","Deux arcs de même rayon centrés en A et en B, puis on relie leurs points d’intersection",["Un cercle de centre A passant par B, puis on trace le rayon", "Deux arcs de rayons différents centrés en A et en B, puis on relie leurs intersections", "On pique au milieu de [AB] et on trace un cercle"]),
+    Qf("Deux cercles de centres A et B ont pour rayons 4 cm et 3 cm, avec AB = 7 cm. Combien de points communs ?","Un seul",["Deux", "Aucun", "Une infinité"])]),
   "Menu Rapporteur@six":T([
     ()=>{ const a=R(15,80); return ouv(`Le rapporteur indique ${a}°. L’angle est-il aigu, droit ou obtus ?`, "Aigu"); },
     Qf("Combien de degrés mesure un angle droit ?","90°")],[
@@ -4481,7 +4481,7 @@ const Banque = (()=>{
     ()=>{ const t=pick([["un carré","4"],["un rectangle","2"],["un triangle équilatéral","3"]]); return ouv(`Combien d’axes de symétrie a ${t[0]} ?`, t[1]); },
     ()=>{ const d=R(2,8); return ouv(`Une tache de l’aile est à ${d} cm de l’axe. À quelle distance est-elle de sa tache symétrique ?`, `${2*d} cm`); }],[
     ()=>{ const a=R(20,150); return ouv(`Un angle de ${a}° dessiné sur une aile a pour symétrique un angle de…`, `${a}°`); },
-    Qf("Parmi les lettres A, B, F, H, lesquelles ont un axe de symétrie vertical ?","A et H")]),
+    Qf("Parmi les lettres A, B, F, H, lesquelles ont un axe de symétrie vertical ?","A et H",["A, H et F", "H seulement", "B et H"])]),
   "Menu Jardinier@six":T([
     ()=>{ const c=R(3,12); return ouv(`Le potager est un carré de ${c} m de côté. Longueur de grillage pour en faire le tour ?`, `${4*c} m`); },
     ()=>{ const L=R(3,9), l=R(2,L); return ouv(`Le parterre mesure ${L} m sur ${l} m. Quelle est son aire ?`, `${L*l} m²`); }],[
@@ -4504,17 +4504,17 @@ const Banque = (()=>{
     ()=>{ const r=R(1,4); return ouv(`Une montre retarde de ${r} min par jour. De combien retarde-t-elle en une semaine ?`, `${7*r} min`); },
     ()=>{ const h=R(19,20), m=pick([15,25,35]), d=110; const t=h*60+m+d; return ouv(`Un film de 1 h 50 commence à ${h} h ${m}. À quelle heure finit-il ?`, `${Math.floor(t/60)} h ${String(t%60).padStart(2,"0")}`); }]),
   "Menu Météo@six":T([
-    ()=>{ const v=[R(10,20),R(10,20),R(2,9)], j=["lundi","mardi","mercredi"]; return ouv(`Températures : lundi ${v[0]} °C, mardi ${v[1]} °C, mercredi ${v[2]} °C. Quel jour a été le plus froid ?`, "mercredi"); },
+    ()=>{ const v=[R(10,20),R(10,20),R(2,9)], j=["lundi","mardi","mercredi"]; return ouv(`Températures : lundi ${v[0]} °C, mardi ${v[1]} °C, mercredi ${v[2]} °C. Quel jour a été le plus froid ?`, "mercredi", ["lundi","mardi","On ne peut pas savoir"]); },
     ()=>{ const a=R(1,9), b=R(0,9), c=R(1,9); return ouv(`Il est tombé ${a} mm, ${b} mm puis ${c} mm de pluie. Total ?`, `${a+b+c} mm`); }],[
     ()=>{ const a=R(18,30), b=R(2,12); return ouv(`Aujourd’hui : maximum ${a} °C, minimum ${b} °C. Quel écart ?`, `${a-b} °C`); },
     ()=>{ const k=R(3,9); return ouv(`Sur le diagramme, 1 carreau représente 2 mm de pluie. Une barre fait ${k} carreaux. Combien de pluie ?`, `${2*k} mm`); }],[
-    Qf("Quel type de graphique montre le mieux la température heure par heure ?","Une courbe"),
+    Qf("Quel type de graphique montre le mieux la température heure par heure ?","Une courbe",["Un diagramme circulaire", "Un diagramme en barres", "Un tableau"]),
     Qf("Il pleut un jour sur trois en novembre (30 jours). Combien de jours de pluie ?","10")]),
   "Menu Pyramide@six":T([
     Qf("Combien de faces a une pyramide à base carrée ?","5"),
     Qf("Combien de sommets a une pyramide à base carrée ?","5")],[
     Qf("Combien d’arêtes a une pyramide à base carrée ?","8"),
-    Qf("Quelle est la forme des faces latérales d’une pyramide ?","Des triangles")],[
+    Qf("Quelle est la forme des faces latérales d’une pyramide ?","Des triangles",["Des carrés", "Des rectangles", "Des trapèzes"])],[
     Qf("Combien de faces a une pyramide à base triangulaire ?","4"),
     Qf("Combien de faces triangulaires a une pyramide à base hexagonale ?","6")]),
   "Menu Carton à chaussures@six":T([
@@ -4577,16 +4577,16 @@ const Banque = (()=>{
     ()=>{ const a=pick([135,90,45]); return ouv(`Une amende de ${a} € est minorée de 20 %. Nouveau montant ?`, `${a*0.8} €`); }]),
   "Menu Échelle de pompier@q4":T([
     Qf("L’échelle mesure 5 m, son pied est à 3 m du mur. À quelle hauteur touche-t-elle le mur ?","4 m"),
-    Qf("Comment s’appelle le plus long côté d’un triangle rectangle ?","L’hypoténuse")],[
+    Qf("Comment s’appelle le plus long côté d’un triangle rectangle ?","L’hypoténuse",["La médiane", "La cathète", "La base"])],[
     Qf("Échelle de 10 m, pied à 6 m du mur. Hauteur atteinte ?","8 m"),
     Qf("Le pied de l’échelle est à 5 m du mur, son sommet à 12 m de haut. Longueur de l’échelle ?","13 m")],[
     Qf("Une échelle de 2,5 m est posée à 1,5 m du mur. Hauteur atteinte ?","2 m"),
-    Qf("Un triangle mesure 6 m, 8 m et 10 m. Est-il rectangle ?","Oui (6² + 8² = 10²)")]),
+    Qf("Un triangle mesure 6 m, 8 m et 10 m. Est-il rectangle ?","Oui (6² + 8² = 10²)",["Non, il manque un angle de 90°", "Non (6 + 8 ≠ 10)", "On ne peut pas savoir sans rapporteur"])]),
   "Menu Tapis roulant@q4":T([
-    Qf("La valise glisse sur le tapis sans tourner. Quelle transformation subit-elle ?","Une translation"),
+    Qf("La valise glisse sur le tapis sans tourner. Quelle transformation subit-elle ?","Une translation",["Une rotation", "Une symétrie axiale", "Une symétrie centrale"]),
     ()=>{ const l=R(40,80); return ouv(`Une valise de ${l} cm glisse sur le tapis. Quelle longueur après la translation ?`, `${l} cm`); }],[
     ()=>{ const x=R(-3,3), y=R(-3,3), d=R(2,6); return ouv(`La valise est en (${fmt(x)} ; ${fmt(y)}) et glisse de ${d} unités vers la droite. Nouvelle position ?`, `(${fmt(x+d)} ; ${fmt(y)})`); },
-    Qf("Une translation conserve-t-elle le sens de la figure (son orientation) ?","Oui")],[
+    Qf("Une translation conserve-t-elle le sens de la figure (son orientation) ?","Oui",["Non, elle la retourne", "Seulement si le vecteur est horizontal", "Non, elle la fait tourner"])],[
     ()=>{ const ax=R(-3,2), ay=R(-2,3), dx=R(1,5), dy=R(-3,3); return ouv(`Le tapis amène un sac de (${fmt(ax)} ; ${fmt(ay)}) à (${fmt(ax+dx)} ; ${fmt(ay+dy)}). Où arrive un sac parti de (0 ; 0) ?`, `(${fmt(dx)} ; ${fmt(dy)})`); },
     ()=>{ const a=R(1,4), b=R(1,4); return ouv(`Le sac glisse de ${a} cases vers la droite, puis de ${b} cases vers la droite. Une seule translation équivalente ?`, `${a+b} cases vers la droite`); }]),
   "Menu Conseil de classe@q4":T([
@@ -4602,7 +4602,7 @@ const Banque = (()=>{
     Qf("Au dé, probabilité d’obtenir 5 ou 6 ?",fr(1,3)),
     Qf("Dans un jeu de 32 cartes, probabilité de tirer un roi ?",fr(1,8))],[
     ()=>{ const r=R(2,5), n=R(3,7); return ouv(`L’urne contient ${r} jetons rouges et ${n} noirs. Probabilité de tirer un noir ?`, frS(n,r+n)); },
-    Qf("La roulette est tombée 5 fois de suite sur rouge. La probabilité de rouge au coup suivant…","…reste la même : le hasard n’a pas de mémoire")]),
+    Qf("La roulette est tombée 5 fois de suite sur rouge. La probabilité de rouge au coup suivant…","…reste la même : le hasard n’a pas de mémoire",["…est plus forte : le noir est « dû »", "…est plus faible : le rouge va s’arrêter", "…double à chaque coup"])]),
   "Menu Pyramide du Louvre@q4":T([
     Qf("Combien de faces latérales a la pyramide du Louvre, à base carrée ?","4"),
     Qf("Formule du volume d’une pyramide ?","Aire de la base × hauteur ÷ 3")],[
@@ -4614,11 +4614,11 @@ const Banque = (()=>{
     Qf("Le premier chiffre du code est le plus petit nombre premier. Lequel ?","2"),
     Qf("Le code est un nombre premier compris entre 20 et 28. Lequel ?","23")],[
     Qf("Décompose 30 en produit de facteurs premiers.","2 × 3 × 5"),
-    Qf("Le code proposé est 21. Est-ce un nombre premier ?","Non : 21 = 3 × 7")],[
+    Qf("Le code proposé est 21. Est-ce un nombre premier ?","Non : 21 = 3 × 7",["Oui, il n’a que deux diviseurs", "Oui, car il est impair", "Non : 21 = 2 × 10 + 1"])],[
     Qf("Décompose 84 en produit de facteurs premiers.","2² × 3 × 7"),
     Qf(`Le coffre s’ouvre avec la fraction irréductible égale à ${fr(18,24)}. Laquelle ?`,fr(3,4))]),
   "Menu Cornet de glace@q4":T([
-    Qf("Quel solide a la forme d’un cornet de glace ?","Un cône"),
+    Qf("Quel solide a la forme d’un cornet de glace ?","Un cône",["Une pyramide", "Un cylindre", "Une sphère"]),
     Qf("Formule du volume d’un cône de rayon r et de hauteur h ?","π × r² × h ÷ 3")],[
     Qf("Un cornet a un rayon de 3 cm et une hauteur de 4 cm. Volume, en fonction de π ?","12π cm³"),
     Qf("Un cornet a un rayon de 2 cm et une hauteur de 6 cm. Volume, en fonction de π ?","8π cm³")],[
@@ -4640,7 +4640,7 @@ const Banque = (()=>{
     ()=>{ const g=R(6,12), [m,n]=pick([[2,3],[3,4],[2,5]]); return ouv(`Avec ${g*m} roses et ${g*n} tulipes, elle fait ${g} bouquets identiques. Composition d’un bouquet ?`, `${m} roses et ${n} tulipes`); },
     Qf("PGCD(30 ; 45) = ?","15")],[
     Qf("35 lys et 49 roses : combien de bouquets identiques au maximum, et que contient chacun ?","7 bouquets de 5 lys et 7 roses"),
-    Qf("La fleuriste affirme que 15 et 28 sont premiers entre eux. A-t-elle raison ?","Oui, leur seul diviseur commun est 1")]),
+    Qf("La fleuriste affirme que 15 et 28 sont premiers entre eux. A-t-elle raison ?","Oui, leur seul diviseur commun est 1",["Non, ils sont tous les deux impairs", "Non, 28 n’est pas premier", "Non, ils ont 7 comme diviseur commun"])]),
   "Menu Carte d’identité@g3":T([
     ()=>{ const a=R(2,9); return ouv(`Contrôle d’identité : développe (x + ${a})².`, `x² + ${2*a}x + ${a*a}`); },
     Qf("Développe (x − 1)(x + 1).","x² − 1")],[
@@ -4657,27 +4657,27 @@ const Banque = (()=>{
     ()=>{ const x=R(5,12); return ouv(`Le triple du code, diminué de 7, vaut ${3*x-7}. Code ?`, String(x)); }]),
   "Menu Distributeur@g3":T([
     ()=>{ const a=R(2,5), x=R(2,9); return ouv(`Le distributeur rend f(x) = ${a}x. Que rend-il pour x = ${x} ?`, String(a*x)); },
-    Qf("On lit f(3) = 7. Pour la fonction f, 7 est … de 3 ?","l’image")],[
+    Qf("On lit f(3) = 7. Pour la fonction f, 7 est … de 3 ?","l’image",["l’antécédent", "le coefficient", "la variable"])],[
     ()=>{ const x=R(2,5); return ouv(`f(x) = x² − 1. Image de −${x} ?`, String(x*x-1)); },
     ()=>{ const x=R(2,9); return ouv(`f(x) = 3x + 1. Quel antécédent donne ${3*x+1} ?`, String(x)); }],[
-    Qf("Un même nombre peut-il avoir deux images par une fonction ?","Non"),
+    Qf("Un même nombre peut-il avoir deux images par une fonction ?","Non",["Oui", "Oui, si la fonction n’est pas affine", "Seulement si ce nombre est négatif"]),
     ()=>{ const a=R(3,9); return ouv(`f(x) = x². Antécédents de ${a*a} ?`, `${a} et −${a}`); }]),
   "Menu Forfait téléphone@g3":T([
     ()=>{ const g=R(2,8); return ouv(`Forfait : 10 € par mois plus 2 € par Go. Prix pour ${g} Go ?`, `${10+2*g} €`); },
-    Qf("Dans le tarif f(x) = 2x + 10, que représente 10 ?","L’abonnement fixe (ordonnée à l’origine)")],[
+    Qf("Dans le tarif f(x) = 2x + 10, que représente 10 ?","L’abonnement fixe (ordonnée à l’origine)",["Le prix par unité consommée (coefficient directeur)", "Le prix d’une unité supplémentaire", "Le nombre maximal d’unités"])],[
     ()=>{ const n=10*R(2,8); return ouv(`Forfait SMS : 0,50 € le message, f(x) = 0,5x. Prix de ${n} SMS ?`, `${n/2} €`); },
     ()=>{ const g=R(2,8); return ouv(`Forfait 15 € + 3 € par Go. Pour combien de Go paie-t-on ${15+3*g} € ?`, `${g} Go`); }],[
     Qf("Forfait A : 20 + x ; forfait B : 3x (x en Go). Pour combien de Go coûtent-ils pareil ?","10 Go"),
     Qf("Le forfait augmente de 10 %. Quelle fonction transforme l’ancien prix x en nouveau prix ?","x ↦ 1,1x")]),
   "Menu Ombres chinoises@g3":T([
     Qf("La main est à mi-chemin entre la lampe et l’écran. Combien de fois son ombre est-elle plus grande que la main ?","2 fois"),
-    Qf("Que permet de calculer le théorème de Thalès ?","Des longueurs, grâce à des rapports égaux")],[
+    Qf("Que permet de calculer le théorème de Thalès ?","Des longueurs, grâce à des rapports égaux",["Des angles, grâce aux cosinus", "Des aires, grâce à des carrés", "Des longueurs, grâce au carré de l’hypoténuse"])],[
     ()=>{ const o=2*R(3,8); return ouv(`Un bâton de 1 m fait une ombre de 2 m. Au même moment, un arbre fait une ombre de ${o} m. Hauteur de l’arbre ?`, `${o/2} m`); },
     ()=>{ const b=2*R(2,8); return ouv(`(MN) // (BC), M est le milieu de [AB] et BC = ${b} cm. MN ?`, `${b/2} cm`); }],[
     ()=>{ const m=R(2,5); return ouv(`AM = 2, AB = 6, MN = ${m} et (MN) // (BC). BC ?`, String(3*m)); },
-    Qf("AM/AB = 1/2 et AN/AC = 1/2, points dans le même ordre. Que dire de (MN) et (BC) ?","Elles sont parallèles")]),
+    Qf("AM/AB = 1/2 et AN/AC = 1/2, points dans le même ordre. Que dire de (MN) et (BC) ?","Elles sont parallèles",["Elles sont perpendiculaires", "Elles sont sécantes en A", "On ne peut rien dire"])]),
   "Menu Rampe de skate@g3":T([
-    Qf("Dans un triangle rectangle, cos(angle) = ?","côté adjacent ÷ hypoténuse"),
+    Qf("Dans un triangle rectangle, cos(angle) = ?","côté adjacent ÷ hypoténuse",["côté opposé ÷ hypoténuse", "côté opposé ÷ côté adjacent", "hypoténuse ÷ côté adjacent"]),
     Qf("cos(60°) = ?","0,5")],[
     ()=>{ const l=2*R(1,5); return ouv(`La rampe mesure ${l} m et fait un angle de 30° avec le sol. À quelle hauteur monte-t-elle ?`, `${l/2} m (sin 30° = 0,5)`); },
     Qf("tan(45°) = ?","1")],[
@@ -4692,17 +4692,17 @@ const Banque = (()=>{
     Qf("On agrandit un cube ×2. Par combien est multiplié son volume ?","8")]),
   "Menu Manège@g3":T([
     Qf("Le manège fait un quart de tour. Quel angle ?","90°"),
-    Qf("Un cheval de bois tourne autour du centre du manège. Quelle transformation ?","Une rotation")],[
+    Qf("Un cheval de bois tourne autour du centre du manège. Quelle transformation ?","Une rotation",["Une translation", "Une symétrie axiale", "Un agrandissement"])],[
     Qf("Combien de quarts de tour pour faire un tour complet ?","4"),
-    Qf("Une rotation de 180° autour du centre, c’est aussi…","une symétrie centrale")],[
+    Qf("Une rotation de 180° autour du centre, c’est aussi…","une symétrie centrale",["une symétrie axiale", "une translation", "une homothétie de rapport 2"])],[
     ()=>{ const n=pick([4,6,8,12]); return ouv(`${n} chevaux sont régulièrement répartis sur le manège. Angle entre deux chevaux voisins ?`, `${360/n}°`); },
-    Qf("Pendant la rotation, la distance d’un cheval au centre change-t-elle ?","Non, une rotation conserve les distances au centre")]),
+    Qf("Pendant la rotation, la distance d’un cheval au centre change-t-elle ?","Non, une rotation conserve les distances au centre",["Oui, elle augmente au fil des tours", "Oui, elle diminue près du centre", "Seulement si le manège accélère"])]),
   "Menu Brevet blanc@g3":T([
     ()=>{ const a=2*R(3,8), b=2*R(4,9); return ouv(`Au brevet blanc, Lina a ${a} et ${b}. Moyenne ?`, String((a+b)/2)); },
     ()=>{ const v=[R(3,7),R(9,12),R(14,19)]; return ouv(`Notes ${v.join(", ")} : étendue ?`, String(v[2]-v[0])); }],[
     ()=>{ const v=Array.from({length:5},()=>R(4,19)).sort((a,b)=>a-b); return ouv(`Médiane des notes ${v.join(" ; ")} ?`, String(v[2])); },
     Qf("Sur 25 élèves, 10 ont plus de 10. Fréquence en pourcentage ?","40 %")],[
-    Qf("Un élève absent a 0. Quel indicateur n’est presque pas influencé par ce 0 ?","La médiane"),
+    Qf("Un élève absent a 0. Quel indicateur n’est presque pas influencé par ce 0 ?","La médiane",["La moyenne", "L’étendue", "Le minimum"]),
     ()=>{ const m=R(10,14); return ouv(`Moyenne de ${m} sur 4 épreuves de même coefficient. Total des points ?`, String(4*m)); }]),
   "Menu Fête foraine@g3":T([
     Qf("La roue a 4 secteurs égaux, dont 1 gagnant. Probabilité de gagner ?",fr(1,4)),
@@ -4712,10 +4712,10 @@ const Banque = (()=>{
     Qf("On lance deux dés. Probabilité d’un double six ?",fr(1,36)),
     Qf("Deux lancers de pièce. Probabilité d’obtenir au moins une face ?",fr(3,4))]),
   "Menu Pétanque@g3":T([
-    Qf("Le solide plein délimité par une sphère s’appelle…","une boule"),
+    Qf("Le solide plein délimité par une sphère s’appelle…","une boule",["une sphère", "un disque", "un cercle"]),
     ()=>{ const d=2*R(3,5); return ouv(`Une boule mesure ${d} cm de diamètre. Son rayon ?`, `${d/2} cm`); }],[
     ()=>{ const r=R(1,4); return ouv(`Aire d’une sphère de rayon ${r} cm, en fonction de π ?`, `${4*r*r}π cm²`); },
-    Qf("Qu’obtient-on en coupant une boule par un plan ?","Un disque")],[
+    Qf("Qu’obtient-on en coupant une boule par un plan ?","Un disque",["Un cercle", "Une sphère", "Un cône"])],[
     Qf("Volume d’une boule de rayon 3 cm, en fonction de π ?","36π cm³"),
     Qf("On double le rayon d’une boule. Son volume est multiplié par…","8")]),
   "Menu Potager@g3":T([
@@ -4726,10 +4726,10 @@ const Banque = (()=>{
     Qf("√(4 × 25) = ?","10"),
     Qf("Un potager carré a pour côté √2 m. Son aire ?","2 m²")]),
   "Menu Mappemonde@g3":T([
-    Qf("Quelle forme a la Terre, en première approximation ?","Une sphère"),
-    Qf("L’équateur est un … de la sphère terrestre.","grand cercle")],[
+    Qf("Quelle forme a la Terre, en première approximation ?","Une sphère",["Un disque", "Un ellipsoïde très aplati", "Un cylindre"]),
+    Qf("L’équateur est un … de la sphère terrestre.","grand cercle",["petit cercle", "méridien", "diamètre"])],[
     Qf("Le rayon terrestre mesure environ 6 400 km. Son diamètre ?","Environ 12 800 km"),
-    Qf("Que relient tous les méridiens ?","Les deux pôles")],[
+    Qf("Que relient tous les méridiens ?","Les deux pôles",["Les deux tropiques", "L’équateur et les pôles", "Les points d’un même fuseau horaire"])],[
     Qf("Formule de l’aire d’une sphère de rayon R ?","4πR²"),
     Qf("Quelle est la latitude de l’équateur ?","0°")]),
   "Menu Loto@g3":T([
@@ -4742,17 +4742,17 @@ const Banque = (()=>{
 
   // ---------------------------- 2de ----------------------------
   "Menu Poupées russes@d2":T([
-    Qf("−3 appartient-il à ℕ ?","Non, il est dans ℤ"),
-    Qf("Quelle est la plus grande poupée, l’ensemble qui contient tous les autres ?","ℝ")],[
-    Qf("1/3 est-il un nombre décimal ?","Non, il est rationnel"),
-    Qf("√2 est dans ℝ. Est-il dans ℚ ?","Non, il est irrationnel")],[
-    Qf("Dans quel ordre s’emboîtent ℕ, ℤ, 𝔻, ℚ et ℝ ?","ℕ ⊂ ℤ ⊂ 𝔻 ⊂ ℚ ⊂ ℝ"),
+    Qf("−3 appartient-il à ℕ ?","Non, il est dans ℤ",["Oui, car 3 ∈ ℕ", "Oui, ℕ contient les négatifs", "Non, il est dans 𝔻 seulement"]),
+    Qf("Quelle est la plus grande poupée, l’ensemble qui contient tous les autres ?","ℝ",["ℚ", "ℤ", "𝔻"])],[
+    Qf("1/3 est-il un nombre décimal ?","Non, il est rationnel",["Oui, 1/3 = 0,33", "Oui, c’est une fraction", "Non, il est irrationnel"]),
+    Qf("√2 est dans ℝ. Est-il dans ℚ ?","Non, il est irrationnel",["Oui, c’est une racine", "Oui, √2 = 1,414", "Non, il n’est pas dans ℝ non plus"])],[
+    Qf("Dans quel ordre s’emboîtent ℕ, ℤ, 𝔻, ℚ et ℝ ?","ℕ ⊂ ℤ ⊂ 𝔻 ⊂ ℚ ⊂ ℝ",["ℕ ⊂ ℤ ⊂ ℚ ⊂ 𝔻 ⊂ ℝ", "ℕ ⊂ 𝔻 ⊂ ℤ ⊂ ℚ ⊂ ℝ", "ℤ ⊂ ℕ ⊂ 𝔻 ⊂ ℚ ⊂ ℝ"]),
     ()=>{ const a=R(-5,0), b=R(2,8); return ouv(`Écris l’intervalle des réels x tels que ${fmt(a)} ≤ x < ${b}.`, `[${fmt(a)} ; ${b}[`); }]),
   "Menu Pair ou impair@d2":T([
     ()=>{ const a=2*R(2,20)+1, b=2*R(2,20)+1; return ouv(`${a} + ${b} : pair ou impair ?`, "Pair"); },
     Qf("Comment s’écrit un entier pair quelconque ?","2k, avec k entier")],[
-    Qf("Impair × impair : pair ou impair ?","Impair"),
-    Qf("Si n² est pair, que peut-on dire de n ?","n est pair")],[
+    Qf("Impair × impair : pair ou impair ?","Impair",["Pair", "Ça dépend des nombres", "Ni l’un ni l’autre"]),
+    Qf("Si n² est pair, que peut-on dire de n ?","n est pair",["n est impair", "n peut être pair ou impair", "n est un multiple de 4"])],[
     Qf("La somme de trois entiers consécutifs est toujours multiple de…","3"),
     Qf("Donne un contre-exemple à « tout nombre impair est premier ».","9 (= 3 × 3)")]),
   "Menu Laboratoire@d2":T([
@@ -4771,28 +4771,28 @@ const Banque = (()=>{
     ()=>{ const k=R(2,6); return ouv(`Résous x² < ${k*k}.`, `]−${k} ; ${k}[`); }]),
   "Menu Parabole@d2":T([
     ()=>{ const k=R(2,9); return ouv(`f(x) = x². Image de −${k} ?`, String(k*k)); },
-    Qf("Comment s’appelle la courbe de la fonction carré ?","Une parabole")],[
+    Qf("Comment s’appelle la courbe de la fonction carré ?","Une parabole",["Une hyperbole", "Une droite", "Une sinusoïde"])],[
     ()=>{ const k=R(2,9); return ouv(`Antécédents de ${k*k} par la fonction carré ?`, `${k} et −${k}`); },
     Qf("Image de 0,25 par la fonction inverse ?","4")],[
     Qf("Ensemble de définition de la fonction inverse ?","ℝ privé de 0"),
     ()=>{ const k=R(2,4); return ouv(`Image de −${k} par la fonction cube ?`, fmt(-(k**3))); }]),
   "Menu Montagne@d2":T([
-    Qf("Le randonneur ne fait que monter. La fonction altitude en fonction du temps est…","croissante"),
+    Qf("Le randonneur ne fait que monter. La fonction altitude en fonction du temps est…","croissante",["décroissante", "constante", "affine"]),
     ()=>{ const a=100*R(12,30); return ouv(`Le sommet, à ${grand(a)} m, est atteint au bout de 2 h, puis le randonneur redescend. Maximum de l’altitude ?`, `${grand(a)} m`); }],[
-    Qf("Sens de variation de x ↦ x² sur [0 ; +∞[ ?","Croissante"),
+    Qf("Sens de variation de x ↦ x² sur [0 ; +∞[ ?","Croissante",["Décroissante", "Constante", "Décroissante puis croissante"]),
     ()=>{ const a=R(2,6), b=R(1,9); return ouv(`Sens de variation de f(x) = −${a}x + ${b} ?`, "Décroissante"); }],[
     ()=>{ const k=R(1,6); return ouv(`Signe de 2x − ${2*k} pour x > ${k} ?`, "Positif"); },
-    Qf("Sens de variation de la fonction inverse sur ]0 ; +∞[ ?","Décroissante")]),
+    Qf("Sens de variation de la fonction inverse sur ]0 ; +∞[ ?","Décroissante",["Croissante", "Constante", "Croissante puis décroissante"])]),
   "Menu Boussole@d2":T([
-    Qf("D’après Chasles, AB→ + BC→ = ?","AC→"),
+    Qf("D’après Chasles, AB→ + BC→ = ?","AC→",["CA→", "BA→", "AB→"]),
     ()=>{ const xa=R(-3,3), ya=R(-3,3), dx=R(1,5), dy=R(1,5); return ouv(`A(${fmt(xa)} ; ${fmt(ya)}) et B(${fmt(xa+dx)} ; ${fmt(ya+dy)}). Coordonnées de AB→ ?`, `(${dx} ; ${dy})`); }],[
     ()=>{ const a=R(-4,4), b=R(-4,4), c=R(-4,4), d=R(-4,4); return ouv(`u→(${fmt(a)} ; ${fmt(b)}) + v→(${fmt(c)} ; ${fmt(d)}) = ?`, `(${fmt(a+c)} ; ${fmt(b+d)})`); },
     Qf("Norme du vecteur (3 ; 4) dans un repère orthonormé ?","5")],[
-    Qf("u→(2 ; 4) et v→(1 ; 2) sont-ils colinéaires ?","Oui, u→ = 2v→"),
-    Qf("ABCD est un parallélogramme si et seulement si…","AB→ = DC→")]),
+    Qf("u→(2 ; 4) et v→(1 ; 2) sont-ils colinéaires ?","Oui, u→ = 2v→",["Non, leurs coordonnées sont différentes", "Non, il faudrait u→ = v→", "Oui, ils sont orthogonaux"]),
+    Qf("ABCD est un parallélogramme si et seulement si…","AB→ = DC→",["AB→ = CD→", "AC→ = BD→", "AB→ = BC→"])]),
   "Menu Bataille navale@d2":T([
     ()=>{ const x=R(-5,5), y=R(-5,5); return ouv(`Le porte-avions est en (${fmt(x)} ; ${fmt(y)}). Quelle est son abscisse ?`, fmt(x)); },
-    Qf("Un sous-marin est en (0 ; 5). Sur quel axe se trouve-t-il ?","L’axe des ordonnées")],[
+    Qf("Un sous-marin est en (0 ; 5). Sur quel axe se trouve-t-il ?","L’axe des ordonnées",["L’axe des abscisses", "La première bissectrice", "L’origine du repère"])],[
     ()=>{ const a=2*R(-3,3), b=2*R(-3,3), c=2*R(-3,3), d=2*R(-3,3); return ouv(`Milieu entre deux navires en (${fmt(a)} ; ${fmt(b)}) et (${fmt(c)} ; ${fmt(d)}) ?`, `(${fmt((a+c)/2)} ; ${fmt((b+d)/2)})`); },
     Qf("Distance entre le port en (0 ; 0) et un bateau en (3 ; 4) ?","5")],[
     ()=>{ const x=R(1,6), y=R(1,6); return ouv(`Symétrique du bateau (${x} ; −${y}) par rapport à l’origine ?`, `(−${x} ; ${y})`); },
@@ -4801,7 +4801,7 @@ const Banque = (()=>{
     ()=>{ const m=R(2,6), p=R(1,9); return ouv(`La piste suit y = ${m}x + ${p}. Coefficient directeur ?`, String(m)); },
     ()=>{ const m=R(2,6), p=R(1,9); return ouv(`Piste y = ${m}x + ${p}. Ordonnée à l’origine ?`, String(p)); }],[
     ()=>{ const m=R(1,4), p=R(0,5); return ouv(`La piste passe par (0 ; ${p}) et (2 ; ${p+2*m}). Coefficient directeur ?`, String(m)); },
-    Qf("Les pistes y = 3x + 1 et y = 3x − 4 sont…","parallèles")],[
+    Qf("Les pistes y = 3x + 1 et y = 3x − 4 sont…","parallèles",["sécantes", "perpendiculaires", "confondues"])],[
     ()=>{ const x=R(4,9), y=R(1,x-1); return ouv(`Système : x + y = ${x+y} et x − y = ${x-y}. Solution ?`, `x = ${x}, y = ${y}`); },
     Qf("Équation du télésiège vertical passant par (2 ; 0) ?","x = 2")]),
   "Menu Bourse@d2":T([
@@ -4814,9 +4814,9 @@ const Banque = (()=>{
   "Menu Sondage d’opinion@d2":T([
     ()=>{ const n=pick([200,300,400,500]), k=n/10*pick([2,3,4,6]); return ouv(`Sur ${n} personnes sondées, ${k} sont pour. Proportion ?`, `${k/n*100} %`); },
     ()=>{ const m=R(8,14); return ouv(`Moyenne de ${m-2}, ${m} et ${m+2} ?`, String(m)); }],[
-    Qf("Quel indicateur de dispersion accompagne la moyenne ?","L’écart type"),
+    Qf("Quel indicateur de dispersion accompagne la moyenne ?","L’écart type",["La médiane", "L’étendue", "Le mode"]),
     Qf("Médiane de 4 ; 7 ; 9 ; 12 ?","8")],[
-    Qf("On ajoute 2 points à toutes les notes. Que devient l’écart type ?","Il ne change pas"),
+    Qf("On ajoute 2 points à toutes les notes. Que devient l’écart type ?","Il ne change pas",["Il augmente de 2", "Il est multiplié par 2", "Il diminue de 2"]),
     Qf("Au moins quel pourcentage des valeurs est inférieur ou égal au premier quartile ?","25 %")]),
   "Menu Jeu de dés@d2":T([
     Qf("Probabilité d’obtenir 6 avec un dé équilibré ?",fr(1,6)),
@@ -4827,7 +4827,7 @@ const Banque = (()=>{
     Qf("P(A) = 0,3, P(B) = 0,4 et P(A ∩ B) = 0,1. P(A ∪ B) ?","0,6")]),
   "Menu Robot programmable@d2":T([
     ()=>{ const a=R(2,9), b=R(2,9); return ouv(`Le robot exécute x = ${a} puis x = x + ${b}. Que vaut x ?`, String(a+b)); },
-    Qf("Quel mot-clé Python définit une fonction pour le robot ?","def")],[
+    Qf("Quel mot-clé Python définit une fonction pour le robot ?","def",["function", "define", "fun"])],[
     ()=>{ const n=R(3,8); return ouv(`Combien de fois le robot répète-t-il « for i in range(${n}) » ?`, String(n)); },
     Qf("En Python, 7 // 2 = ?","3")],[
     Qf("En Python, 7 % 2 = ?","1"),
@@ -4844,14 +4844,14 @@ const Banque = (()=>{
   Object.assign(THEMES2,{
   "Menu Lancer franc@p1":T([
     ()=>{ const a=2*R(2,4); return ouv(`La hauteur du ballon est h(t) = −t² + ${a}t. Que vaut h(1) ?`, String(a-1)); },
-    Qf("Quelle courbe décrit le ballon lancé vers le panier ?","Une parabole")],[
+    Qf("Quelle courbe décrit le ballon lancé vers le panier ?","Une parabole",["Une droite", "Une hyperbole", "Un arc de cercle"])],[
     ()=>{ const a=2*R(2,4); return ouv(`h(t) = −t² + ${a}t. À quel instant le ballon est-il au plus haut ?`, `t = ${a/2}`); },
     ()=>{ const a=2*R(2,4); return ouv(`h(t) = −t² + ${a}t. Hauteur maximale ?`, String(a*a/4)); }],[
     ()=>{ const a=2*R(2,4); return ouv(`h(t) = −t² + ${a}t. À quel instant le ballon retombe-t-il au sol ?`, `t = ${a}`); },
     Qf("Discriminant de x² − 4x + 3 ?","4")]),
   "Menu Parabole de satellite@p1":T([
     Qf("Discriminant de x² + 2x + 1 ?","0"),
-    Qf("Si Δ < 0, combien de solutions réelles a l’équation ?","Aucune")],[
+    Qf("Si Δ < 0, combien de solutions réelles a l’équation ?","Aucune",["Une seule", "Deux", "Une infinité"])],[
     ()=>{ const a=R(1,5), b=R(-4,4); return ouv(`Sommet de la parabole y = (x − ${a})² ${b<0?"− "+(-b):"+ "+b} ?`, `(${a} ; ${fmt(b)})`); },
     ()=>{ const a=R(1,4), b=R(5,8); return ouv(`Racines de (x − ${a})(x − ${b}) ?`, `${a} et ${b}`); }],[
     Qf("Somme des racines de x² − 7x + 10 ?","7"),
@@ -4872,32 +4872,32 @@ const Banque = (()=>{
     Qf("Distance totale des ricochets 8 + 4 + 2 + 1 ?","15 m")]),
   "Menu Radar de vitesse@p1":T([
     Qf("Dérivée de x ↦ x² ?","x ↦ 2x"),
-    Qf("Le nombre dérivé f′(a) est le coefficient directeur…","de la tangente en a")],[
+    Qf("Le nombre dérivé f′(a) est le coefficient directeur…","de la tangente en a",["de la corde entre 0 et a", "de la normale en a", "de la sécante en a"])],[
     ()=>{ const t=R(2,6); return ouv(`La position est x(t) = t². Vitesse instantanée à t = ${t} ?`, String(2*t)); },
     Qf("Dérivée de 3x² + 2x ?","6x + 2")],[
     Qf("f(x) = x³. f′(2) = ?","12"),
     Qf("Équation de la tangente à la courbe de x² en x = 1 ?","y = 2x − 1")]),
   "Menu Montagnes de Savoie@p1":T([
-    Qf("Si f′ > 0 sur un intervalle, f y est…","croissante"),
-    Qf("f′ passe du signe + au signe − en a. Que se passe-t-il en a ?","f atteint un maximum local")],[
+    Qf("Si f′ > 0 sur un intervalle, f y est…","croissante",["décroissante", "positive", "constante"]),
+    Qf("f′ passe du signe + au signe − en a. Que se passe-t-il en a ?","f atteint un maximum local",["f atteint un minimum local", "f s’annule", "f change de signe"])],[
     ()=>{ const a=R(2,5); return ouv(`L’altitude suit f(x) = −x² + ${2*a}x. En quel x est le sommet ?`, `x = ${a}`); },
     ()=>{ const a=R(2,5); return ouv(`f(x) = −x² + ${2*a}x. Altitude maximale ?`, String(a*a)); }],[
     Qf("f′(x) = (x − 1)(x − 3). Sur quel intervalle f′ est-elle négative ?","]1 ; 3["),
-    Qf("x ↦ x³ a-t-elle un extremum en 0, où sa dérivée s’annule ?","Non")]),
+    Qf("x ↦ x³ a-t-elle un extremum en 0, où sa dérivée s’annule ?","Non",["Oui, un minimum", "Oui, un maximum", "Oui, car f′(0) = 0"])]),
   "Menu Bactéries@p1":T([
     Qf("e⁰ = ?","1"),
-    Qf("Dérivée de x ↦ eˣ ?","x ↦ eˣ")],[
-    Qf("e² × e³ = ?","e⁵"),
-    Qf("Le nombre de bactéries N(t) = eᵗ peut-il être négatif ?","Non, eᵗ > 0 pour tout t")],[
+    Qf("Dérivée de x ↦ eˣ ?","x ↦ eˣ",["x ↦ xeˣ⁻¹", "x ↦ eˣ⁻¹", "x ↦ 1"])],[
+    Qf("e² × e³ = ?","e⁵",["e⁶", "e^(2/3)", "2e⁵"]),
+    Qf("Le nombre de bactéries N(t) = eᵗ peut-il être négatif ?","Non, eᵗ > 0 pour tout t",["Oui, si t est négatif", "Oui, pour t < −1", "Seulement pour t très grand"])],[
     Qf("Dérivée de x ↦ e²ˣ ?","x ↦ 2e²ˣ"),
     Qf("Valeur approchée de e⁻¹ ?","0,37")]),
   "Menu Épidémie@p1":T([
     Qf("Le nombre de malades double chaque semaine. 100 au départ : combien au bout de 3 semaines ?","800"),
     Qf("eˣ = 1 pour x = ?","0")],[
-    Qf("(eˣ)² = ?","e²ˣ"),
-    Qf("Dérivée de x ↦ e⁻ˣ ?","x ↦ −e⁻ˣ")],[
-    Qf("eᵃ ÷ eᵇ = ?","eᵃ⁻ᵇ"),
-    Qf("Une grandeur qui croît proportionnellement à sa propre valeur suit une évolution…","exponentielle")]),
+    Qf("(eˣ)² = ?","e²ˣ",["eˣ²", "2eˣ", "e²⁺ˣ"]),
+    Qf("Dérivée de x ↦ e⁻ˣ ?","x ↦ −e⁻ˣ",["x ↦ e⁻ˣ", "x ↦ −xe⁻ˣ⁻¹", "x ↦ 1/eˣ"])],[
+    Qf("eᵃ ÷ eᵇ = ?","eᵃ⁻ᵇ",["eᵃ/ᵇ", "eᵃ⁺ᵇ", "eᵇ⁻ᵃ"]),
+    Qf("Une grandeur qui croît proportionnellement à sa propre valeur suit une évolution…","exponentielle",["linéaire", "logarithmique", "affine"])]),
   "Menu Horloge astronomique@p1":T([
     Qf("Combien de radians pour un tour complet ?","2π"),
     Qf("π rad = combien de degrés ?","180°")],[
@@ -4907,9 +4907,9 @@ const Banque = (()=>{
     Qf("Pour tout réel x, cos²x + sin²x = ?","1")]),
   "Menu Voilier@p1":T([
     ()=>{ const a=R(1,4), b=R(1,4), c=R(1,4), d=R(1,4); return ouv(`u→(${a} ; ${b}) · v→(${c} ; ${d}) = ?`, String(a*c+b*d)); },
-    Qf("Deux vecteurs non nuls sont orthogonaux si et seulement si…","leur produit scalaire est nul")],[
+    Qf("Deux vecteurs non nuls sont orthogonaux si et seulement si…","leur produit scalaire est nul",["leurs normes sont égales", "leur produit scalaire vaut 1", "ils sont colinéaires"])],[
     Qf("‖u→‖ = 2, ‖v→‖ = 5, angle de 60°. u→ · v→ = ?","5"),
-    Qf("u→ · u→ = ?","‖u→‖²")],[
+    Qf("u→ · u→ = ?","‖u→‖²",["2u→", "‖u→‖", "0"])],[
     Qf("Le vent souffle à 90° de la direction du bateau. Produit scalaire vent · direction ?","0"),
     Qf("Al-Kashi : b = 3, c = 4 et Â = 90°. Que vaut a ?","5")]),
   "Menu Géomètre-arpenteur@p1":T([
@@ -4917,83 +4917,83 @@ const Banque = (()=>{
     Qf("Équation du cercle de centre O et de rayon 5 ?","x² + y² = 25")],[
     Qf("Centre et rayon du cercle (x − 1)² + (y + 2)² = 9 ?","Centre (1 ; −2), rayon 3"),
     Qf("Un vecteur directeur de la droite 2x + 3y − 1 = 0 ?","(−3 ; 2)")],[
-    Qf("Le jalon (2 ; 1) est-il sur la droite 2x − y − 3 = 0 ?","Oui"),
-    Qf("Les droites 2x + y = 1 et 4x + 2y = 7 sont…","parallèles")]),
+    Qf("Le jalon (2 ; 1) est-il sur la droite 2x − y − 3 = 0 ?","Oui",["Non", "Non, il est au-dessus", "Seulement si x = y"]),
+    Qf("Les droites 2x + y = 1 et 4x + 2y = 7 sont…","parallèles",["sécantes", "perpendiculaires", "confondues"])]),
   "Menu Dépistage@p1":T([
     Qf("P(A) = 0,5 et P(A ∩ B) = 0,2. P_A(B) = ?","0,4"),
     Qf("Sur un arbre, la somme des branches issues d’un même nœud vaut…","1")],[
     Qf("P(malade) = 0,1 et P_malade(test positif) = 0,9. P(malade et positif) ?","0,09"),
-    Qf("A et B sont indépendants si et seulement si…","P(A ∩ B) = P(A) × P(B)")],[
+    Qf("A et B sont indépendants si et seulement si…","P(A ∩ B) = P(A) × P(B)",["P(A ∩ B) = P(A) + P(B)", "P(A ∪ B) = P(A) × P(B)", "P(A) = P(B)"])],[
     Qf("P(M) = 0,1, P_M(+) = 0,9, P_M̄(+) = 0,1. P(+) = ?","0,18"),
     Qf("Dépistage : P(M ∩ +) = 0,09 et P(+) = 0,18. Probabilité d’être malade sachant le test positif ?","0,5 : un test positif sur deux seulement est un vrai malade")]),
   "Menu Machine à sous@p1":T([
     Qf("Gain 0 € avec probabilité 0,9, et 10 € avec probabilité 0,1. Espérance du gain ?","1 €"),
-    Qf("Un jeu est équitable lorsque…","l’espérance du gain est nulle")],[
+    Qf("Un jeu est équitable lorsque…","l’espérance du gain est nulle",["la probabilité de gagner vaut 1/2", "le gain maximal est égal à la mise", "la variance du gain est nulle"])],[
     Qf("La partie coûte 2 € et l’espérance du gain est de 1 €. Espérance du gain net ?","−1 €"),
     Qf("Somme des probabilités d’une loi de probabilité ?","1")],[
     Qf("E(X) = 3. E(2X + 1) = ?","7"),
     Qf("Espérance d’un dé équilibré à 6 faces ?","3,5")]),
   "Menu Liste de courses@p1":T([
-    Qf("L = ['pain', 'lait', 'oeufs']. Que vaut L[0] ?","'pain'"),
+    Qf("L = ['pain', 'lait', 'oeufs']. Que vaut L[0] ?","'pain'",["'lait'", "'oeufs'", "une erreur"]),
     Qf("len(['pain', 'lait', 'oeufs']) = ?","3")],[
-    Qf("L = ['pain', 'lait', 'oeufs'], puis L.append('beurre'). Que vaut L ?","['pain', 'lait', 'oeufs', 'beurre']"),
-    Qf("L = ['pain', 'lait', 'oeufs']. Que vaut L[-1] ?","'oeufs'")],[
+    Qf("L = ['pain', 'lait', 'oeufs'], puis L.append('beurre'). Que vaut L ?","['pain', 'lait', 'oeufs', 'beurre']",["['beurre', 'pain', 'lait', 'oeufs']", "['pain', 'lait', 'beurre']", "['pain', 'lait', 'oeufs'] + 'beurre'"]),
+    Qf("L = ['pain', 'lait', 'oeufs']. Que vaut L[-1] ?","'oeufs'",["'pain'", "'lait'", "une erreur"])],[
     Qf("[2*k for k in range(4)] = ?","[0, 2, 4, 6]"),
     Qf("sum([3, 5, 2]) = ?","10")]),
 
   // ---------------------------- Terminale ----------------------------
   "Menu Escalier infini@t":T([
-    Qf("uₙ = 2n. Vers quoi tend uₙ ?","+∞"),
+    Qf("uₙ = 2n. Vers quoi tend uₙ ?","+∞",["0", "2", "Elle n’a pas de limite"]),
     Qf("uₙ = 1/n. Limite ?","0")],[
     Qf("uₙ = 0,5ⁿ. Limite ?","0"),
     Qf("uₙ = 3 − 1/n. Limite ?","3")],[
-    Qf("Une suite croissante et majorée…","converge"),
+    Qf("Une suite croissante et majorée…","converge",["diverge vers +∞", "est constante", "tend vers son premier terme"]),
     Qf("uₙ₊₁ = 0,5uₙ + 2. Si la suite converge, quelle est sa limite ?","4")]),
   "Menu Horizon lointain@t":T([
     Qf("lim 1/x quand x → +∞ ?","0"),
-    Qf("lim x² quand x → +∞ ?","+∞")],[
+    Qf("lim x² quand x → +∞ ?","+∞",["0", "1", "−∞"])],[
     Qf("lim e⁻ˣ quand x → +∞ ?","0"),
-    Qf("lim 1/x quand x → 0⁺ ?","+∞")],[
+    Qf("lim 1/x quand x → 0⁺ ?","+∞",["0", "1", "−∞"])],[
     Qf("lim (2x + 1)/(x + 3) quand x → +∞ ?","2"),
-    Qf("lim ln x quand x → +∞ ?","+∞")]),
+    Qf("lim ln x quand x → +∞ ?","+∞",["0", "1", "e"])]),
   "Menu Pont suspendu@t":T([
-    Qf("Une fonction continue sur un intervalle se trace…","sans lever le crayon"),
-    Qf("f continue sur [a ; b] avec f(a) < 0 < f(b). Que peut-on affirmer ?","f s’annule au moins une fois sur [a ; b]")],[
-    Qf("La fonction partie entière est-elle continue en 1 ?","Non"),
-    Qf("Les fonctions polynômes sont-elles continues sur ℝ ?","Oui")],[
-    Qf("f(x) = x³ + x − 1. Combien de fois f s’annule-t-elle sur ℝ ?","Une seule fois (f strictement croissante)"),
-    Qf("Qu’ajoute le corollaire du théorème des valeurs intermédiaires ?","Avec la stricte monotonie, la solution est unique")]),
+    Qf("Une fonction continue sur un intervalle se trace…","sans lever le crayon",["en ligne droite", "sans changer de sens", "toujours au-dessus de l’axe des abscisses"]),
+    Qf("f continue sur [a ; b] avec f(a) < 0 < f(b). Que peut-on affirmer ?","f s’annule au moins une fois sur [a ; b]",["f est croissante sur [a ; b]", "f s’annule exactement une fois sur [a ; b]", "f s’annule en (a + b)/2"])],[
+    Qf("La fonction partie entière est-elle continue en 1 ?","Non",["Oui", "Oui, partout sur ℝ", "Seulement à gauche et à droite"]),
+    Qf("Les fonctions polynômes sont-elles continues sur ℝ ?","Oui",["Non", "Seulement en 0", "Seulement celles de degré pair"])],[
+    Qf("f(x) = x³ + x − 1. Combien de fois f s’annule-t-elle sur ℝ ?","Une seule fois (f strictement croissante)",["Trois fois", "Aucune fois", "Deux fois"]),
+    Qf("Qu’ajoute le corollaire du théorème des valeurs intermédiaires ?","Avec la stricte monotonie, la solution est unique",["Avec la continuité, la solution existe", "Avec la dérivabilité, la solution est positive", "Avec la stricte monotonie, il y a deux solutions"])]),
   "Menu Montagnes russes@t":T([
     Qf("Dérivée de ln x ?","1/x"),
-    Qf("Si f″ > 0 sur un intervalle, f y est…","convexe")],[
-    Qf("En un point d’inflexion, f″…","change de signe"),
+    Qf("Si f″ > 0 sur un intervalle, f y est…","convexe",["concave", "croissante", "positive"])],[
+    Qf("En un point d’inflexion, f″…","change de signe",["s’annule sans changer de signe", "est maximale", "change de sens de variation"]),
     Qf("Dérivée de (2x + 1)³ ?","6(2x + 1)²")],[
     Qf("Point d’inflexion de x ↦ x³ ?","En x = 0"),
-    Qf("La fonction exponentielle est-elle convexe ou concave ?","Convexe")]),
+    Qf("La fonction exponentielle est-elle convexe ou concave ?","Convexe",["Concave", "Ni l’un ni l’autre", "Convexe puis concave"])]),
   "Menu Échelle de Richter@t":T([
     Qf("ln(1) = ?","0"),
     Qf("ln(e) = ?","1")],[
-    Qf("ln(ab) = ?","ln a + ln b"),
+    Qf("ln(ab) = ?","ln a + ln b",["ln a × ln b", "ln(a + b)", "a ln b"]),
     Qf("Une magnitude de plus sur l’échelle de Richter multiplie l’amplitude mesurée par…","10")],[
     Qf("ln(e³) = ?","3"),
     Qf("Résous ln x = 0.","x = 1")]),
   "Menu Grande roue@t":T([
     Qf("Période de la fonction cosinus ?","2π"),
-    Qf("La fonction cosinus est-elle paire ou impaire ?","Paire")],[
-    Qf("Dérivée de sin ?","cos"),
-    Qf("Dérivée de cos ?","−sin")],[
+    Qf("La fonction cosinus est-elle paire ou impaire ?","Paire",["Impaire", "Ni l’une ni l’autre", "Les deux"])],[
+    Qf("Dérivée de sin ?","cos",["−cos", "sin", "−sin"]),
+    Qf("Dérivée de cos ?","−sin",["sin", "cos", "−cos"])],[
     Qf("La nacelle est à la hauteur h(t) = 10 − 10cos(t). Hauteur maximale ?","20"),
     Qf("Solutions de sin x = 0 sur [0 ; 2π[ ?","0 et π")]),
   "Menu Archéologue@t":T([
-    Qf("Une primitive de x ↦ 2x ?","x ↦ x²"),
-    Qf("Une primitive de x ↦ eˣ ?","x ↦ eˣ")],[
-    Qf("Une primitive de x ↦ 1/x sur ]0 ; +∞[ ?","x ↦ ln x"),
-    Qf("Une primitive de cos ?","sin")],[
-    Qf("Une primitive de x ↦ 3x² + 1 ?","x ↦ x³ + x"),
-    Qf("Solutions de l’équation différentielle y′ = 2y ?","y = Ce²ˣ, C réel")]),
+    Qf("Une primitive de x ↦ 2x ?","x ↦ x²",["x ↦ 2", "x ↦ 2x²", "x ↦ x²/2"]),
+    Qf("Une primitive de x ↦ eˣ ?","x ↦ eˣ",["x ↦ xeˣ", "x ↦ eˣ⁺¹/(x + 1)", "x ↦ eˣ − x"])],[
+    Qf("Une primitive de x ↦ 1/x sur ]0 ; +∞[ ?","x ↦ ln x",["x ↦ −1/x²", "x ↦ eˣ", "x ↦ ln(1/x)"]),
+    Qf("Une primitive de cos ?","sin",["−sin", "cos", "−cos"])],[
+    Qf("Une primitive de x ↦ 3x² + 1 ?","x ↦ x³ + x",["x ↦ 6x", "x ↦ 3x³ + x", "x ↦ x³"]),
+    Qf("Solutions de l’équation différentielle y′ = 2y ?","y = Ce²ˣ, C réel",["y = e²ˣ + C, C réel", "y = Ceˣ/², C réel", "y = 2Ceˣ, C réel"])]),
   "Menu Arpenteur@t":T([
     Qf("∫₀¹ 1 dx = ?","1"),
-    Qf("Pour une fonction positive, l’intégrale sur [a ; b] représente…","l’aire sous la courbe")],[
+    Qf("Pour une fonction positive, l’intégrale sur [a ; b] représente…","l’aire sous la courbe",["la longueur de la courbe", "la pente moyenne de la courbe", "le maximum de la fonction"])],[
     Qf("∫₀² x dx = ?","2"),
     Qf("∫₀¹ 2x dx = ?","1")],[
     Qf("∫₀³ x² dx = ?","9"),
@@ -5006,8 +5006,8 @@ const Banque = (()=>{
     Qf("Nombre de façons de choisir 2 éléments parmi 5 ?","10"),
     Qf("Combien de mots de 4 lettres écrits avec A et B ?","16")]),
   "Menu Casino de Zorglub@t":T([
-    Qf("Loi du nombre de succès sur n épreuves de Bernoulli indépendantes ?","La loi binomiale"),
-    Qf("Espérance de X suivant B(n ; p) ?","np")],[
+    Qf("Loi du nombre de succès sur n épreuves de Bernoulli indépendantes ?","La loi binomiale",["La loi uniforme", "La loi normale", "La loi géométrique"]),
+    Qf("Espérance de X suivant B(n ; p) ?","np",["np(1 − p)", "n/p", "p"])],[
     Qf("X suit B(10 ; 0,5). E(X) = ?","5"),
     Qf("X suit B(3 ; 0,5). P(X = 0) = ?","1/8")],[
     Qf("Variance de X suivant B(n ; p) ?","np(1 − p)"),
@@ -5017,27 +5017,27 @@ const Banque = (()=>{
     Qf("Norme du vecteur (1 ; 2 ; 2) ?","3")],[
     Qf("u→(1 ; 0 ; 2) · v→(2 ; 3 ; 1) = ?","4"),
     Qf("Un vecteur normal au plan x + 2y − z = 3 ?","(1 ; 2 ; −1)")],[
-    Qf("Le module (1 ; 1 ; 0) est-il dans le plan x + 2y − z = 3 ?","Oui"),
-    Qf("Deux plans de vecteurs normaux colinéaires sont…","parallèles")]),
+    Qf("Le module (1 ; 1 ; 0) est-il dans le plan x + 2y − z = 3 ?","Oui",["Non", "Non, il est au-dessus du plan", "On ne peut pas savoir sans un deuxième point"]),
+    Qf("Deux plans de vecteurs normaux colinéaires sont…","parallèles",["perpendiculaires", "sécants", "confondus forcément"])]),
   "Menu Sismographe@t":T([
     Qf("sin(π/2) = ?","1"),
     Qf("Entre quelles valeurs oscille la fonction sinus ?","Entre −1 et 1")],[
-    Qf("Période de t ↦ sin(2t) ?","π"),
+    Qf("Période de t ↦ sin(2t) ?","π",["2π", "π/2", "4π"]),
     Qf("Amplitude de t ↦ 3 sin t ?","3")],[
     Qf("Dérivée de t ↦ sin(2t) ?","t ↦ 2cos(2t)"),
     Qf("cos(π/3) = ?","1/2")]),
   "Menu Intérêts composés@t":T([
     Qf("1 000 € à 2 % par an. Capital au bout d’un an ?","1 020 €"),
     Qf("Cₙ = 1 000 × 1,02ⁿ est une suite géométrique de raison…","1,02")],[
-    Qf("Limite de 1,02ⁿ quand n → +∞ ?","+∞"),
+    Qf("Limite de 1,02ⁿ quand n → +∞ ?","+∞",["1", "0", "2"]),
     Qf("Formule de 1 + q + … + qⁿ (q ≠ 1) ?","(1 − qⁿ⁺¹)/(1 − q)")],[
     Qf("À 7 % par an, en combien de temps environ un capital double-t-il ?","Environ 10 ans"),
     Qf("Plus petit entier n tel que 2ⁿ ≥ 1 000 ?","10")]),
   "Menu Toboggan aquatique@t":T([
-    Qf("Une courbe située au-dessus de ses tangentes est celle d’une fonction…","convexe"),
+    Qf("Une courbe située au-dessus de ses tangentes est celle d’une fonction…","convexe",["concave", "croissante", "décroissante"]),
     Qf("f″(x) = 6x. Sur quel intervalle f est-elle convexe ?","[0 ; +∞[")],[
-    Qf("x ↦ x² est-elle convexe ?","Oui"),
-    Qf("ln est-elle convexe ou concave ?","Concave")],[
+    Qf("x ↦ x² est-elle convexe ?","Oui",["Non, elle est concave", "Seulement sur [0 ; +∞[", "Ni convexe ni concave"]),
+    Qf("ln est-elle convexe ou concave ?","Concave",["Convexe", "Ni l’un ni l’autre", "Concave puis convexe"])],[
     Qf("f(x) = x³ − 3x. f″(x) = ?","6x"),
     Qf("Point d’inflexion de x ↦ x³ − 3x ?","En x = 0")]),
   "Menu Loto du snack@t":T([
@@ -5052,95 +5052,95 @@ const Banque = (()=>{
   Object.assign(THEMES2,{
   "Menu Ensemble de Mandelbrot@x":T([ Qf("i² = ?","−1"), Qf("|3 + 4i| = ?","5")],[ Qf("(1 + i)² = ?","2i"), Qf("Conjugué de 2 − 3i ?","2 + 3i")],[
     Qf("Mandelbrot : zₙ₊₁ = zₙ² + c avec c = −1 et z₀ = 0. Que valent z₁ et z₂ ?","z₁ = −1 et z₂ = 0"), Qf("e^(iπ) = ?","−1")]),
-  "Menu Fractale@x":T([ Qf("Module de i ?","1"), Qf("Un argument de i ?","π/2")],[ Qf("i³ = ?","−i"), Qf("|z| = 2 et arg z = π/3. Forme algébrique de z ?","1 + i√3")],[
+  "Menu Fractale@x":T([ Qf("Module de i ?","1"), Qf("Un argument de i ?","π/2")],[ Qf("i³ = ?","−i",["i", "−1", "1"]), Qf("|z| = 2 et arg z = π/3. Forme algébrique de z ?","1 + i√3")],[
     Qf("Racines quatrièmes de l’unité ?","1, i, −1 et −i"), Qf("(1 + i)(1 − i) = ?","2")]),
   "Menu Machine Enigma@x":T([ Qf("Reste de 17 dans la division par 5 ?","2"), Qf("PGCD(12 ; 18) = ?","6")],[
     Qf("3⁴ modulo 5 = ?","1 (81 = 16 × 5 + 1)"), Qf("Inverse de 3 modulo 7 ?","5 (3 × 5 = 15 ≡ 1)")],[
-    Qf("Trouve des entiers u et v tels que 3u + 5v = 1.","Par exemple u = 2 et v = −1"), Qf("Code de César avec un décalage de 3 : que devient la lettre A ?","D")]),
+    Qf("Trouve des entiers u et v tels que 3u + 5v = 1.","Par exemple u = 2 et v = −1"), Qf("Code de César avec un décalage de 3 : que devient la lettre A ?","D",["C", "X", "E"])]),
   "Menu Horloge modulaire@x":T([ Qf("Sur une horloge de 12 heures, 10 h + 5 h = ?","3 h"), Qf("23 modulo 12 = ?","11")],[
     Qf("2¹⁰ modulo 12 = ?","4 (1 024 = 85 × 12 + 4)"), Qf("On est lundi. Quel jour serons-nous dans 100 jours ?","Mercredi (100 ≡ 2 modulo 7)")],[
     Qf("Petit théorème de Fermat : 2⁶ modulo 7 = ?","1"), Qf("Dernier chiffre de 7⁴ ?","1 (7⁴ = 2 401)")]),
-  "Menu Labyrinthe@x":T([ Qf("Le degré d’un sommet d’un graphe, c’est…","le nombre d’arêtes qui en partent"), Qf("Somme des degrés de tous les sommets d’un graphe ?","Deux fois le nombre d’arêtes")],[
+  "Menu Labyrinthe@x":T([ Qf("Le degré d’un sommet d’un graphe, c’est…","le nombre d’arêtes qui en partent",["le nombre de sommets voisins de ses voisins", "la longueur du plus court chemin qui y mène", "le nombre de cycles qui y passent"]), Qf("Somme des degrés de tous les sommets d’un graphe ?","Deux fois le nombre d’arêtes",["Le nombre d’arêtes", "Le nombre de sommets", "Deux fois le nombre de sommets"])],[
     Qf("Nombre d’arêtes du graphe complet à 4 sommets ?","6"), Qf("Un graphe connexe admet une chaîne eulérienne si et seulement si…","il a 0 ou 2 sommets de degré impair")],[
     Qf("Si A est la matrice d’adjacence, que compte le coefficient (i ; j) de A² ?","Le nombre de chemins de longueur 2 de i à j"), Qf("Déterminant de la matrice (2 1 ; 1 1) ?","1")]),
-  "Menu Moteur de recherche@x":T([ Qf("I × A = ? (I : matrice identité)","A"), Qf("Taille de la matrice de transition d’un réseau de 3 pages ?","3 × 3")],[
+  "Menu Moteur de recherche@x":T([ Qf("I × A = ? (I : matrice identité)","A",["I", "0", "Aᵀ"]), Qf("Taille de la matrice de transition d’un réseau de 3 pages ?","3 × 3")],[
     Qf("Somme des coefficients de chaque ligne d’une matrice de transition ?","1"), Qf("(1 2 ; 3 4) × (1 ; 0) = ?","(1 ; 3)")],[
-    Qf("Une distribution stable π d’une chaîne de Markov vérifie…","πP = π"), Qf("Déterminant de (1 2 ; 3 4) ?","−2")]),
-  "Menu Hôtel de Hilbert@x":T([ Qf("ℕ est-il un ensemble fini ?","Non, il est infini dénombrable"), Qf("Contraposée de « P ⇒ Q » ?","« non Q ⇒ non P »")],[
-    Qf("L’hôtel infini est complet. Comment loger un nouveau client ?","Chaque client passe de la chambre n à la chambre n + 1"), Qf("ℤ et ℕ ont-ils le même cardinal ?","Oui, ℤ est dénombrable")],[
-    Qf("ℝ est-il dénombrable ?","Non (argument diagonal de Cantor)"), Qf("Négation de « ∀x, P(x) » ?","« ∃x, non P(x) »")]),
-  "Menu Chat de Schrödinger@x":T([ Qf("La proposition « P et non P » est…","toujours fausse"), Qf("La proposition « P ou non P » est…","toujours vraie")],[
-    Qf("Négation de « le chat est vivant et endormi » ?","« le chat est mort ou réveillé »"), Qf("Réciproque de « P ⇒ Q » ?","« Q ⇒ P »")],[
-    Qf("Combien d’éléments a l’ensemble des parties de {a ; b ; c} ?","8"), Qf("A ∩ ∅ = ?","∅")]),
-  "Menu Trou noir@x":T([ Qf("Développement limité d’ordre 1 de eˣ en 0 ?","1 + x"), Qf("Développement limité d’ordre 1 de sin x en 0 ?","x")],[
-    Qf("Développement limité d’ordre 2 de cos x en 0 ?","1 − x²/2"), Qf("Développement limité d’ordre 1 de ln(1 + x) en 0 ?","x")],[
+    Qf("Une distribution stable π d’une chaîne de Markov vérifie…","πP = π",["Pπ = 0", "πP = 0", "π + P = 1"]), Qf("Déterminant de (1 2 ; 3 4) ?","−2")]),
+  "Menu Hôtel de Hilbert@x":T([ Qf("ℕ est-il un ensemble fini ?","Non, il est infini dénombrable",["Oui", "Oui, il s’arrête au plus grand entier connu", "Non, il est indénombrable"]), Qf("Contraposée de « P ⇒ Q » ?","« non Q ⇒ non P »",["« Q ⇒ P »", "« non P ⇒ non Q »", "« P et non Q »"])],[
+    Qf("L’hôtel infini est complet. Comment loger un nouveau client ?","Chaque client passe de la chambre n à la chambre n + 1"), Qf("ℤ et ℕ ont-ils le même cardinal ?","Oui, ℤ est dénombrable",["Non, ℤ en a deux fois plus", "Non, ℤ est indénombrable", "Non, ℕ est fini"])],[
+    Qf("ℝ est-il dénombrable ?","Non (argument diagonal de Cantor)",["Oui", "Oui, comme ℚ", "Oui, mais pas ℚ"]), Qf("Négation de « ∀x, P(x) » ?","« ∃x, non P(x) »",["« ∀x, non P(x) »", "« ∃x, P(x) »", "« non ∃x, P(x) »"])]),
+  "Menu Chat de Schrödinger@x":T([ Qf("La proposition « P et non P » est…","toujours fausse",["toujours vraie", "parfois vraie", "indécidable"]), Qf("La proposition « P ou non P » est…","toujours vraie",["toujours fausse", "parfois vraie", "indécidable"])],[
+    Qf("Négation de « le chat est vivant et endormi » ?","« le chat est mort ou réveillé »",["« le chat est mort et réveillé »", "« le chat est vivant ou endormi »", "« le chat n’est ni vivant ni endormi »"]), Qf("Réciproque de « P ⇒ Q » ?","« Q ⇒ P »",["« non Q ⇒ non P »", "« non P ⇒ non Q »", "« P ⇔ Q »"])],[
+    Qf("Combien d’éléments a l’ensemble des parties de {a ; b ; c} ?","8"), Qf("A ∩ ∅ = ?","∅",["A", "Ω", "{∅}"])]),
+  "Menu Trou noir@x":T([ Qf("Développement limité d’ordre 1 de eˣ en 0 ?","1 + x"), Qf("Développement limité d’ordre 1 de sin x en 0 ?","x",["1", "x − x³/6", "0"])],[
+    Qf("Développement limité d’ordre 2 de cos x en 0 ?","1 − x²/2"), Qf("Développement limité d’ordre 1 de ln(1 + x) en 0 ?","x",["1", "1 + x", "x²/2"])],[
     Qf("lim sin x / x quand x → 0 ?","1"), Qf("Développement limité d’ordre 2 de eˣ en 0 ?","1 + x + x²/2")]),
   "Menu Microscope@x":T([ Qf("Au voisinage de 0, (1 + x)ⁿ ≈ ?","1 + nx"), Qf("Au voisinage de 0, √(1 + x) ≈ ?","1 + x/2")],[
-    Qf("lim (eˣ − 1)/x quand x → 0 ?","1"), Qf("Équivalent de tan x en 0 ?","x")],[
+    Qf("lim (eˣ − 1)/x quand x → 0 ?","1"), Qf("Équivalent de tan x en 0 ?","x",["1", "0", "x²"])],[
     Qf("lim (1 − cos x)/x² quand x → 0 ?","1/2"), Qf("Équivalent de ln(1 + x) − x en 0 ?","−x²/2")]),
-  "Menu Ruban de Möbius@x":T([ Qf("Dimension de ℝ³ ?","3"), Qf("Les vecteurs (1 ; 0) et (0 ; 1) forment…","une base de ℝ²")],[
-    Qf("La famille (1 ; 2), (2 ; 4) est-elle libre ?","Non, elle est liée"), Qf("Noyau d’une application linéaire injective ?","{0}")],[
-    Qf("Théorème du rang : rang(f) + dim ker(f) = ?","la dimension de l’espace de départ"), Qf("Déterminant d’une matrice non inversible ?","0")]),
+  "Menu Ruban de Möbius@x":T([ Qf("Dimension de ℝ³ ?","3"), Qf("Les vecteurs (1 ; 0) et (0 ; 1) forment…","une base de ℝ²",["un vecteur nul", "une famille liée", "une base de ℝ³"])],[
+    Qf("La famille (1 ; 2), (2 ; 4) est-elle libre ?","Non, elle est liée",["Oui, elle est libre", "Oui, les vecteurs sont non nuls", "Non, elle est génératrice"]), Qf("Noyau d’une application linéaire injective ?","{0}")],[
+    Qf("Théorème du rang : rang(f) + dim ker(f) = ?","la dimension de l’espace de départ",["la dimension de l’espace d’arrivée", "0", "le rang de la matrice transposée"]), Qf("Déterminant d’une matrice non inversible ?","0")]),
   "Menu Rubik’s Cube@x":T([ Qf("Combien de faces a le Rubik’s Cube ?","6"), Qf("Combien de quarts de tour d’une même face pour revenir à la position de départ ?","4")],[
-    Qf("Deux mouvements du cube commutent-ils en général ?","Non, l’ordre compte"), Qf("Inverse d’un quart de tour horaire ?","Un quart de tour antihoraire")],[
+    Qf("Deux mouvements du cube commutent-ils en général ?","Non, l’ordre compte",["Oui, toujours", "Oui, l’ordre ne compte pas", "Seulement pour les quarts de tour"]), Qf("Inverse d’un quart de tour horaire ?","Un quart de tour antihoraire",["Deux quarts de tour horaires", "Un demi-tour", "Le même quart de tour horaire"])],[
     Qf("Déterminant d’une matrice de rotation ?","1"), Qf("Ordre de −1 dans le groupe (ℂ*, ×) ?","2")]),
   "Menu Paradoxe de Zénon@x":T([ Qf("1/2 + 1/4 + 1/8 + … = ?","1"), Qf("Une série géométrique de raison q converge si et seulement si…","|q| < 1")],[
-    Qf("Σ (1/3)ⁿ pour n de 0 à +∞ ?","3/2"), Qf("La série harmonique Σ 1/n converge-t-elle ?","Non")],[
-    Qf("Σ 1/n² pour n ≥ 1 ?","π²/6"), Qf("Si le terme général ne tend pas vers 0, la série…","diverge")]),
+    Qf("Σ (1/3)ⁿ pour n de 0 à +∞ ?","3/2"), Qf("La série harmonique Σ 1/n converge-t-elle ?","Non",["Oui, vers 2", "Oui, car 1/n tend vers 0", "Oui, vers ln 2"])],[
+    Qf("Σ 1/n² pour n ≥ 1 ?","π²/6"), Qf("Si le terme général ne tend pas vers 0, la série…","diverge",["converge", "converge vers 0", "est alternée"])]),
   "Menu Tortue d’Achille@x":T([ Qf("Achille va 10 fois plus vite que la tortue, qui a 100 m d’avance. Distance totale parcourue par Achille avant de la rattraper : 100 + 10 + 1 + … = ?","1 000/9 m, environ 111,1 m"), Qf("Limite de (1/10)ⁿ ?","0")],[
     Qf("Σ 0,9ⁿ pour n de 0 à +∞ ?","10"), Qf("0,999… = ?","1")],[
-    Qf("La série alternée Σ (−1)ⁿ/n converge-t-elle ?","Oui"), Qf("1 − 1/2 + 1/4 − 1/8 + … = ?","2/3")]),
-  "Menu Bouteille de Klein@x":T([ Qf("∫₀¹ x dx = ?","1/2"), Qf("Une primitive de eˣ ?","eˣ")],[
-    Qf("Intégration par parties : ∫ u v′ = ?","[uv] − ∫ u′v"), Qf("∫₀^π sin x dx = ?","2")],[
+    Qf("La série alternée Σ (−1)ⁿ/n converge-t-elle ?","Oui",["Non", "Non, elle diverge vers +∞", "Non, elle oscille"]), Qf("1 − 1/2 + 1/4 − 1/8 + … = ?","2/3")]),
+  "Menu Bouteille de Klein@x":T([ Qf("∫₀¹ x dx = ?","1/2"), Qf("Une primitive de eˣ ?","eˣ",["xeˣ", "eˣ⁺¹", "eˣ/x"])],[
+    Qf("Intégration par parties : ∫ u v′ = ?","[uv] − ∫ u′v",["[uv] + ∫ u′v", "u′v − ∫ uv′", "∫ u × ∫ v′"]), Qf("∫₀^π sin x dx = ?","2")],[
     Qf("∫₁^e (1/x) dx = ?","1"), Qf("∫₀¹ 2x e^(x²) dx = ?","e − 1")]),
-  "Menu Escalier du diable@x":T([ Qf("L’escalier de Cantor est-il une fonction continue ?","Oui"), Qf("Que vaut sa dérivée là où elle existe ?","0")],[
+  "Menu Escalier du diable@x":T([ Qf("L’escalier de Cantor est-il une fonction continue ?","Oui",["Non", "Non, elle fait des sauts", "Seulement aux points de l’ensemble de Cantor"]), Qf("Que vaut sa dérivée là où elle existe ?","0")],[
     Qf("Quelle est la longueur totale de l’ensemble de Cantor ?","0"), Qf("Quelle part de [0 ; 1] la première étape de Cantor retire-t-elle ?","Le tiers du milieu, soit 1/3")],[
-    Qf("Intégrale de l’escalier de Cantor sur [0 ; 1] ?","1/2"), Qf("L’ensemble de Cantor est-il dénombrable ?","Non")])
+    Qf("Intégrale de l’escalier de Cantor sur [0 ; 1] ?","1/2"), Qf("L’ensemble de Cantor est-il dénombrable ?","Non",["Oui", "Oui, il est fini", "Oui, comme ℚ"])])
   });
   // ---------------------------- Culture collège et lycée ----------------------------
   Object.assign(THEMES2,{
-  "Menu Cabinet de curiosités@c":T([Qf("Combien de côtés a un hexagone ?","6"),Qf("Quel nombre célèbre vaut environ 3,14 ?","π (pi)")],[Qf("Suite de Fibonacci : 1, 1, 2, 3, 5, 8… nombre suivant ?","13"),Qf("Combien de zéros dans un milliard ?","9")],[Qf("Somme des angles d’un triangle ?","180°"),Qf("Plus petit nombre premier à deux chiffres ?","11")]),
+  "Menu Cabinet de curiosités@c":T([Qf("Combien de côtés a un hexagone ?","6"),Qf("Quel nombre célèbre vaut environ 3,14 ?","π (pi)",["e", "φ (le nombre d’or)", "√2"])],[Qf("Suite de Fibonacci : 1, 1, 2, 3, 5, 8… nombre suivant ?","13"),Qf("Combien de zéros dans un milliard ?","9")],[Qf("Somme des angles d’un triangle ?","180°"),Qf("Plus petit nombre premier à deux chiffres ?","11")]),
   "Menu Casse-tête@c":T([Qf("Combien de petits carrés de 1 cm dans un carré de 3 cm de côté ?","9"),Qf("Combien de faces a un dé classique ?","6")],[Qf("3 chats attrapent 3 souris en 3 minutes. Combien de chats pour attraper 100 souris en 100 minutes ?","3"),Qf("Somme des points d’un dé (de 1 à 6) ?","21")],[Qf("4 personnes se serrent toutes la main une fois. Combien de poignées de main ?","6"),Qf("Un nénuphar double chaque jour et couvre l’étang le 30e jour. Quel jour en couvre-t-il la moitié ?","Le 29e jour")]),
-  "Menu Planétarium@c":T([Qf("Quelle planète est la plus proche du Soleil ?","Mercure"),Qf("Quelle planète est célèbre pour ses anneaux ?","Saturne")],[Qf("Combien de temps met la Terre pour faire le tour du Soleil ?","Environ 365 jours, un an"),Qf("Quelle étoile indique le nord ?","L’étoile Polaire")],[Qf("Quelle est la planète la plus chaude du système solaire ?","Vénus"),Qf("Une année-lumière, c’est une durée ou une distance ?","Une distance")]),
-  "Menu Fusée en carton@c":T([Qf("Qui a été le premier humain dans l’espace, en 1961 ?","Youri Gagarine"),Qf("Qui a été le premier à marcher sur la Lune, en 1969 ?","Neil Armstrong")],[Qf("Quel astronaute français a séjourné dans l’ISS en 2016-2017 puis en 2021 ?","Thomas Pesquet"),Qf("Que signifie ISS ?","Station spatiale internationale")],[Qf("Comment s’appelait le premier satellite artificiel, lancé en 1957 ?","Spoutnik 1"),Qf("À quelle vitesse environ l’ISS tourne-t-elle autour de la Terre ?","Environ 28 000 km/h")]),
-  "Menu Zoo intergalactique@c":T([Qf("Quel est le plus grand animal terrestre ?","L’éléphant d’Afrique"),Qf("Quel est l’animal terrestre le plus rapide ?","Le guépard")],[Qf("Combien de cœurs a une pieuvre ?","3"),Qf("Quel mammifère sait voler ?","La chauve-souris")],[Qf("Quel reptile est célèbre pour changer de couleur ?","Le caméléon"),Qf("Combien de pattes a une araignée ?","8")]),
-  "Menu Aquarium géant@c":T([Qf("Le requin est-il un poisson ?","Oui"),Qf("Quel est le plus grand animal du monde ?","La baleine bleue")],[Qf("Avec quoi respirent les dauphins ?","Des poumons, comme nous"),Qf("Quel poisson vit dans une anémone de mer ?","Le poisson-clown")],[Qf("Combien de bras a, le plus souvent, une étoile de mer ?","5"),Qf("Avec quoi respirent les poissons ?","Des branchies")]),
-  "Menu Labo qui fume@c":T([Qf("Formule chimique de l’eau ?","H₂O"),Qf("À quelle température l’eau bout-elle, sous pression normale ?","100 °C")],[Qf("Quel gaz fait les bulles des sodas ?","Le dioxyde de carbone"),Qf("Que devient un glaçon laissé à température ambiante ?","Il fond")],[Qf("Comment s’appelle le passage direct de l’état solide à l’état gazeux ?","La sublimation"),Qf("L’eau et l’huile forment-elles un mélange homogène ?","Non, hétérogène : elles ne se mélangent pas")]),
-  "Menu Cuisine moléculaire@c":T([Qf("Comment s’appelle chimiquement le sel de cuisine ?","Le chlorure de sodium"),Qf("Qu’est-ce qui fait lever la pâte à pain ?","La levure")],[Qf("L’azote liquide est-il chaud ou très froid ?","Très froid : environ −196 °C"),Qf("Pourquoi sale-t-on les routes en hiver ?","Le sel fait fondre la glace à plus basse température")],[Qf("Quelle réaction fait dorer les aliments à la cuisson ?","La réaction de Maillard"),Qf("Un œuf cuit peut-il redevenir cru ?","Non, ses protéines sont transformées")]),
-  "Menu Salle des serveurs@c":T([Qf("Combien de bits dans un octet ?","8"),Qf("À quoi sert le Wi-Fi ?","À se connecter sans fil")],[Qf("Quels chiffres utilise le binaire ?","0 et 1"),Qf("1 Go, c’est environ combien de Mo ?","1 000")],[Qf("Que vaut 101 écrit en binaire ?","5"),Qf("Que signifie « www » ?","World Wide Web")]),
-  "Menu Robot ménager@c":T([Qf("Quel romancier a écrit les trois lois de la robotique ?","Isaac Asimov"),Qf("Comment un robot aspirateur repère-t-il les obstacles ?","Grâce à des capteurs")],[Qf("Que signifie IA ?","Intelligence artificielle"),Qf("Quel langage à blocs utilise-t-on souvent au collège ?","Scratch")],[Qf("Quel test vérifie si une machine peut se faire passer pour un humain ?","Le test de Turing"),Qf("Qu’est-ce qu’un algorithme ?","Une suite d’instructions pour résoudre un problème")]),
-  "Menu Garage d’inventeur@c":T([Qf("Qui a mis au point l’imprimerie à caractères mobiles en Europe ?","Gutenberg"),Qf("Qui a déposé le brevet du téléphone en 1876 ?","Graham Bell")],[Qf("Quels frères ont inventé le cinématographe ?","Les frères Lumière"),Qf("Qui a inventé la pile électrique ?","Alessandro Volta")],[Qf("Qui a perfectionné la machine à vapeur ?","James Watt"),Qf("Qui a réalisé le premier vol motorisé, en 1903 ?","Les frères Wright")]),
-  "Menu Musée des génies@c":T([Qf("Quel savant, selon la légende, a eu l’idée de la gravitation en voyant tomber une pomme ?","Isaac Newton"),Qf("Quelle savante a reçu deux prix Nobel ?","Marie Curie")],[Qf("Qui a mis au point le vaccin contre la rage ?","Louis Pasteur"),Qf("Qui a écrit E = mc² ?","Albert Einstein")],[Qf("Qui a peint la Joconde et dessiné des machines volantes ?","Léonard de Vinci"),Qf("Qui a observé les lunes de Jupiter en 1610 ?","Galilée")]),
-  "Menu Livre des records@c":T([Qf("Quelle est la plus haute montagne du monde ?","L’Everest"),Qf("Quel est le plus grand océan ?","Le Pacifique")],[Qf("Quel est le plus long fleuve de France ?","La Loire"),Qf("Quel est le plus grand désert chaud du monde ?","Le Sahara")],[Qf("Quelle est la plus grosse planète du système solaire ?","Jupiter"),Qf("Quel est le plus grand pays du monde ?","La Russie")]),
-  "Menu Cinéma de quartier@c":T([Qf("Comment s’appelle le petit robot nettoyeur du film d’animation de 2008 ?","WALL-E"),Qf("Quels animaux sont recréés dans « Jurassic Park » ?","Des dinosaures")],[Qf("Sur quel astéroïde vit le Petit Prince ?","L’astéroïde B 612"),Qf("Dans « Retour vers le futur », comment s’appelle le chien du savant ?","Einstein")],[Qf("Dans « Le Voyage dans la Lune » de Méliès, où atterrit la fusée ?","Dans l’œil de la Lune"),Qf("Dans « Vice-Versa », où vivent les émotions ?","Dans le cerveau de Riley")]),
-  "Menu Volcan@c":T([Qf("Comment s’appelle la roche fondue qui sort d’un volcan ?","La lave"),Qf("Quel célèbre volcan endormi domine Clermont-Ferrand ?","Le puy de Dôme")],[Qf("Quelle ville romaine a été ensevelie par le Vésuve en 79 ?","Pompéi"),Qf("Comment s’appelle l’ouverture au sommet d’un volcan ?","Le cratère")],[Qf("Quel est le plus haut volcan du système solaire ?","Olympus Mons, sur Mars"),Qf("La « ceinture de feu » entoure quel océan ?","Le Pacifique")]),
-  "Menu Station météo@c":T([Qf("Quel instrument mesure la température ?","Le thermomètre"),Qf("Quel instrument mesure la vitesse du vent ?","L’anémomètre")],[Qf("En quelle unité la météo exprime-t-elle la pression de l’air ?","En hectopascals"),Qf("Pourquoi entend-on le tonnerre après avoir vu l’éclair ?","Le son va beaucoup moins vite que la lumière")],[Qf("Comment appelle-t-on un nuage posé au sol ?","Le brouillard"),Qf("Que faut-il pour voir un arc-en-ciel ?","Le soleil dans le dos et la pluie devant soi")]),
-  "Menu Infirmerie@c":T([Qf("Quelle est la température normale du corps ?","Environ 37 °C"),Qf("Quel organe pompe le sang ?","Le cœur")],[Qf("Quel est le plus grand organe du corps humain ?","La peau"),Qf("Combien d’os a un adulte ?","206")],[Qf("Quels vaisseaux ramènent le sang vers le cœur ?","Les veines"),Qf("Quelles cellules défendent le corps contre les microbes ?","Les globules blancs")]),
-  "Menu Squelette@c":T([Qf("Quel os protège le cerveau ?","Le crâne"),Qf("Quel est le plus long os du corps ?","Le fémur")],[Qf("Quels os forment la cage thoracique ?","Les côtes (et le sternum)"),Qf("Où se trouve la rotule ?","Au genou")],[Qf("Quel est le plus petit os du corps ?","L’étrier, dans l’oreille"),Qf("Combien de vertèbres compte le cou ?","7")]),
-  "Menu Musée@c":T([Qf("Qui a peint « La Nuit étoilée » ?","Vincent van Gogh"),Qf("Quel peintre a représenté des montres molles ?","Salvador Dalí")],[Qf("Quel artiste dessinait des escaliers impossibles ?","M. C. Escher"),Qf("Qui a dessiné « L’Homme de Vitruve » ?","Léonard de Vinci")],[Qf("Quel compositeur a écrit « Les Planètes » ?","Gustav Holst"),Qf("Quel peintre composait avec des rectangles rouges, jaunes et bleus ?","Piet Mondrian")]),
-  "Menu Olympiades animales@c":T([Qf("Quel oiseau est le plus rapide en piqué ?","Le faucon pèlerin"),Qf("Quel animal a le plus long cou ?","La girafe")],[Qf("Quel est le plus gros oiseau du monde ?","L’autruche"),Qf("Quel est le plus grand félin ?","Le tigre")],[Qf("Quel vertébré vit le plus longtemps, plusieurs siècles ?","Le requin du Groenland"),Qf("Quel mammifère est réputé le plus lent ?","Le paresseux")]),
-  "Menu Bibliothèque d’Alexandrie@l":T([Qf("Qui a écrit les « Éléments » ?","Euclide"),Qf("Qui a mesuré la circonférence de la Terre dans l’Antiquité ?","Ératosthène")],[Qf("Quelle mathématicienne enseignait à Alexandrie vers l’an 400 ?","Hypatie"),Qf("À quelle époque vivait Pythagore ?","Dans l’Antiquité grecque, au VIe siècle av. J.-C.")],[Qf("Comment Archimède a-t-il encadré π ?","Avec des polygones inscrits et circonscrits au cercle"),Qf("Quel mathématicien indien a donné des règles de calcul avec le zéro au VIIe siècle ?","Brahmagupta")]),
-  "Menu Casino du paradoxe@l":T([Qf("Dans une classe de 23 élèves, la probabilité que deux aient le même anniversaire est…","supérieure à 50 %"),Qf("Problème de Monty Hall : faut-il changer de porte ?","Oui : on gagne alors avec probabilité 2/3")],[Qf("La pièce est tombée 5 fois sur pile. Probabilité de pile au lancer suivant ?","1/2"),Qf("Que dit la loi des grands nombres ?","La fréquence se rapproche de la probabilité quand on répète beaucoup")],[Qf("Probabilité d’obtenir deux piles de suite ?","1/4"),Qf("Le paradoxe de Simpson concerne…","une tendance qui s’inverse quand on regroupe des données")]),
-  "Menu Big Bang@l":T([Qf("Quel âge a l’Univers ?","Environ 13,8 milliards d’années"),Qf("Dans quelle galaxie se trouve la Terre ?","La Voie lactée")],[Qf("L’Univers est-il en expansion ?","Oui"),Qf("Quel astronome a mis en évidence l’éloignement des galaxies en 1929 ?","Edwin Hubble")],[Qf("Comment s’appelle la plus vieille lumière de l’Univers ?","Le fond diffus cosmologique"),Qf("Quel est l’élément le plus abondant de l’Univers ?","L’hydrogène")]),
-  "Menu Télescope géant@l":T([Qf("Quel télescope spatial a été lancé en 1990 ?","Hubble"),Qf("Quel télescope spatial a été lancé fin 2021 ?","James Webb")],[Qf("Qu’est-ce qu’une exoplanète ?","Une planète qui tourne autour d’une autre étoile que le Soleil"),Qf("Quelle est l’étoile la plus proche après le Soleil ?","Proxima du Centaure")],[Qf("Combien de temps met la lumière de la Lune pour nous parvenir ?","Un peu plus d’une seconde"),Qf("Dans quel domaine de lumière observe surtout le télescope James Webb ?","L’infrarouge")]),
-  "Menu Double hélice@l":T([Qf("Que signifie ADN ?","Acide désoxyribonucléique"),Qf("Combien de chromosomes dans une cellule humaine ?","46")],[Qf("Quelles sont les quatre bases de l’ADN ?","A, T, C et G"),Qf("Quelle chercheuse a réalisé le célèbre cliché 51 de l’ADN ?","Rosalind Franklin")],[Qf("Avec quelle base s’apparie l’adénine (A) ?","La thymine (T)"),Qf("Quel outil d’édition du génome a valu un prix Nobel en 2020 ?","CRISPR-Cas9")]),
-  "Menu Microscope@l":T([Qf("Quelle est l’unité de base du vivant ?","La cellule"),Qf("Qui a observé les premiers micro-organismes au XVIIe siècle ?","Antoni van Leeuwenhoek")],[Qf("Où se trouve l’ADN d’une cellule animale, principalement ?","Dans le noyau"),Qf("Quels organites produisent l’énergie de la cellule ?","Les mitochondries")],[Qf("Quelle taille fait une bactérie typique ?","Quelques micromètres"),Qf("Un virus est-il une cellule ?","Non")]),
-  "Menu Accélérateur de particules@l":T([Qf("Quel est le grand accélérateur de particules près de Genève ?","Le LHC, au CERN"),Qf("Quelles particules forment le noyau d’un atome ?","Les protons et les neutrons")],[Qf("Quelle particule a été découverte au CERN en 2012 ?","Le boson de Higgs"),Qf("Quel est le signe de la charge de l’électron ?","Négatif")],[Qf("Une particule qui a une masse peut-elle atteindre la vitesse de la lumière ?","Non, seulement s’en approcher"),Qf("Quelle est l’antiparticule de l’électron ?","Le positon")]),
-  "Menu Chat dans une boîte@l":T([Qf("Qui a imaginé le chat à la fois mort et vivant ?","Erwin Schrödinger"),Qf("De quelle branche de la physique parle ce chat ?","La mécanique quantique")],[Qf("La lumière est-elle une onde ou une particule ?","Les deux à la fois"),Qf("Comment s’appelle la particule de lumière ?","Le photon")],[Qf("Qui a énoncé le principe d’incertitude ?","Werner Heisenberg"),Qf("La relation E = hν relie l’énergie d’un photon à sa…","fréquence")]),
-  "Menu Tableau périodique@l":T([Qf("Qui a proposé le tableau périodique en 1869 ?","Dmitri Mendeleïev"),Qf("Symbole chimique de l’or ?","Au")],[Qf("Symbole chimique du fer ?","Fe"),Qf("Quel est l’élément le plus léger ?","L’hydrogène")],[Qf("Combien d’éléments compte aujourd’hui le tableau périodique ?","118"),Qf("Cite un gaz noble.","Par exemple l’hélium ou le néon")]),
-  "Menu Laboratoire secret@l":T([Qf("pH de l’eau pure ?","7"),Qf("Une solution de pH 2 est-elle acide ou basique ?","Acide")],[Qf("Formule du dioxyde de carbone ?","CO₂"),Qf("Que produit la combustion complète du méthane ?","Du dioxyde de carbone et de l’eau")],[Qf("Valeur approchée du nombre d’Avogadro ?","6,02 × 10²³"),Qf("Comment s’appelle la réaction entre un acide et une base ?","Une neutralisation")]),
-  "Menu Data center@l":T([Qf("1 octet = combien de bits ?","8"),Qf("Que signifie IA ?","Intelligence artificielle")],[Qf("Quel langage a été créé par Guido van Rossum ?","Python"),Qf("Combien de valeurs différentes peut-on coder avec 8 bits ?","256")],[Qf("Que dit la loi de Moore ?","Le nombre de transistors d’une puce double environ tous les deux ans"),Qf("Que signifie HTTP ?","HyperText Transfer Protocol")]),
-  "Menu Robot philosophe@l":T([Qf("Que cherche à savoir le test de Turing ?","Si une machine peut se faire passer pour un humain"),Qf("Quel romancier a écrit les trois lois de la robotique ?","Isaac Asimov")],[Qf("Que signifie LLM, pour les IA qui écrivent ?","Large Language Model, grand modèle de langage"),Qf("Quel ordinateur a battu Garry Kasparov aux échecs en 1997 ?","Deep Blue")],[Qf("Quelle IA a battu un champion de go en 2016 ?","AlphaGo"),Qf("Comment dit-on « apprentissage automatique » en anglais ?","Machine learning")]),
-  "Menu Salle des Nobel@l":T([Qf("Quelle scientifique a reçu un Nobel de physique et un Nobel de chimie ?","Marie Curie"),Qf("Qui a créé les prix Nobel ?","Alfred Nobel")],[Qf("Pour quelle découverte Einstein a-t-il reçu le Nobel de 1921 ?","L’effet photoélectrique"),Qf("Quelle Française a reçu le Nobel de chimie 2020 pour CRISPR ?","Emmanuelle Charpentier")],[Qf("Qu’a inventé Alfred Nobel ?","La dynamite"),Qf("Il n’y a pas de Nobel de mathématiques. Quelle récompense en tient lieu ?","La médaille Fields (ou le prix Abel)")]),
-  "Menu Laboratoire du professeur Tournesol@l":T([Qf("Pour aller où le professeur Tournesol construit-il une fusée ?","Sur la Lune"),Qf("Unité de l’énergie ?","Le joule")],[Qf("Unité de la puissance ?","Le watt"),Qf("Unité de la fréquence ?","Le hertz")],[Qf("Que prouve le pendule de Foucault ?","Que la Terre tourne sur elle-même"),Qf("Qu’est-ce qui permet à un avion de voler ?","La portance créée par ses ailes")]),
-  "Menu Recherches improbables@l":T([Qf("Combien d’heures par jour un koala peut-il dormir ?","Jusqu’à 18 à 22 heures"),Qf("Quel prix récompense des recherches qui font d’abord rire, puis réfléchir ?","Le prix Ig Nobel")],[Qf("Combien de temps a duré le plus long hoquet enregistré ?","Environ 68 ans"),Qf("Combien de cœurs a une pieuvre ?","3")],[Qf("Pourquoi les flamants sont-ils roses ?","À cause des pigments de leur nourriture"),Qf("Combien de temps vit souvent un éphémère adulte ?","Moins d’une journée")]),
-  "Menu Ciné-club@l":T([Qf("Dans quel film Alan Turing cherche-t-il à casser Enigma ?","Imitation Game"),Qf("Comment s’appelle le trou noir d’« Interstellar » ?","Gargantua")],[Qf("Comment s’appelle l’ordinateur de « 2001 : l’Odyssée de l’espace » ?","HAL 9000"),Qf("Dans « Oppenheimer », quel projet dirige le physicien ?","Le laboratoire du projet Manhattan")],[Qf("Quel film raconte l’histoire de mathématiciennes de la NASA ?","Les Figures de l’ombre"),Qf("Quel film raconte la vie de Stephen Hawking ?","Une merveilleuse histoire du temps")]),
-  "Menu Plaques tectoniques@l":T([Qf("Quelle théorie explique le déplacement des continents ?","La tectonique des plaques"),Qf("Qui a proposé la dérive des continents en 1912 ?","Alfred Wegener")],[Qf("Comment s’appelle le supercontinent d’il y a environ 250 millions d’années ?","La Pangée"),Qf("Comment s’appelle la frontière où deux plaques océaniques s’écartent ?","Une dorsale")],[Qf("Quelle collision a formé l’Himalaya ?","Celle de l’Inde et de l’Eurasie"),Qf("À quelle vitesse bougent les plaques ?","De quelques centimètres par an")]),
-  "Menu Iceberg@l":T([Qf("Quelle part d’un iceberg est cachée sous l’eau ?","Environ 90 %"),Qf("Un iceberg est-il fait d’eau douce ou d’eau salée ?","D’eau douce")],[Qf("Pourquoi la glace flotte-t-elle ?","Elle est moins dense que l’eau liquide"),Qf("La banquise, c’est de l’eau…","de mer gelée")],[Qf("Quel paquebot a coulé en 1912 après avoir heurté un iceberg ?","Le Titanic"),Qf("La fonte de la banquise fait-elle beaucoup monter le niveau des mers ?","Presque pas : elle flotte déjà")]),
-  "Menu Hôpital@l":T([Qf("Quel groupe sanguin est donneur universel de globules rouges ?","O négatif"),Qf("Quels rayons utilise une radiographie ?","Les rayons X")],[Qf("Sur quoi repose une IRM ?","Un champ magnétique intense"),Qf("Quel organe produit l’insuline ?","Le pancréas")],[Qf("Qui a réalisé la première greffe de cœur, en 1967 ?","Christiaan Barnard"),Qf("Contre quoi agissent les antibiotiques ?","Les bactéries")]),
-  "Menu Pharmacie@l":T([Qf("Qui a découvert la pénicilline ?","Alexander Fleming"),Qf("Les antibiotiques agissent-ils sur les virus ?","Non")],[Qf("De quel arbre a-t-on d’abord tiré le principe de l’aspirine ?","Le saule"),Qf("Que fait un vaccin ?","Il entraîne le système immunitaire")],[Qf("À quoi sert le paracétamol ?","À calmer la douleur et la fièvre"),Qf("Qu’est-ce qu’un placebo ?","Une préparation sans principe actif")]),
-  "Menu Festival de Cannes@l":T([Qf("Dans quel film de 2021 une comète menace-t-elle la Terre ?","Don’t Look Up"),Qf("Quelle série de 2019 raconte la catastrophe nucléaire de 1986 ?","Chernobyl")],[Qf("Dans quel film un signal venu de l’espace contient-il des nombres premiers ?","Contact"),Qf("Dans quel film communique-t-on avec des extraterrestres par cinq notes de musique ?","Rencontres du troisième type")],[Qf("Quel est le métier de Will Hunting au MIT ?","Agent d’entretien"),Qf("Quel est le métier de Sheldon Cooper ?","Physicien théoricien")]),
-  "Menu Wombat carré@l":T([Qf("Quelle forme ont les crottes du wombat ?","Cubique"),Qf("Quel minuscule animal peut survivre au vide spatial ?","Le tardigrade")],[Qf("Pourquoi les loutres de mer se tiennent-elles par la patte en dormant ?","Pour ne pas dériver chacune de son côté"),Qf("Combien d’yeux a une abeille ?","5")],[Qf("Les bananes sont légèrement…","radioactives (potassium 40)"),Qf("Le miel peut-il se conserver des milliers d’années ?","Oui")]),
+  "Menu Planétarium@c":T([Qf("Quelle planète est la plus proche du Soleil ?","Mercure",["Vénus", "Mars", "La Terre"]),Qf("Quelle planète est célèbre pour ses anneaux ?","Saturne",["Jupiter", "Uranus", "Neptune"])],[Qf("Combien de temps met la Terre pour faire le tour du Soleil ?","Environ 365 jours, un an"),Qf("Quelle étoile indique le nord ?","L’étoile Polaire",["L’étoile du Berger", "Sirius", "La Grande Ourse"])],[Qf("Quelle est la planète la plus chaude du système solaire ?","Vénus",["Mercure", "Mars", "Jupiter"]),Qf("Une année-lumière, c’est une durée ou une distance ?","Une distance",["Une durée", "Une vitesse", "Une luminosité"])]),
+  "Menu Fusée en carton@c":T([Qf("Qui a été le premier humain dans l’espace, en 1961 ?","Youri Gagarine",["Neil Armstrong", "Alexeï Leonov", "John Glenn"]),Qf("Qui a été le premier à marcher sur la Lune, en 1969 ?","Neil Armstrong",["Buzz Aldrin", "Youri Gagarine", "Michael Collins"])],[Qf("Quel astronaute français a séjourné dans l’ISS en 2016-2017 puis en 2021 ?","Thomas Pesquet",["Jean-Loup Chrétien", "Claudie Haigneré", "Michel Tognini"]),Qf("Que signifie ISS ?","Station spatiale internationale",["Système spatial interplanétaire", "Station scientifique internationale", "Satellite spatial international"])],[Qf("Comment s’appelait le premier satellite artificiel, lancé en 1957 ?","Spoutnik 1"),Qf("À quelle vitesse environ l’ISS tourne-t-elle autour de la Terre ?","Environ 28 000 km/h")]),
+  "Menu Zoo intergalactique@c":T([Qf("Quel est le plus grand animal terrestre ?","L’éléphant d’Afrique",["Le rhinocéros blanc", "L’hippopotame", "La girafe"]),Qf("Quel est l’animal terrestre le plus rapide ?","Le guépard",["L’antilope", "Le lévrier", "Le lion"])],[Qf("Combien de cœurs a une pieuvre ?","3"),Qf("Quel mammifère sait voler ?","La chauve-souris",["L’écureuil volant", "Le colugo", "Le galago"])],[Qf("Quel reptile est célèbre pour changer de couleur ?","Le caméléon",["L’iguane", "Le gecko", "L’anolis"]),Qf("Combien de pattes a une araignée ?","8")]),
+  "Menu Aquarium géant@c":T([Qf("Le requin est-il un poisson ?","Oui",["Non, c’est un mammifère", "Non, c’est un cartilagineux, pas un poisson", "Non, c’est un reptile marin"]),Qf("Quel est le plus grand animal du monde ?","La baleine bleue",["Le requin-baleine", "Le cachalot", "Le calmar géant"])],[Qf("Avec quoi respirent les dauphins ?","Des poumons, comme nous",["Des branchies", "Un évent qui filtre l’eau", "Leur peau"]),Qf("Quel poisson vit dans une anémone de mer ?","Le poisson-clown",["Le poisson-chirurgien", "L’hippocampe", "Le poisson-ange"])],[Qf("Combien de bras a, le plus souvent, une étoile de mer ?","5"),Qf("Avec quoi respirent les poissons ?","Des branchies",["Des poumons", "Leurs nageoires", "Leur vessie natatoire"])]),
+  "Menu Labo qui fume@c":T([Qf("Formule chimique de l’eau ?","H₂O",["HO₂", "H₂O₂", "OH"]),Qf("À quelle température l’eau bout-elle, sous pression normale ?","100 °C")],[Qf("Quel gaz fait les bulles des sodas ?","Le dioxyde de carbone",["L’oxygène", "L’azote", "L’hydrogène"]),Qf("Que devient un glaçon laissé à température ambiante ?","Il fond",["Il s’évapore aussitôt", "Il se sublime", "Il garde sa forme"])],[Qf("Comment s’appelle le passage direct de l’état solide à l’état gazeux ?","La sublimation",["La vaporisation", "La fusion", "La condensation"]),Qf("L’eau et l’huile forment-elles un mélange homogène ?","Non, hétérogène : elles ne se mélangent pas",["Oui", "Oui, si on secoue fort", "Oui, à haute température"])]),
+  "Menu Cuisine moléculaire@c":T([Qf("Comment s’appelle chimiquement le sel de cuisine ?","Le chlorure de sodium",["Le carbonate de sodium", "Le chlorure de potassium", "Le bicarbonate de sodium"]),Qf("Qu’est-ce qui fait lever la pâte à pain ?","La levure",["Le sucre", "Le sel", "Le bicarbonate de soude"])],[Qf("L’azote liquide est-il chaud ou très froid ?","Très froid : environ −196 °C"),Qf("Pourquoi sale-t-on les routes en hiver ?","Le sel fait fondre la glace à plus basse température",["Le sel absorbe l’eau de la glace", "Le sel réchauffe la route", "Le sel rend la glace rugueuse"])],[Qf("Quelle réaction fait dorer les aliments à la cuisson ?","La réaction de Maillard",["La caramélisation, uniquement", "La fermentation", "L’oxydation"]),Qf("Un œuf cuit peut-il redevenir cru ?","Non, ses protéines sont transformées",["Oui, en le refroidissant", "Oui, au réfrigérateur après quelques jours", "Oui, en le mettant sous vide"])]),
+  "Menu Salle des serveurs@c":T([Qf("Combien de bits dans un octet ?","8"),Qf("À quoi sert le Wi-Fi ?","À se connecter sans fil",["À recharger son téléphone", "À stocker ses fichiers", "À se connecter en 4G"])],[Qf("Quels chiffres utilise le binaire ?","0 et 1"),Qf("1 Go, c’est environ combien de Mo ?","1 000")],[Qf("Que vaut 101 écrit en binaire ?","5"),Qf("Que signifie « www » ?","World Wide Web",["Wide World Web", "World Web Wire", "Web World Wide"])]),
+  "Menu Robot ménager@c":T([Qf("Quel romancier a écrit les trois lois de la robotique ?","Isaac Asimov",["Jules Verne", "Philip K. Dick", "Arthur C. Clarke"]),Qf("Comment un robot aspirateur repère-t-il les obstacles ?","Grâce à des capteurs",["Grâce au GPS", "Grâce à une caméra thermique", "Grâce au Wi-Fi"])],[Qf("Que signifie IA ?","Intelligence artificielle",["Informatique avancée", "Interface automatique", "Information artificielle"]),Qf("Quel langage à blocs utilise-t-on souvent au collège ?","Scratch",["Python", "Logo", "Java"])],[Qf("Quel test vérifie si une machine peut se faire passer pour un humain ?","Le test de Turing",["Le test de Voight-Kampff", "Le test de Lovelace", "Le CAPTCHA"]),Qf("Qu’est-ce qu’un algorithme ?","Une suite d’instructions pour résoudre un problème",["Un langage de programmation", "Un programme qui tourne sur un ordinateur", "Une formule mathématique"])]),
+  "Menu Garage d’inventeur@c":T([Qf("Qui a mis au point l’imprimerie à caractères mobiles en Europe ?","Gutenberg",["Léonard de Vinci", "Martin Luther", "Galilée"]),Qf("Qui a déposé le brevet du téléphone en 1876 ?","Graham Bell",["Thomas Edison", "Nikola Tesla", "Samuel Morse"])],[Qf("Quels frères ont inventé le cinématographe ?","Les frères Lumière",["Les frères Wright", "Les frères Montgolfier", "Les frères Pathé"]),Qf("Qui a inventé la pile électrique ?","Alessandro Volta",["André-Marie Ampère", "Benjamin Franklin", "Michael Faraday"])],[Qf("Qui a perfectionné la machine à vapeur ?","James Watt",["Denis Papin", "Thomas Edison", "George Stephenson"]),Qf("Qui a réalisé le premier vol motorisé, en 1903 ?","Les frères Wright",["Les frères Montgolfier", "Clément Ader", "Louis Blériot"])]),
+  "Menu Musée des génies@c":T([Qf("Quel savant, selon la légende, a eu l’idée de la gravitation en voyant tomber une pomme ?","Isaac Newton",["Galilée", "Albert Einstein", "Johannes Kepler"]),Qf("Quelle savante a reçu deux prix Nobel ?","Marie Curie",["Irène Joliot-Curie", "Lise Meitner", "Rosalind Franklin"])],[Qf("Qui a mis au point le vaccin contre la rage ?","Louis Pasteur",["Robert Koch", "Edward Jenner", "Alexander Fleming"]),Qf("Qui a écrit E = mc² ?","Albert Einstein",["Isaac Newton", "Niels Bohr", "Max Planck"])],[Qf("Qui a peint la Joconde et dessiné des machines volantes ?","Léonard de Vinci",["Michel-Ange", "Raphaël", "Botticelli"]),Qf("Qui a observé les lunes de Jupiter en 1610 ?","Galilée",["Copernic", "Johannes Kepler", "Tycho Brahe"])]),
+  "Menu Livre des records@c":T([Qf("Quelle est la plus haute montagne du monde ?","L’Everest",["Le K2", "Le mont Blanc", "Le Kilimandjaro"]),Qf("Quel est le plus grand océan ?","Le Pacifique",["L’Atlantique", "L’océan Indien", "L’océan Arctique"])],[Qf("Quel est le plus long fleuve de France ?","La Loire",["La Seine", "Le Rhône", "La Garonne"]),Qf("Quel est le plus grand désert chaud du monde ?","Le Sahara",["Le désert d’Arabie", "Le Kalahari", "Le désert de Gobi"])],[Qf("Quelle est la plus grosse planète du système solaire ?","Jupiter",["Saturne", "Neptune", "Uranus"]),Qf("Quel est le plus grand pays du monde ?","La Russie",["Le Canada", "La Chine", "Les États-Unis"])]),
+  "Menu Cinéma de quartier@c":T([Qf("Comment s’appelle le petit robot nettoyeur du film d’animation de 2008 ?","WALL-E",["EVE", "R2-D2", "Baymax"]),Qf("Quels animaux sont recréés dans « Jurassic Park » ?","Des dinosaures",["Des mammouths", "Des dragons", "Des requins préhistoriques"])],[Qf("Sur quel astéroïde vit le Petit Prince ?","L’astéroïde B 612"),Qf("Dans « Retour vers le futur », comment s’appelle le chien du savant ?","Einstein",["Newton", "Copernic", "Tesla"])],[Qf("Dans « Le Voyage dans la Lune » de Méliès, où atterrit la fusée ?","Dans l’œil de la Lune",["Dans un cratère", "Sur la face cachée", "Dans la mer de la Tranquillité"]),Qf("Dans « Vice-Versa », où vivent les émotions ?","Dans le cerveau de Riley",["Dans le cœur de Riley", "Dans une boule à neige", "Dans les rêves de Riley"])]),
+  "Menu Volcan@c":T([Qf("Comment s’appelle la roche fondue qui sort d’un volcan ?","La lave",["Le magma refroidi", "La cendre", "Le basalte"]),Qf("Quel célèbre volcan endormi domine Clermont-Ferrand ?","Le puy de Dôme",["Le puy de Sancy", "Le Cantal", "Le puy Pariou"])],[Qf("Quelle ville romaine a été ensevelie par le Vésuve en 79 ?","Pompéi",["Herculanum", "Ostie", "Pouzzoles"]),Qf("Comment s’appelle l’ouverture au sommet d’un volcan ?","Le cratère",["La caldeira", "La cheminée", "Le cône"])],[Qf("Quel est le plus haut volcan du système solaire ?","Olympus Mons, sur Mars",["Le Mauna Kea, à Hawaï", "L’Etna", "Le mont Olympe, en Grèce"]),Qf("La « ceinture de feu » entoure quel océan ?","Le Pacifique",["L’Atlantique", "L’océan Indien", "L’océan Arctique"])]),
+  "Menu Station météo@c":T([Qf("Quel instrument mesure la température ?","Le thermomètre",["Le baromètre", "L’hygromètre", "Le pluviomètre"]),Qf("Quel instrument mesure la vitesse du vent ?","L’anémomètre",["Le baromètre", "La girouette", "L’hygromètre"])],[Qf("En quelle unité la météo exprime-t-elle la pression de l’air ?","En hectopascals",["En millibars", "En atmosphères", "En newtons"]),Qf("Pourquoi entend-on le tonnerre après avoir vu l’éclair ?","Le son va beaucoup moins vite que la lumière",["Le tonnerre part après l’éclair", "L’éclair est plus proche que le tonnerre", "Le son rebondit sur les nuages avant d’arriver"])],[Qf("Comment appelle-t-on un nuage posé au sol ?","Le brouillard",["La brume de chaleur", "Le stratus", "La rosée"]),Qf("Que faut-il pour voir un arc-en-ciel ?","Le soleil dans le dos et la pluie devant soi",["Le soleil devant soi et la pluie dans le dos", "De la pluie et une nuit de pleine lune", "Un ciel nuageux et du vent"])]),
+  "Menu Infirmerie@c":T([Qf("Quelle est la température normale du corps ?","Environ 37 °C"),Qf("Quel organe pompe le sang ?","Le cœur",["Les poumons", "Le foie", "Les reins"])],[Qf("Quel est le plus grand organe du corps humain ?","La peau",["Le foie", "L’intestin", "Le cerveau"]),Qf("Combien d’os a un adulte ?","206")],[Qf("Quels vaisseaux ramènent le sang vers le cœur ?","Les veines",["Les artères", "Les capillaires", "Les lymphatiques"]),Qf("Quelles cellules défendent le corps contre les microbes ?","Les globules blancs",["Les globules rouges", "Les plaquettes", "Les neurones"])]),
+  "Menu Squelette@c":T([Qf("Quel os protège le cerveau ?","Le crâne",["La mâchoire", "Les vertèbres", "L’omoplate"]),Qf("Quel est le plus long os du corps ?","Le fémur",["Le tibia", "L’humérus", "Le péroné"])],[Qf("Quels os forment la cage thoracique ?","Les côtes (et le sternum)",["Les vertèbres", "Les clavicules", "Les omoplates"]),Qf("Où se trouve la rotule ?","Au genou",["Au coude", "À la cheville", "À l’épaule"])],[Qf("Quel est le plus petit os du corps ?","L’étrier, dans l’oreille",["La phalange du petit orteil", "Le marteau, dans l’oreille", "L’os hyoïde, dans le cou"]),Qf("Combien de vertèbres compte le cou ?","7")]),
+  "Menu Musée@c":T([Qf("Qui a peint « La Nuit étoilée » ?","Vincent van Gogh",["Claude Monet", "Paul Gauguin", "Paul Cézanne"]),Qf("Quel peintre a représenté des montres molles ?","Salvador Dalí",["René Magritte", "Pablo Picasso", "Joan Miró"])],[Qf("Quel artiste dessinait des escaliers impossibles ?","M. C. Escher",["René Magritte", "Salvador Dalí", "Victor Vasarely"]),Qf("Qui a dessiné « L’Homme de Vitruve » ?","Léonard de Vinci",["Michel-Ange", "Albrecht Dürer", "Raphaël"])],[Qf("Quel compositeur a écrit « Les Planètes » ?","Gustav Holst",["Gustav Mahler", "Antonín Dvořák", "Richard Strauss"]),Qf("Quel peintre composait avec des rectangles rouges, jaunes et bleus ?","Piet Mondrian",["Wassily Kandinsky", "Kasimir Malevitch", "Paul Klee"])]),
+  "Menu Olympiades animales@c":T([Qf("Quel oiseau est le plus rapide en piqué ?","Le faucon pèlerin",["L’aigle royal", "Le martinet", "L’épervier"]),Qf("Quel animal a le plus long cou ?","La girafe",["Le dromadaire", "L’autruche", "Le lama"])],[Qf("Quel est le plus gros oiseau du monde ?","L’autruche",["L’émeu", "Le condor des Andes", "Le casoar"]),Qf("Quel est le plus grand félin ?","Le tigre",["Le lion", "Le jaguar", "Le léopard des neiges"])],[Qf("Quel vertébré vit le plus longtemps, plusieurs siècles ?","Le requin du Groenland",["La tortue des Galápagos", "Le perroquet ara", "L’éléphant d’Asie"]),Qf("Quel mammifère est réputé le plus lent ?","Le paresseux",["Le koala", "La tortue", "Le tatou"])]),
+  "Menu Bibliothèque d’Alexandrie@l":T([Qf("Qui a écrit les « Éléments » ?","Euclide",["Pythagore", "Archimède", "Thalès"]),Qf("Qui a mesuré la circonférence de la Terre dans l’Antiquité ?","Ératosthène",["Archimède", "Aristote", "Ptolémée"])],[Qf("Quelle mathématicienne enseignait à Alexandrie vers l’an 400 ?","Hypatie",["Sophie Germain", "Émilie du Châtelet", "Hipparchia"]),Qf("À quelle époque vivait Pythagore ?","Dans l’Antiquité grecque, au VIe siècle av. J.-C.",["Au Moyen Âge, au XIIe siècle", "Dans l’Égypte des pharaons, vers 2500 av. J.-C.", "À la Renaissance, au XVIe siècle"])],[Qf("Comment Archimède a-t-il encadré π ?","Avec des polygones inscrits et circonscrits au cercle",["Avec une ficelle autour d’un tonneau", "En comptant des grains de sable dans un cercle", "Avec la formule π = 22/7, démontrée par Euclide"]),Qf("Quel mathématicien indien a donné des règles de calcul avec le zéro au VIIe siècle ?","Brahmagupta",["Al-Khwarizmi", "Aryabhata", "Ramanujan"])]),
+  "Menu Casino du paradoxe@l":T([Qf("Dans une classe de 23 élèves, la probabilité que deux aient le même anniversaire est…","supérieure à 50 %"),Qf("Problème de Monty Hall : faut-il changer de porte ?","Oui : on gagne alors avec probabilité 2/3",["Non : on a une chance sur deux dans les deux cas", "Non : il faut garder sa porte", "Ça dépend de la porte choisie au départ"])],[Qf("La pièce est tombée 5 fois sur pile. Probabilité de pile au lancer suivant ?","1/2"),Qf("Que dit la loi des grands nombres ?","La fréquence se rapproche de la probabilité quand on répète beaucoup",["Après une série de pertes, on finit forcément par gagner", "La probabilité augmente quand on répète beaucoup", "La moyenne des gains est toujours positive"])],[Qf("Probabilité d’obtenir deux piles de suite ?","1/4"),Qf("Le paradoxe de Simpson concerne…","une tendance qui s’inverse quand on regroupe des données",["un sondage biaisé par un mauvais échantillon", "un événement de probabilité nulle qui se produit quand même", "une moyenne qui dépasse le maximum des valeurs"])]),
+  "Menu Big Bang@l":T([Qf("Quel âge a l’Univers ?","Environ 13,8 milliards d’années"),Qf("Dans quelle galaxie se trouve la Terre ?","La Voie lactée",["La galaxie d’Andromède", "Le Grand Nuage de Magellan", "La galaxie du Triangle"])],[Qf("L’Univers est-il en expansion ?","Oui",["Non, il est stable", "Non, il se contracte", "Seulement depuis l’an 2000"]),Qf("Quel astronome a mis en évidence l’éloignement des galaxies en 1929 ?","Edwin Hubble",["Albert Einstein", "Georges Lemaître", "Carl Sagan"])],[Qf("Comment s’appelle la plus vieille lumière de l’Univers ?","Le fond diffus cosmologique",["Le rayonnement de Hawking", "La lumière zodiacale", "Le bruit de fond galactique"]),Qf("Quel est l’élément le plus abondant de l’Univers ?","L’hydrogène",["L’hélium", "L’oxygène", "Le carbone"])]),
+  "Menu Télescope géant@l":T([Qf("Quel télescope spatial a été lancé en 1990 ?","Hubble",["James Webb", "Kepler", "Spitzer"]),Qf("Quel télescope spatial a été lancé fin 2021 ?","James Webb",["Hubble", "Kepler", "Gaia"])],[Qf("Qu’est-ce qu’une exoplanète ?","Une planète qui tourne autour d’une autre étoile que le Soleil",["Une planète naine au-delà de Neptune", "Une planète sans atmosphère", "Une étoile qui a perdu ses planètes"]),Qf("Quelle est l’étoile la plus proche après le Soleil ?","Proxima du Centaure",["Sirius", "Bételgeuse", "L’étoile Polaire"])],[Qf("Combien de temps met la lumière de la Lune pour nous parvenir ?","Un peu plus d’une seconde",["Environ huit minutes", "Instantanément", "Environ une heure"]),Qf("Dans quel domaine de lumière observe surtout le télescope James Webb ?","L’infrarouge",["L’ultraviolet", "Les rayons X", "La lumière visible"])]),
+  "Menu Double hélice@l":T([Qf("Que signifie ADN ?","Acide désoxyribonucléique",["Acide désoxyribose naturel", "Acide dinucléique", "Acide désoxyribonucléotide"]),Qf("Combien de chromosomes dans une cellule humaine ?","46")],[Qf("Quelles sont les quatre bases de l’ADN ?","A, T, C et G",["A, U, C et G", "A, T, G et U", "A, B, C et D"]),Qf("Quelle chercheuse a réalisé le célèbre cliché 51 de l’ADN ?","Rosalind Franklin",["Marie Curie", "Barbara McClintock", "Dorothy Hodgkin"])],[Qf("Avec quelle base s’apparie l’adénine (A) ?","La thymine (T)",["La guanine (G)", "La cytosine (C)", "L’uracile (U)"]),Qf("Quel outil d’édition du génome a valu un prix Nobel en 2020 ?","CRISPR-Cas9")]),
+  "Menu Microscope@l":T([Qf("Quelle est l’unité de base du vivant ?","La cellule",["L’atome", "L’ADN", "La molécule"]),Qf("Qui a observé les premiers micro-organismes au XVIIe siècle ?","Antoni van Leeuwenhoek",["Robert Hooke", "Louis Pasteur", "Galilée"])],[Qf("Où se trouve l’ADN d’une cellule animale, principalement ?","Dans le noyau",["Dans les mitochondries", "Dans la membrane", "Dans le cytoplasme"]),Qf("Quels organites produisent l’énergie de la cellule ?","Les mitochondries",["Les ribosomes", "Le noyau", "Les chloroplastes"])],[Qf("Quelle taille fait une bactérie typique ?","Quelques micromètres",["Quelques nanomètres", "Quelques millimètres", "Quelques centimètres"]),Qf("Un virus est-il une cellule ?","Non",["Oui", "Oui, une cellule sans noyau", "Oui, une bactérie"])]),
+  "Menu Accélérateur de particules@l":T([Qf("Quel est le grand accélérateur de particules près de Genève ?","Le LHC, au CERN",["Le Synchrotron SOLEIL, au CEA", "L’ITER, à Cadarache", "Le Fermilab, au CERN"]),Qf("Quelles particules forment le noyau d’un atome ?","Les protons et les neutrons",["Les électrons et les protons", "Les neutrons et les électrons", "Les photons et les neutrons"])],[Qf("Quelle particule a été découverte au CERN en 2012 ?","Le boson de Higgs",["Le quark top", "Le neutrino", "Le graviton"]),Qf("Quel est le signe de la charge de l’électron ?","Négatif",["Positif", "Neutre", "Ça dépend de l’atome"])],[Qf("Une particule qui a une masse peut-elle atteindre la vitesse de la lumière ?","Non, seulement s’en approcher",["Oui", "Oui, avec assez d’énergie", "Oui, dans le vide"]),Qf("Quelle est l’antiparticule de l’électron ?","Le positon",["Le proton", "Le neutron", "Le neutrino"])]),
+  "Menu Chat dans une boîte@l":T([Qf("Qui a imaginé le chat à la fois mort et vivant ?","Erwin Schrödinger",["Albert Einstein", "Niels Bohr", "Werner Heisenberg"]),Qf("De quelle branche de la physique parle ce chat ?","La mécanique quantique",["La relativité générale", "La thermodynamique", "La mécanique classique"])],[Qf("La lumière est-elle une onde ou une particule ?","Les deux à la fois",["Une onde seulement", "Une particule seulement", "Ni l’une ni l’autre"]),Qf("Comment s’appelle la particule de lumière ?","Le photon",["L’électron", "Le phonon", "Le gluon"])],[Qf("Qui a énoncé le principe d’incertitude ?","Werner Heisenberg",["Erwin Schrödinger", "Niels Bohr", "Max Planck"]),Qf("La relation E = hν relie l’énergie d’un photon à sa…","fréquence",["longueur d’onde", "vitesse", "masse"])]),
+  "Menu Tableau périodique@l":T([Qf("Qui a proposé le tableau périodique en 1869 ?","Dmitri Mendeleïev",["Antoine Lavoisier", "Marie Curie", "John Dalton"]),Qf("Symbole chimique de l’or ?","Au",["Or", "Ag", "Ao"])],[Qf("Symbole chimique du fer ?","Fe",["F", "Ir", "Fr"]),Qf("Quel est l’élément le plus léger ?","L’hydrogène",["L’hélium", "Le lithium", "Le carbone"])],[Qf("Combien d’éléments compte aujourd’hui le tableau périodique ?","118"),Qf("Cite un gaz noble.","Par exemple l’hélium ou le néon",["Par exemple l’oxygène ou l’azote", "Par exemple le chlore ou le fluor", "Par exemple l’hydrogène ou le sodium"])]),
+  "Menu Laboratoire secret@l":T([Qf("pH de l’eau pure ?","7"),Qf("Une solution de pH 2 est-elle acide ou basique ?","Acide",["Basique", "Neutre", "Ça dépend du volume"])],[Qf("Formule du dioxyde de carbone ?","CO₂",["CO", "C₂O", "CaO"]),Qf("Que produit la combustion complète du méthane ?","Du dioxyde de carbone et de l’eau",["Du monoxyde de carbone et de l’hydrogène", "Du dioxyde de carbone seulement", "De l’oxygène et de l’eau"])],[Qf("Valeur approchée du nombre d’Avogadro ?","6,02 × 10²³"),Qf("Comment s’appelle la réaction entre un acide et une base ?","Une neutralisation",["Une oxydation", "Une combustion", "Une dissolution"])]),
+  "Menu Data center@l":T([Qf("1 octet = combien de bits ?","8"),Qf("Que signifie IA ?","Intelligence artificielle",["Informatique avancée", "Interface automatique", "Information artificielle"])],[Qf("Quel langage a été créé par Guido van Rossum ?","Python",["Java", "C", "JavaScript"]),Qf("Combien de valeurs différentes peut-on coder avec 8 bits ?","256")],[Qf("Que dit la loi de Moore ?","Le nombre de transistors d’une puce double environ tous les deux ans",["La puissance des ordinateurs double tous les dix ans", "Le prix d’une puce double environ tous les deux ans", "La taille des transistors double tous les deux ans"]),Qf("Que signifie HTTP ?","HyperText Transfer Protocol",["HyperText Transmission Program", "High Transfer Text Protocol", "HyperText Technical Process"])]),
+  "Menu Robot philosophe@l":T([Qf("Que cherche à savoir le test de Turing ?","Si une machine peut se faire passer pour un humain",["Si une machine peut calculer plus vite qu’un humain", "Si une machine a des émotions", "Si un programme s’arrête un jour"]),Qf("Quel romancier a écrit les trois lois de la robotique ?","Isaac Asimov",["Jules Verne", "Philip K. Dick", "Arthur C. Clarke"])],[Qf("Que signifie LLM, pour les IA qui écrivent ?","Large Language Model, grand modèle de langage",["Logical Learning Machine, machine logique", "Long Language Memory, mémoire de langage", "Linked Learning Model, modèle d’apprentissage relié"]),Qf("Quel ordinateur a battu Garry Kasparov aux échecs en 1997 ?","Deep Blue",["Watson", "AlphaZero", "Stockfish"])],[Qf("Quelle IA a battu un champion de go en 2016 ?","AlphaGo",["Deep Blue", "Watson", "Stockfish"]),Qf("Comment dit-on « apprentissage automatique » en anglais ?","Machine learning",["Deep thinking", "Computer training", "Automatic learning"])]),
+  "Menu Salle des Nobel@l":T([Qf("Quelle scientifique a reçu un Nobel de physique et un Nobel de chimie ?","Marie Curie",["Lise Meitner", "Irène Joliot-Curie", "Rosalind Franklin"]),Qf("Qui a créé les prix Nobel ?","Alfred Nobel",["Albert Einstein", "Gustave Eiffel", "Louis Pasteur"])],[Qf("Pour quelle découverte Einstein a-t-il reçu le Nobel de 1921 ?","L’effet photoélectrique",["La relativité restreinte", "La formule E = mc²", "La relativité générale"]),Qf("Quelle Française a reçu le Nobel de chimie 2020 pour CRISPR ?","Emmanuelle Charpentier",["Françoise Barré-Sinoussi", "Jennifer Doudna", "Irène Joliot-Curie"])],[Qf("Qu’a inventé Alfred Nobel ?","La dynamite",["La poudre à canon", "Le télégraphe", "La nitroglycérine"]),Qf("Il n’y a pas de Nobel de mathématiques. Quelle récompense en tient lieu ?","La médaille Fields (ou le prix Abel)",["La médaille Turing", "Le prix Nobel de la paix", "La médaille Lavoisier"])]),
+  "Menu Laboratoire du professeur Tournesol@l":T([Qf("Pour aller où le professeur Tournesol construit-il une fusée ?","Sur la Lune",["Sur Mars", "Sur Vénus", "Autour de la Terre"]),Qf("Unité de l’énergie ?","Le joule",["Le watt", "Le newton", "Le volt"])],[Qf("Unité de la puissance ?","Le watt",["Le joule", "Le volt", "L’ampère"]),Qf("Unité de la fréquence ?","Le hertz",["Le watt", "Le décibel", "La seconde"])],[Qf("Que prouve le pendule de Foucault ?","Que la Terre tourne sur elle-même",["Que la Terre tourne autour du Soleil", "Que la gravité est partout la même", "Que le temps est relatif"]),Qf("Qu’est-ce qui permet à un avion de voler ?","La portance créée par ses ailes",["La poussée de l’air chaud sous la carlingue", "L’effet d’aspiration des réacteurs", "L’hélium contenu dans les ailes"])]),
+  "Menu Recherches improbables@l":T([Qf("Combien d’heures par jour un koala peut-il dormir ?","Jusqu’à 18 à 22 heures"),Qf("Quel prix récompense des recherches qui font d’abord rire, puis réfléchir ?","Le prix Ig Nobel",["Le prix Darwin", "La médaille Fields", "Le prix Nobel de l’humour"])],[Qf("Combien de temps a duré le plus long hoquet enregistré ?","Environ 68 ans"),Qf("Combien de cœurs a une pieuvre ?","3")],[Qf("Pourquoi les flamants sont-ils roses ?","À cause des pigments de leur nourriture",["À cause de leurs gènes, comme la couleur des yeux", "Parce que leur sang est très rouge", "À cause du soleil qui colore leurs plumes"]),Qf("Combien de temps vit souvent un éphémère adulte ?","Moins d’une journée",["Environ une semaine", "Environ un mois", "Environ un an"])]),
+  "Menu Ciné-club@l":T([Qf("Dans quel film Alan Turing cherche-t-il à casser Enigma ?","Imitation Game",["Un homme d’exception", "Une merveilleuse histoire du temps", "Le Code Da Vinci"]),Qf("Comment s’appelle le trou noir d’« Interstellar » ?","Gargantua",["Endurance", "Miller", "Tesseract"])],[Qf("Comment s’appelle l’ordinateur de « 2001 : l’Odyssée de l’espace » ?","HAL 9000"),Qf("Dans « Oppenheimer », quel projet dirige le physicien ?","Le laboratoire du projet Manhattan",["Le programme Apollo", "Le projet Enigma", "Le laboratoire du CERN"])],[Qf("Quel film raconte l’histoire de mathématiciennes de la NASA ?","Les Figures de l’ombre",["Apollo 13", "Un homme d’exception", "Seul sur Mars"]),Qf("Quel film raconte la vie de Stephen Hawking ?","Une merveilleuse histoire du temps",["Un homme d’exception", "Imitation Game", "Interstellar"])]),
+  "Menu Plaques tectoniques@l":T([Qf("Quelle théorie explique le déplacement des continents ?","La tectonique des plaques",["La dérive des pôles", "La théorie du Big Bang", "L’érosion des continents"]),Qf("Qui a proposé la dérive des continents en 1912 ?","Alfred Wegener",["Charles Darwin", "Alexander von Humboldt", "Haroun Tazieff"])],[Qf("Comment s’appelle le supercontinent d’il y a environ 250 millions d’années ?","La Pangée",["La Laurasia", "Le Gondwana", "L’Atlantide"]),Qf("Comment s’appelle la frontière où deux plaques océaniques s’écartent ?","Une dorsale",["Une fosse", "Une faille transformante", "Une zone de subduction"])],[Qf("Quelle collision a formé l’Himalaya ?","Celle de l’Inde et de l’Eurasie",["Celle de l’Afrique et de l’Europe", "Celle de l’Inde et de l’Australie", "Celle de la Chine et de la Russie"]),Qf("À quelle vitesse bougent les plaques ?","De quelques centimètres par an",["De quelques mètres par an", "De quelques millimètres par siècle", "De quelques kilomètres par an"])]),
+  "Menu Iceberg@l":T([Qf("Quelle part d’un iceberg est cachée sous l’eau ?","Environ 90 %"),Qf("Un iceberg est-il fait d’eau douce ou d’eau salée ?","D’eau douce",["D’eau salée", "D’eau de pluie et d’eau de mer mélangées", "D’eau saumâtre"])],[Qf("Pourquoi la glace flotte-t-elle ?","Elle est moins dense que l’eau liquide",["Elle est plus froide que l’eau liquide", "Elle est plus légère que le sel", "Elle est plus dense que l’eau liquide"]),Qf("La banquise, c’est de l’eau…","de mer gelée",["douce venue des glaciers", "de pluie gelée", "de rivière gelée"])],[Qf("Quel paquebot a coulé en 1912 après avoir heurté un iceberg ?","Le Titanic",["Le Lusitania", "Le Normandie", "Le Britannic"]),Qf("La fonte de la banquise fait-elle beaucoup monter le niveau des mers ?","Presque pas : elle flotte déjà",["Oui, de plusieurs mètres", "Oui, d’environ un mètre", "Non, elle fait baisser le niveau"])]),
+  "Menu Hôpital@l":T([Qf("Quel groupe sanguin est donneur universel de globules rouges ?","O négatif",["AB positif", "A négatif", "O positif"]),Qf("Quels rayons utilise une radiographie ?","Les rayons X",["Les rayons ultraviolets", "Les rayons gamma", "Les infrarouges"])],[Qf("Sur quoi repose une IRM ?","Un champ magnétique intense",["Des rayons X à faible dose", "Des ultrasons", "Un courant électrique intense"]),Qf("Quel organe produit l’insuline ?","Le pancréas",["Le foie", "La rate", "L’estomac"])],[Qf("Qui a réalisé la première greffe de cœur, en 1967 ?","Christiaan Barnard",["Alexis Carrel", "Jean Bernard", "René Laennec"]),Qf("Contre quoi agissent les antibiotiques ?","Les bactéries",["Les virus", "Les champignons", "Toutes les infections"])]),
+  "Menu Pharmacie@l":T([Qf("Qui a découvert la pénicilline ?","Alexander Fleming",["Louis Pasteur", "Robert Koch", "Edward Jenner"]),Qf("Les antibiotiques agissent-ils sur les virus ?","Non",["Oui", "Oui, sur certains virus", "Oui, si on double la dose"])],[Qf("De quel arbre a-t-on d’abord tiré le principe de l’aspirine ?","Le saule",["Le chêne", "Le bouleau", "Le peuplier"]),Qf("Que fait un vaccin ?","Il entraîne le système immunitaire",["Il tue directement les microbes", "Il soigne une maladie déjà déclarée", "Il remplace les globules blancs"])],[Qf("À quoi sert le paracétamol ?","À calmer la douleur et la fièvre",["À tuer les bactéries", "À faire dormir", "À faire baisser la tension"]),Qf("Qu’est-ce qu’un placebo ?","Une préparation sans principe actif",["Un médicament à effet très rapide", "Un vaccin atténué", "Un médicament générique"])]),
+  "Menu Festival de Cannes@l":T([Qf("Dans quel film de 2021 une comète menace-t-elle la Terre ?","Don’t Look Up",["Armageddon", "Deep Impact", "Interstellar"]),Qf("Quelle série de 2019 raconte la catastrophe nucléaire de 1986 ?","Chernobyl",["The Last of Us", "Fukushima", "Le Bureau des légendes"])],[Qf("Dans quel film un signal venu de l’espace contient-il des nombres premiers ?","Contact",["Interstellar", "Premier Contact", "2001 : l’odyssée de l’espace"]),Qf("Dans quel film communique-t-on avec des extraterrestres par cinq notes de musique ?","Rencontres du troisième type",["Premier Contact", "E.T. l’extra-terrestre", "2001 : l’odyssée de l’espace"])],[Qf("Quel est le métier de Will Hunting au MIT ?","Agent d’entretien",["Professeur de mathématiques", "Étudiant boursier", "Cuisinier de la cafétéria"]),Qf("Quel est le métier de Sheldon Cooper ?","Physicien théoricien",["Ingénieur en aérospatiale", "Astrophysicien expérimental", "Neuroscientifique"])]),
+  "Menu Wombat carré@l":T([Qf("Quelle forme ont les crottes du wombat ?","Cubique",["Sphérique", "Plate", "En spirale"]),Qf("Quel minuscule animal peut survivre au vide spatial ?","Le tardigrade",["La fourmi", "Le scorpion", "Le cafard"])],[Qf("Pourquoi les loutres de mer se tiennent-elles par la patte en dormant ?","Pour ne pas dériver chacune de son côté",["Pour se tenir chaud", "Pour se protéger des requins", "Pour se dire qu’elles s’aiment"]),Qf("Combien d’yeux a une abeille ?","5")],[Qf("Les bananes sont légèrement…","radioactives (potassium 40)"),Qf("Le miel peut-il se conserver des milliers d’années ?","Oui",["Non", "Non, quelques mois seulement", "Non, quelques années seulement"])]),
   });
   // un menu à thème ne sert qu’au niveau pour lequel il a été écrit : 5e (THEMES) ou les autres (THEMES2, clé titre@préfixe)
   function themeApplicable(t, chaps){ if(!t || !chaps || !chaps.length) return null; const m=String(chaps[0]).match(/^(six|q4|g3|d2|p1|t|x|c|l|s6)-/);
@@ -5659,7 +5659,14 @@ const S = {
 
 /* ---------------------- Rendu & navigation ---------------------- */
 function aller(ecran, sens=1){ S.ecran=ecran; S.anim=sens; arreterChrono(); document.body.classList.remove("lumiere-basse","plateau-actif"); rendre(); scrollTo(0,0); }
+// Télécommande et tablettes : l’écran se redessine souvent (votes, chrono…). Si on le redessine pendant qu’un doigt appuie,
+// le bouton touché disparaît avant le « clic » et l’appui est perdu. On attend donc que le doigt se lève.
+let doigtBas=0;
+document.addEventListener("pointerdown",()=>{ doigtBas=Date.now(); },true);
+const doigtLeve=()=>{ doigtBas=0; if(S.rendreDiffere){ S.rendreDiffere=false; setTimeout(rendre,40); } };
+document.addEventListener("pointerup",doigtLeve,true); document.addEventListener("pointercancel",doigtLeve,true);
 function rendre(){
+  if((S.ecran==="telecommande" || S.ecran==="joueur") && doigtBas && Date.now()-doigtBas<1500){ S.rendreDiffere=true; return; }
   setTimeout(()=>Bots.tick(),0);
   const app=$("#app"); app.classList.toggle("entre", !!S.anim); if(S.anim){ app.dataset.sens=S.anim; } S.anim=0;
   const v = vueCreateur() ? (()=>{ const h=vueJoueurDuCreateur(); S.derniereVueCreateur=h; return `${h}<div id="moteur" hidden>${VUES[S.ecran]()}</div>`; }) : VUES[S.ecran]; app.innerHTML = v() + (S.overlay==="reglages" ? `<div class="voile" data-action="fermer-reglages" data-fond="1"><div class="panneau modale" role="dialog" aria-modal="true" aria-label="Réglages"><div class="ligne" style="margin-bottom:.4rem"><h2 style="font-size:1.6rem">Réglages</h2><span class="espace"></span><button class="btn" data-action="fermer-reglages">Fermer</button></div>${reglagesCorps(true)}</div></div>` : "") + fichePatronModale();
@@ -6716,7 +6723,7 @@ function soloQuestion(){ const T=S.solo, m=T.m.id; soloStop(); T.etat="question"
   if(m==="nuggets") T.q=Banque.nuggets(T.chaps, T.vus);
   else if(m==="selpoivre"){ let q=Banque.itemSP(T.duel, T.vus); if(!q){ T.duel=Banque.duel(T.chaps, T.duel.ref, T.vus, T.duels); q=Banque.itemSP(T.duel, T.vus); if(!q){ T.duel.forcer=true; q=Banque.itemSP(T.duel, T.vus); } } T.q=q; }
   else if(m==="menus"){ const q=Banque.menu(T.menu.chaps, T.i, SOLO_NB.menus, T.ctx, {titre:T.menu.titre}); T.q={enonce:q.enonce, reponse:q.reponse ?? (q.choix?q.choix[q.bonne].html:""), service:q.service};
-    { const Q=qcmMenu(T.q.reponse, T.menu.chaps, T.menu.titre, q.enonce); T.q.choix=Q.choix; T.q.bonne=Q.bonne; }
+    { const Q=qcmMenu(T.q.reponse, T.menu.chaps, T.menu.titre, q.enonce, T.q.faux||q.faux); T.q.choix=Q.choix; T.q.bonne=Q.bonne; }
     if(!Banque.aTheme(T.menu.titre, T.menu.chaps) && ACCROCHES[T.menu.titre]) T.q.enonce=`<span class="accroche">${ACCROCHES[T.menu.titre]}</span><br>`+T.q.enonce; }
   else if(m==="addition"){ const q=Banque.eclair(T.chaps, T.vus); T.q={enonce:q.enonce, reponse:q.reponse}; }
   const sec=SOLO_CHRONO[m]; T.fin=Date.now()+sec*1000; T.sec=sec;
@@ -6827,16 +6834,27 @@ function creerLien(){ return { salle:null, role:null, bc:null, ws:null, onMsg:nu
     try{ this.bc=new BroadcastChannel("pickles-"+salle); this.bc.onmessage=e=>this.recevoir(e.data); }catch(e){ this.bc=null; }
     const url=(REGLAGES.relais||"").trim();
     if(url){ try{ this.ws=new WebSocket(url.replace(/\/$/,"")+"/?salle="+encodeURIComponent(salle));
-      this.ws.onopen=()=>{ this.wsOk=true; this.wsErreur=false; this.envoyer({t:"bonjour"}); rendre(); };
+      this.ws.onopen=()=>{ this.wsOk=true; this.wsErreur=false; this.envoyer({t:"bonjour"}); for(const a of this.attente.values()) a.dernier=0; this.renvoyer&&this.renvoyer(); rendre(); };
       this.ws.onerror=()=>{ this.wsErreur=true; rendre(); };
       this.ws.onclose=()=>{ this.wsOk=false; setTimeout(()=>{ if(this.salle===salle && this.role===role) this.ouvrir(salle, role); },3000); };
       this.ws.onmessage=e=>{ try{ this.recevoir(JSON.parse(e.data)); }catch(_){} }; }catch(e){ this.ws=null; } } },
   fermer(){ try{ this.bc&&this.bc.close(); }catch(e){}
     if(this.ws){ const w=this.ws; w.onclose=null; w.onmessage=null; w.onerror=null; w.onopen=null; try{ w.close(); }catch(e){} }
     this.bc=null; this.ws=null; this.wsOk=false; },
-  envoyer(m){ m.de=this.role; m.id=m.id||(Date.now().toString(36)+Math.random().toString(36).slice(2,8)); try{ this.bc&&this.bc.postMessage(m); }catch(e){} try{ if(this.ws&&this.ws.readyState===1) this.ws.send(JSON.stringify(m)); }catch(e){} },
+  envoyer(m){ m.de=this.role; m.id=m.id||(Date.now().toString(36)+Math.random().toString(36).slice(2,8));
+    // une commande de la télécommande est renvoyée tant que le tableau n’a pas accusé réception
+    if(this.role==="presentateur" && m.t==="action" && !this.attente.has(m.id)) this.attente.set(m.id,{m, t0:Date.now(), dernier:Date.now()});
+    try{ this.bc&&this.bc.postMessage(m); }catch(e){} try{ if(this.ws&&this.ws.readyState===1) this.ws.send(JSON.stringify(m)); }catch(e){} },
+  attente:new Map(),
+  renvoyer(){ const now=Date.now();
+    for(const [id,a] of this.attente){
+      if(now-a.t0>10000){ this.attente.delete(id); toast("⚠️ Le tableau n’a pas reçu ta commande : réessaie."); continue; }
+      if(now-a.dernier>1200){ a.dernier=now; try{ if(this.ws&&this.ws.readyState===1) this.ws.send(JSON.stringify(a.m)); }catch(e){} } } },
   vus:new Set(), vusOrdre:[],
   recevoir(m){ if(!m || (m.de===this.role && m.t!=="hote-actif")) return;
+    if(m.t==="ack"){ if(this.role==="presentateur") this.attente.delete(m.ref); return; }
+    // le tableau accuse réception de chaque commande, même reçue deux fois (l’accusé précédent a pu se perdre)
+    if(m.t==="action" && this.role==="ecran" && m.id) this.envoyer({t:"ack", ref:m.id});
     if(m.id){ if(this.vus.has(m.id)) return; this.vus.add(m.id); this.vusOrdre.push(m.id); if(this.vusOrdre.length>300) this.vus.delete(this.vusOrdre.shift()); }
     this.onMsg&&this.onMsg(m); } }; }
 // Deux salles distinctes : les élèves ne reçoivent jamais ce qui part vers la télécommande (les réponses !)
@@ -6955,10 +6973,15 @@ function demarrerTelecommande(code){
       if(document.activeElement && document.activeElement.matches("#app input")) S.rendreApres=true; else rendre(); } };
   document.addEventListener("focusout",()=>{ if(S.rendreApres){ S.rendreApres=false; setTimeout(rendre,50); } });
   const appel=()=>{ if(S.ecran!=="telecommande") return; const muet=Date.now()-(S.dernierContact||0);
-    if(S.etatDistant && muet>9000 && Date.now()-(S.reco||0)>9000){ S.reco=Date.now(); Lien.fermer(); Lien.ouvrir(code,"presentateur"); }
+    if(S.etatDistant && muet>6500 && Date.now()-(S.reco||0)>6500){ S.reco=Date.now(); Lien.fermer(); Lien.ouvrir(code,"presentateur"); }
     const perdu = !!S.etatDistant && muet>7000; if(perdu!==!!S.tcPerdu){ S.tcPerdu=perdu; rendre(); }
     Lien.envoyer({t: !S.etatDistant || muet>8000 ? "bonjour" : "ping"}); setTimeout(appel,3000); };
   appel();
+  setInterval(()=>{ if(S.ecran==="telecommande") Lien.renvoyer(); },400);
+  // téléphone rallumé, appli reprise ou Wi-Fi revenu : on se reconnecte tout de suite, sans attendre les 9 secondes
+  const reveil=()=>{ if(S.ecran!=="telecommande" || document.hidden) return;
+    if(!Lien.ws || Lien.ws.readyState!==1 || Date.now()-(S.dernierContact||0)>4000){ S.reco=Date.now(); Lien.fermer(); Lien.ouvrir(code,"presentateur"); } else Lien.envoyer({t:"bonjour"}); };
+  document.addEventListener("visibilitychange",reveil); addEventListener("online",reveil); addEventListener("pageshow",reveil);
 }
 VUES.telecommande = () => {
   const E=S.etatDistant, T=S.tc||(S.tc={volet:null, arme:null});
@@ -7494,8 +7517,10 @@ function poolReponses(chaps, titre){ const cle=(titre||"")+"|"+chaps.join(","); 
   for(const opts of [{titre},{}]) for(let k=0;k<6;k++){ const ctx={gens:new Set(), enonces:new Set()};
     for(let r=0;r<5;r++){ try{ const q=Banque.menu(chaps, r, 5, ctx, opts); const rep=q.reponse ?? (q.choix?q.choix[q.bonne].html:null); if(rep) pool.add(String(rep)); }catch(e){} } }
   return (POOL_MENU[cle]=[...pool]); }
-function qcmMenu(reponse, chaps, titre, enonce){ const bonne=String(reponse), nu=texteNu(bonne), g=genreReponse(bonne), vus=new Set([cleNorm(bonne)]); const faux=[];
+function qcmMenu(reponse, chaps, titre, enonce, prevues){ const bonne=String(reponse), nu=texteNu(bonne), g=genreReponse(bonne), vus=new Set([cleNorm(bonne)]); const faux=[];
   const ajoute=r=>{ const c=cleNorm(r); if(!c || vus.has(c) || faux.length>=3) return; vus.add(c); faux.push(r); };
+  // les mauvaises réponses écrites avec la question passent avant tout le reste
+  if(Array.isArray(prevues)) prevues.forEach(ajoute);
   if(g==="nombre" || g==="epoque") variantesNombres(bonne).forEach(ajoute);
   variantesExposants(bonne).forEach(ajoute);
   if(g==="oui-non"){ const inv=/^oui/i.test(nu)?"Non":"Oui"; ajoute(inv); ajoute(nu.replace(/^(oui|non)/i, inv)); }
@@ -7583,7 +7608,7 @@ function preparerQuestionBots(){ const P=S.partie; if(P){ P.lectureQ=null; P.buz
   if(modeBots()){ P.buzzAdd=null; P.buzzNom=null; }
   // la question n’est créée qu’après cet appel : on attend la fin de nouvelleQuestion() (QCM dans tous les modes)
   setTimeout(()=>{ const m=mancheCourante(), q=P.q;
-    if(m && m.id==="menus" && q && !q.choix && q.reponse!=null){ const mm=P.menus&&P.menus.choix&&P.menus.choix[P.tour]; const Q=qcmMenu(q.reponse, mm?mm.chaps:S.config.chapitres, mm&&!mm.pompeux?mm.titre:null, q.enonce); q.choix=Q.choix; q.bonne=Q.bonne; }
+    if(m && m.id==="menus" && q && !q.choix && q.reponse!=null){ const mm=P.menus&&P.menus.choix&&P.menus.choix[P.tour]; const Q=qcmMenu(q.reponse, mm?mm.chaps:S.config.chapitres, mm&&!mm.pompeux?mm.titre:null, q.enonce, q.faux); q.choix=Q.choix; q.bonne=Q.bonne; }
     if(m && m.id==="addition" && q && q.choix && q.bonne==null) q.bonne=q.choix.findIndex(c=>c.ok); },0); } }
 function preparerQuestionTablettes(m){
   const P=S.partie; if(!P || !P.tablettes) return;
