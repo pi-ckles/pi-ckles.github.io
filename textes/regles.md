@@ -39,11 +39,11 @@ Deux catégories qui jouent sur les mots. Une affirmation s’affiche : le premi
 
 ## 📜 La Carte du chef
 
-Quatre menus, retournés un à un, chacun sur un chapitre et avec ses questions à thème. L’équipe qui a le moins de points choisit en premier. Chaque menu se sert en entrées, plats, puis spécialité du chef. Le dernier menu porte un titre interminable : qui l’ose marque ×1,5. Chaque question propose quatre réponses crédibles, sans réponse farfelue. Seul contre des bots, tu choisis directement ; en classe, toute l’équipe vote sur ses tablettes, comme aux Amuse-bouches (validée si au plus un quart des votes sont faux). Sans tablette, l’équipe se concerte et annonce sa lettre, que le prof clique au tableau. Après une erreur, le prof peut toujours « accorder quand même ».
+Quatre menus, retournés un à un, chacun sur un chapitre et avec ses questions à thème. L’équipe qui a le moins de points choisit en premier. Chaque menu se sert en entrées, plats, puis spécialité du chef. Le dernier menu porte un titre interminable et sert des questions qui demandent plus de réflexion : qui l’ose marque ×1,5. Chaque question propose quatre réponses crédibles, sans réponse farfelue. Seul contre des bots, tu choisis directement ; en classe, toute l’équipe vote sur ses tablettes, comme aux Amuse-bouches (validée si au plus un quart des votes sont faux). Sans tablette, l’équipe se concerte et annonce sa lettre, que le prof clique au tableau. Après une erreur, le prof peut toujours « accorder quand même ».
 
 ## 🧾 La Note salée
 
-Duel au buzzer sur des curiosités scientifiques et de la culture pop (films, séries, art). Après le buzz, on répond : seul contre des bots, parmi quatre propositions ; en classe, à l’oral, sans propositions, et le prof valide. Bonne réponse : +3 ; mauvaise réponse : +3 pour l’équipe adverse. 20 secondes par question. La première équipe au score cible gagne la partie.
+Duel au buzzer sur des curiosités scientifiques et de la culture pop (films, séries, art). Après le buzz, on répond : seul contre des bots ou en salle multijoueur, parmi quatre propositions toutes crédibles (pas de réponse farfelue dans cette manche) ; en classe, à l’oral, sans propositions, et le prof valide. Bonne réponse : +3 ; mauvaise réponse : +3 pour l’équipe adverse. 20 secondes par question. La première équipe au score cible gagne la partie.
 
 ## 🫙 Le Bocal infernal
 
@@ -72,7 +72,7 @@ Les bots se répartissent dans les équipes avec les joueurs. Ils répondent à 
 
 - **Amuse-bouches** : l’équipe qui a la main vote ; l’autre regarde la question, grisée.
 - **Ketchup ou Moutarde** et **Note salée** : celui qui buzze répond seul, sur son appareil. Au Ketchup, s’il se trompe, l’autre équipe vote le rebond.
-- **Carte du chef** : les quatre menus se retournent chez tout le monde ; l’équipe vote en touchant un menu (servi si toute l’équipe est d’accord, sinon au bout de 20 secondes le plus voté), puis vote chaque question parmi quatre réponses.
+- **Carte du chef** : les quatre menus se retournent chez tout le monde ; l’équipe vote en touchant un menu (servi si toute l’équipe est d’accord, sinon au bout de 20 secondes le plus voté), puis vote chaque question parmi quatre réponses. L’autre équipe suit la question et ses propositions en même temps, puis voit la correction.
 - **Bocal infernal** : le candidat est le meilleur buzzeur de l’équipe gagnante ; tout le monde suit ses questions puis ses réponses, en direct.
 
 Un vote d’équipe est validé si au plus un quart des voix sont fausses. Chacun règle sa musique et ses sons (🎵 et 🔔 en bas de l’écran).
@@ -109,7 +109,16 @@ Chacun peut rejouer seul n’importe quelle manche, à son niveau et sur les cha
 
 ## Au menu
 
-Plus de **34 000 énoncés différents** : 10 niveaux et 114 chapitres ; 1 061 modèles de QCM (dont environ 480 questions de culture scientifique et de culture pop) et 528 modèles de questions ouvertes, presque tous à nombres tirés au hasard ; plus de 1 000 questions à thème pour les 172 menus de la Carte du chef ; 740 affirmations de Ketchup ou Moutarde réparties en 102 duels ; une soixantaine de questions de Bocal par niveau.
+Près de **10 000 questions et modèles de questions différents**, sur 10 niveaux et 114 chapitres :
+
+| Manche | Nombre approximatif (tous niveaux) |
+|---|---|
+| 🥒 Amuse-bouches | 3 400 modèles de QCM (plus de 300 par niveau, dont 900 de culture) |
+| 🍅 Ketchup ou Moutarde | 1 400 affirmations, réparties en 166 duels |
+| 📜 Carte du chef | 3 700 questions : 2 000 Entrées, Plats et Spécialités du chef, 1 000 questions à thème pour les 172 menus loufoques, 700 questions de réflexion pour les 399 menus pompeux |
+| 🧾 Note salée | 900 curiosités |
+| 🫙 Bocal infernal | 200 questions éclair |
+
 
 ---
 
