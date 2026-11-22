@@ -174,6 +174,8 @@ body.plateau-actif::before{content:"";position:fixed;inset:0 0 auto;height:env(s
 .raccourcis{font-size:.85em;color:var(--ink-soft)}
 kbd{border:2px solid var(--ink-soft);border-bottom-width:4px;border-radius:7px;padding:0 .4em;font-family:var(--f-texte);font-weight:600}
 .toast{position:fixed;left:50%;bottom:calc(5.6rem + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--panel);border:3px solid var(--line);border-radius:16px;box-shadow:5px 5px 0 var(--line);padding:.8rem 1.2rem;z-index:30;max-width:min(560px,92vw);font-weight:600;text-align:center;animation:toast 3.4s forwards}
+@media (min-width:900px){ body.en-jeu .toast{left:clamp(.6rem,2vw,1.4rem);transform:none;max-width:min(420px,28vw);animation-name:toastG} }
+@keyframes toastG{0%{opacity:0;transform:translateY(20px)}8%,85%{opacity:1;transform:none}100%{opacity:0;transform:translateY(10px)}}
 @keyframes toast{0%{opacity:0;transform:translate(-50%,20px)}8%,85%{opacity:1;transform:translate(-50%,0)}100%{opacity:0;transform:translate(-50%,10px)}}
 
 /* Questions */
@@ -721,7 +723,10 @@ button .ico-quitter{display:inline-block!important;width:1.05em!important;height
 .salle-ligne{display:flex;justify-content:space-between;align-items:center;gap:.6rem;width:min(420px,92vw);padding:.35rem .6rem;border:2px solid var(--line);border-radius:12px;background:var(--panel)}
 
 /* Multijoueur : habillage habituel en haut, actions en bas */
-.jr-entete{margin:-.2rem -.2rem .6rem;grid-template-columns:1fr auto 1fr}
+.jr-entete{margin:-.2rem -.2rem .6rem;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);max-width:100%;box-sizing:border-box}
+.jr-entete .equipe{min-width:0}.jr-entete .equipe .nom{overflow-wrap:break-word}
+/* sur ordinateur, l’écran de salle (créateur ou joueur) s’élargit : plaques sur une ligne, barre d’actions lisible */
+@media (min-width:1100px){ .jr{max-width:1000px} }
 /* son équipe : une simple étiquette ; seule l’équipe qui a la main est éclairée */
 .jr-entete .equipe.jr-mienne .nom::after{content:"toi";display:inline-block;margin-left:.35em;padding:0 .4em;border-radius:999px;background:var(--line);color:var(--panel);font-family:var(--f-texte);font-size:.62em;font-weight:800;vertical-align:middle;letter-spacing:.03em}
 .jr-entete .centre{display:flex;flex-direction:column;align-items:center;gap:.25rem}
@@ -732,7 +737,8 @@ button .ico-quitter{display:inline-block!important;width:1.05em!important;height
 .jr:has(.jr-barre){padding-bottom:5.5rem}
 .jr-barre{display:flex;align-items:center;gap:.3rem;max-width:calc(100vw - 1rem)}
 @media (max-width:960px){ .jr-barre-createur .ico-btn .txt{display:none} }
-.jr-barre-nom{font-weight:800;padding:0 .5rem;max-width:8rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.jr-barre .ico-btn{white-space:nowrap}
+.jr-barre-nom{font-weight:800;padding:0 .5rem;max-width:11rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
 .jr-bocal-q{font-size:clamp(1.4rem,6vw,2rem)}
 .jr-bocal-res{display:grid;grid-template-columns:1fr 1fr;gap:.35rem;width:100%;max-width:520px;margin:.4rem auto}
@@ -749,7 +755,7 @@ button .ico-quitter{display:inline-block!important;width:1.05em!important;height
 .mf-nom{flex:1;min-width:0;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mf-btn{min-width:3.4rem;padding:.4rem .6rem !important;flex:none}
 .tiroir-actions{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
-.tiroir-actions .btn{white-space:nowrap}
+.tiroir-actions .btn{white-space:normal;min-width:0;line-height:1.2}
 @media (max-width:520px){ .tiroir-actions{grid-template-columns:1fr} }
 @media (hover:none){ .tiroir .raccourcis{display:none} }   /* pas de clavier : pas de raccourcis */
 
@@ -5740,6 +5746,7 @@ document.addEventListener("pointerup",doigtLeve,true); document.addEventListener
 function rendre(){
   if((S.ecran==="telecommande" || S.ecran==="joueur") && doigtBas && Date.now()-doigtBas<1500){ S.rendreDiffere=true; return; }
   setTimeout(()=>Bots.tick(),0);
+  document.body.classList.toggle("en-jeu", S.ecran==="jeu" && !vueCreateur());
   const app=$("#app"); app.classList.toggle("entre", !!S.anim); if(S.anim){ app.dataset.sens=S.anim; } S.anim=0;
   const v = vueCreateur() ? (()=>{ const h=vueJoueurDuCreateur(); S.derniereVueCreateur=h; return `${h}<div id="moteur" hidden>${VUES[S.ecran]()}</div>`; }) : VUES[S.ecran]; app.innerHTML = v() + (S.overlay==="reglages" ? `<div class="voile" data-action="fermer-reglages" data-fond="1"><div class="panneau modale" role="dialog" aria-modal="true" aria-label="Réglages"><div class="ligne" style="margin-bottom:.4rem"><h2 style="font-size:1.6rem">Réglages</h2><span class="espace"></span><button class="btn" data-action="fermer-reglages">Fermer</button></div>${reglagesCorps(true)}</div></div>` : "") + fichePatronModale();
   S.carte=false;
