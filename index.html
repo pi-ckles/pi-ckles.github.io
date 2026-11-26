@@ -6057,6 +6057,8 @@ function sas(titre, sous, ensuite, muet){
 }
 function versManche(){
   const P=S.partie, m=mancheCourante(); S.tiroir=false;
+  // manche sautée à la main pendant la pause après une réponse : on ne garde ni le verrou ni la mémoire d’avance
+  S.verrou=false; P.avanceProg=null; P.verdictSalle=null;
   if(!m) sas("Bilan","Fin de partie",()=>{ document.body.classList.remove("lumiere-basse"); rendre(); });
   else sas(m.nom, `Manche ${P.idx+1} sur ${P.manches.length}`, rendre);
 }
@@ -6875,7 +6877,7 @@ function apresReponse(m, juste){
   if(qcmClasse() && m.id==="menus" && !juste) attente=Math.max(attente,2800);
   // salle : chaque téléphone affiche la correction pendant la pause (Ketchup ou Moutarde, L’addition)
   if(enSalle()){ P.verdictSalle={q:P.q, ok:juste}; if(m.id==="selpoivre"||m.id==="addition") attente=Math.max(attente,1700); envoyerEtatJ(true); }
-  const qn=P.question; if(P.avanceProg===qn) return; P.avanceProg=qn;
+  const qn=P.question, cleAv=P.idx+":"+qn; if(P.avanceProg===cleAv) return; P.avanceProg=cleAv;
   setTimeout(()=>{ S.verrou=false; if(S.ecran==="jeu" && S.partie===P && P.idx===idx && P.phase==="jeu" && P.question===qn) avancer(); }, attente);
 }
 function avancer(){
